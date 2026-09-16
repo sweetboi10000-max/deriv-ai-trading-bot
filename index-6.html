@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#07090d">
+<title>AI Trading Engine — Live Data</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#05070a;color:#f5f7fb;font-family:Arial,Helvetica,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:14px}
+header{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 18px}
+.brand{font-size:20px;font-weight:800}.status{font-size:12px;color:#8d96a8}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#f04444;margin-right:6px}.live{background:#20c77a}
+.card{background:linear-gradient(145deg,#111419,#090b0f);border:1px solid #252a32;border-radius:22px;padding:20px;margin:12px 0;box-shadow:0 12px 35px #0007}
+.hero{text-align:center}.hero h1{margin:0 0 10px;font-size:28px}.hero p{margin:0;color:#a2a9b8;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.metric{min-height:130px}.label{color:#929aaa;font-size:14px}.value{font-size:28px;font-weight:800;margin-top:16px}.green{color:#20d37b}.blue{color:#3789ff}.gold{color:#ffc52e}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}select,input,button{width:100%;border:1px solid #303640;background:#0b0e13;color:#fff;border-radius:13px;padding:13px;font-size:15px}
+button{cursor:pointer;font-weight:700}.primary{background:#1769ff;border-color:#1769ff}.danger{background:#ef3340;border-color:#ef3340}.secondary{background:#151a22}
+.row{display:flex;gap:10px;align-items:center}.row>*{flex:1}
+.bigprice{font-size:42px;font-weight:900;margin:12px 0}.symbolname{color:#8e98aa}.signal{font-size:20px;font-weight:800;margin-top:8px}
+.good{color:#20d37b}.warn{color:#ffc52e}.bad{color:#ff5360}
+.feed{height:210px;overflow:auto;background:#07090d;border-radius:14px;padding:12px;font-family:monospace;font-size:12px;color:#b8c0ce}
+.feed div{padding:5px 0;border-bottom:1px solid #151920}.small{font-size:12px;color:#7f8898;line-height:1.45}
+.hidden{display:none}.pill{display:inline-block;border-radius:999px;padding:8px 12px;background:#10231c;color:#20d37b;font-weight:700;font-size:13px}
+@media(max-width:520px){.grid,.controls{grid-template-columns:1fr 1fr}.hero h1{font-size:24px}.bigprice{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">AI Trading Engine</div>
+  <div class="status"><span id="dot" class="dot"></span><span id="connection">Connecting...</span></div>
+</header>
+
+<section class="card hero">
+  <h1>Live Market Intelligence</h1>
+  <p>Real-time Deriv market data for FOREX, XAUUSD and crypto. No fake balance, no fake prices.</p>
+</section>
+
+<section class="card">
+  <div class="controls">
+    <select id="market">
+      <optgroup label="FOREX">
+        <option value="frxEURUSD">EUR/USD</option>
+        <option value="frxGBPUSD">GBP/USD</option>
+        <option value="frxUSDJPY">USD/JPY</option>
+        <option value="frxAUDUSD">AUD/USD</option>
+        <option value="frxUSDCAD">USD/CAD</option>
+        <option value="frxUSDCHF">USD/CHF</option>
+      </optgroup>
+      <optgroup label="GOLD">
+        <option value="frxXAUUSD">XAU/USD Gold</option>
+      </optgroup>
+      <optgroup label="CRYPTO">
+        <option value="cryBTCUSD">BTC/USD</option>
+        <option value="cryETHUSD">ETH/USD</option>
+        <option value="cryLTCUSD">LTC/USD</option>
+      </optgroup>
+    </select>
+    <select id="risk">
+      <option value="0.01">Low Risk — 1%</option>
+      <option value="0.02">Low Risk — 2%</option>
+      <option value="0.03">Moderate — 3%</option>
+    </select>
+  </div>
+  <div style="margin-top:12px" class="row">
+    <button id="connect" class="primary">Connect Live Data</button>
+    <button id="stop" class="secondary">Stop Stream</button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="symbolname" id="symbolName">EUR/USD</div>
+  <div class="bigprice" id="price">—</div>
+  <div class="small">Last live tick: <span id="tickTime">—</span></div>
+  <div class="signal" id="signal">Waiting for live data...</div>
+</section>
+
+<section class="card">
+  <div class="row">
+    <div>
+      <div class="label">Market Scanner</div>
+      <div class="signal" id="confidenceText">SCANNING MARKET...</div>
+    </div>
+    <div style="text-align:right">
+      <div class="label">Entry Threshold</div>
+      <div class="value gold" style="font-size:24px">70–80%</div>
+    </div>
+  </div>
+  <div style="margin-top:14px;background:#171b22;border-radius:999px;height:12px;overflow:hidden">
+    <div id="confidenceBar" style="width:0%;height:100%;background:#ffc52e;transition:width .4s"></div>
+  </div>
+  <p class="small" id="scannerDetail">The engine waits for a calculated setup score of at least 70%. Below 70% it will not signal an entry.</p>
+</section>
+
+<section class="grid">
+  <div class="card metric">
+    <div class="label">Live Data</div>
+    <div class="value green" id="dataState">OFF</div>
+  </div>
+  <div class="card metric">
+    <div class="label">Trend</div>
+    <div class="value blue" id="trend">WAIT</div>
+  </div>
+  <div class="card metric">
+    <div class="label">EMA 9</div>
+    <div class="value" id="ema9">—</div>
+  </div>
+  <div class="card metric">
+    <div class="label">EMA 21</div>
+    <div class="value" id="ema21">—</div>
+  </div>
+</section>
+
+<section class="card">
+  <div class="row">
+    <div><span class="pill">LOW-RISK MODE</span></div>
+    <div style="text-align:right" class="small">No guaranteed profit</div>
+  </div>
+  <p class="small">The scanner continuously checks live ticks with EMA/RSI-style rules. It will not produce an entry signal below 70%. A 70–80% setup score is NOT a guaranteed 70–80% profit or win rate.</p>
+</section>
+
+<section class="card">
+  <h3 style="margin-top:0">Live Data Feed</h3>
+  <div id="feed" class="feed"></div>
+</section>
+
+<section class="card">
+  <h3 style="margin-top:0">Real Deriv Account</h3>
+  <p class="small">For safety, this browser page does not ask for your Deriv password or store a live trading token. Deriv's current API uses OAuth 2.0 or scoped Personal Access Tokens for authenticated account access; live trading requires an authenticated account WebSocket.</p>
+  <button id="accountInfo" class="secondary">What is needed for secure connection?</button>
+  <div id="accountHelp" class="small hidden" style="margin-top:12px">
+    You will need a Deriv developer application and an approved authentication method. Do not paste your Deriv password here. The secure version should use OAuth 2.0 for a browser app.
+  </div>
+</section>
+</div>
+
+<script>
+const WS_URL='wss://ws.binaryws.com/websockets/v3';
+let ws=null, prices=[], currentSymbol='frxEURUSD', streamReq=0, connected=false;
+
+const $=id=>document.getElementById(id);
+const names={
+ frxEURUSD:'EUR/USD',frxGBPUSD:'GBP/USD',frxUSDJPY:'USD/JPY',frxAUDUSD:'AUD/USD',
+ frxUSDCAD:'USD/CAD',frxUSDCHF:'USD/CHF',frxXAUUSD:'XAU/USD Gold',
+ cryBTCUSD:'BTC/USD',cryETHUSD:'ETH/USD',cryLTCUSD:'LTC/USD'
+};
+
+function log(msg,type=''){
+ const d=document.createElement('div');
+ d.textContent=`[${new Date().toLocaleTimeString()}] ${msg}`;
+ if(type==='bad') d.style.color='#ff5360';
+ if(type==='good') d.style.color='#20d37b';
+ $('feed').prepend(d);
+ while($('feed').children.length>80)$('feed').lastChild.remove();
+}
+function setStatus(ok,text){
+ connected=ok;$('dot').className='dot '+(ok?'live':'');$('connection').textContent=text;
+ $('dataState').textContent=ok?'LIVE':'OFF';
+}
+function fmt(n){
+ if(!Number.isFinite(n))return '—';
+ const a=Math.abs(n);
+ return n.toLocaleString(undefined,{minimumFractionDigits:a>=100?2: a>=1?4:6,maximumFractionDigits:a>=100?2:a>=1?5:8});
+}
+function ema(arr,p){
+ if(arr.length<p)return null;
+ const k=2/(p+1); let e=arr[0];
+ for(let i=1;i<arr.length;i++)e=arr[i]*k+e*(1-k);
+ return e;
+}
+function rsi(arr,p=14){
+ if(arr.length<p+1)return null;
+ let gains=0,losses=0;
+ for(let i=arr.length-p;i<arr.length;i++){
+   const d=arr[i]-arr[i-1]; if(d>=0)gains+=d;else losses-=d;
+ }
+ if(losses===0)return 100;
+ return 100-(100/(1+(gains/p)/(losses/p)));
+}
+function analyze(){
+ const e9=ema(prices,9),e21=ema(prices,21),r=rsi(prices);
+ $('ema9').textContent=e9?fmt(e9):'—';$('ema21').textContent=e21?fmt(e21):'—';
+ if(e9&&e21){
+   const t=e9>e21?'BULLISH':e9<e21?'BEARISH':'NEUTRAL';
+   $('trend').textContent=t;
+   // "Confidence" is a technical setup score, NOT a guaranteed probability
+   // of profit. The engine refuses an entry signal below 70%.
+   let score = 50;
+   if(e9>e21) score += 12;
+   if(e9<e21) score += 12;
+   if(r!==null){
+     if(e9>e21 && r>=50 && r<70) score += 18;
+     if(e9<e21 && r<=50 && r>30) score += 18;
+     if(r>70 || r<30) score -= 8;
+   }
+   // Cap the displayed setup score at 80 so the requested operating band is 70–80%.
+   score = Math.max(0, Math.min(80, Math.round(score)));
+
+   let sig='WAIT — SCANNING';
+   if(score>=70 && e9>e21 && r!==null && r>=50 && r<70) sig='BUY SETUP — 70%+';
+   else if(score>=70 && e9<e21 && r!==null && r<=50 && r>30) sig='SELL SETUP — 70%+';
+   else sig='WAIT — BELOW 70%';
+
+   $('confidenceText').textContent=`SETUP SCORE: ${score}%`;
+   $('confidenceBar').style.width=score+'%';
+   $('confidenceBar').style.background=score>=70?'#20d37b':'#ffc52e';
+   $('scannerDetail').textContent = score>=70
+     ? 'Threshold reached. This is a technical setup score, not a guarantee of profit. The bot should still wait for its other risk checks.'
+     : 'No entry. The scanner will continue watching until the calculated setup score reaches at least 70%.';
+
+   $('signal').textContent=`${sig}${r!==null?' · RSI '+r.toFixed(1):''}`;
+   $('signal').className='signal '+(score>=70?'good':'warn');
+ }
+}
+function subscribe(symbol){
+ if(!ws||ws.readyState!==1)return;
+ prices=[];currentSymbol=symbol;$('symbolName').textContent=names[symbol]||symbol;
+ ws.send(JSON.stringify({forget_all:'ticks'}));
+ ws.send(JSON.stringify({ticks_history:symbol,count:100,end:'latest',style:'ticks',req_id:++streamReq}));
+ ws.send(JSON.stringify({ticks:symbol,subscribe:1,req_id:++streamReq}));
+ log('Subscribed to live '+(names[symbol]||symbol),'good');
+}
+function connect(){
+ if(ws){try{ws.close()}catch(e){}}
+ setStatus(false,'Connecting...');
+ log('Opening public Deriv market-data connection...');
+ ws=new WebSocket(WS_URL);
+ ws.onopen=()=>{
+   setStatus(true,'LIVE');
+   log('Connected to Deriv public market data','good');
+   subscribe($('market').value);
+ };
+ ws.onmessage=e=>{
+   let m;try{m=JSON.parse(e.data)}catch{return}
+   if(m.error){log(m.error.message,'bad');return}
+   if(m.msg_type==='history'){
+     prices=(m.history?.prices||[]).map(Number).filter(Number.isFinite).slice(-200);
+     if(prices.length){$('price').textContent=fmt(prices.at(-1));analyze()}
+   }
+   if(m.msg_type==='tick'){
+     const p=Number(m.tick?.quote);if(!Number.isFinite(p))return;
+     if(prices.length>250)prices.shift();prices.push(p);
+     $('price').textContent=fmt(p);
+     $('tickTime').textContent=new Date(Number(m.tick.epoch)*1000).toLocaleTimeString();
+     analyze();
+   }
+ };
+ ws.onerror=()=>{setStatus(false,'Connection error');log('WebSocket connection error','bad')};
+ ws.onclose=()=>{setStatus(false,'Disconnected');log('Live stream disconnected')};
+}
+$('connect').onclick=connect;
+$('stop').onclick=()=>{if(ws){try{ws.send(JSON.stringify({forget_all:'ticks'}))}catch(e){}ws.close();ws=null}setStatus(false,'Stopped');};
+$('market').onchange=()=>{if(connected)subscribe($('market').value)};
+$('accountInfo').onclick=()=>{$('accountHelp').classList.toggle('hidden')};
+
+log('Ready. Press “Connect Live Data”.');
+</script>
+</body>
+</html>
