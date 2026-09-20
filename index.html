@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -461,7 +461,8 @@ margin-right:5px
 .dot.on{
 background:var(--green);
 box-shadow:0 0 9px var(--green)
-}.lower{
+}
+        .lower{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:8px
@@ -1543,7 +1544,13 @@ id="dataDot"
 
 <span id="dataStatus">
 Market data connecting...
-</span><section class="lower">
+</span>
+
+</div>
+
+</div>
+
+</section><section class="lower">
  <div class="panel">
   <h2>🎯 Market Scanner</h2>
   <div class="scannerTable"><div class="thead"><span>Market</span><span>Signal</span><span>Status</span></div>
@@ -1591,14 +1598,4 @@ function start(){if(S.running)return;readInputs();S.running=true;$('start').disa
 function stop(){S.running=false;$('start').disabled=false;$('stop').disabled=true;clearInterval(S.scanTimer);clearTimeout(S.settleTimer);S.scanning=false;$('scanStatus').textContent='Stopped';$('confidence').textContent='0%';$('bar').style.width='0%';stats()}
 function connect(){try{let w=new WebSocket('wss://api.derivws.com/trading/v1/options/ws/public');S.ws=w;w.onopen=()=>{$('dataDot').classList.add('on');$('dataStatus').textContent='Deriv public data connected';Object.values(S.symbols).forEach(symbol=>w.send(JSON.stringify({ticks:symbol,subscribe:1})))};w.onmessage=e=>{try{let d=JSON.parse(e.data);if(d.tick){let m=Object.keys(S.symbols).find(k=>S.symbols[k]===d.tick.symbol);if(m)update(m,Number(d.tick.quote))}}catch(_){}};w.onerror=()=>{$('dataStatus').textContent='Public data unavailable • local fallback active'};w.onclose=()=>{$('dataStatus').textContent='Disconnected • local fallback active'}}catch(_){$('dataStatus').textContent='Local fallback active'}}
 let audioCtx=null;function alarm(){if(!S.sound)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(880,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(520,audioCtx.currentTime+.35);g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.18,audioCtx.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.45);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.46)}catch(e){}}
-$('targetPopupClose').onclick=()=>{clearTimeout(S.popupTimer);$('targetPopup').classList.remove('show')};$('refresh').onclick=()=>location.reload();$('start').onclick=start;$('stop').onclick=stop;['stakeInput','profitTarget','stopLoss','entryThreshold','recoveryThreshold'].forEach(id=>$(id).onchange=readInputs);$('market').onchange=e=>{S.market=e.target.value;feed('Market selected • '+S.display[S.market],'INFO','wait')};$('accountTop').onchange=e=>{$('account').value=e.target.value;$('accountHint').textContent=e.target.value==='real'?'Authentication required':'Not authenticated'};$('connectAccount').onclick=()=>{$('accountHint').textContent='Connect through Deriv OAuth/API';feed(($('accountTop').value==='real'?'Real':'Demo')+' account connection requested','AUTH','wait')};$('account').onchange=e=>{$('accountTop').value=e.target.value};$('sound').onclick=()=>{S.sound=!S.sound;$('sound').textContent=S.sound?'🔔 Alarm: ON':'🔔 Alarm: OFF';if(S.sound){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()}};$('testAlarm').onclick=()=>{S.sound=true;$('sound').textContent='🔔 Alarm: ON';audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()};$('alarmEntry').onchange=e=>{if(e.target.checked)S.sound=true};$('alarmWin').onchange=e=>{if(e.target.checked)S.sound=true};$('alarmLoss').onchange=e=>{if(e.target.checked)S.sound=true};function clock(){let d=new Date();$('timeNow').textContent=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})+' ◷'}clock();setInterval(clock,1000);readInputs();stats();connect();fallback();
-})();
-</script>
-</body>
-</html>
-
-</div>
-
-</div>
-
-</section>
+$('targetPopupClose').onclick=()=>{clearTimeout(S.popupTimer);$('targetPopup').classList.remove('show')};$('refresh').onclick=()=>location.reload();$('start').onclick=start;$('stop').onclick=stop;['stakeInput','profitTarget','stopLoss','entryThreshold','recoveryThreshold'].forEach(id=>$(id).onchange=readInputs);$('market').onchange=e=>{S.market=e.target.value;feed('Market selected • '+S.display[S.market],'INFO','wait')};$('accountTop').onchange=e=>{$('account').value=e.target.value;$('accountHint').textContent=e.target.value==='real'?'Authentication required':'Not authenticated'};$('connectAccount').onclick=()=>{$('accountHint').textContent='Connect through Deriv OAuth/API';feed(($('accountTop').value==='real'?'Real':'Demo')+' account connection requested','AUTH','wait')};$('account').onchange=e=>{$('accountTop').value=e.target.value};$('sound').onclick=()=>{S.sound=!S.sound;$('sound').textContent=S.sound?'🔔 Alarm: ON':'🔔 Alarm: OFF';if(S.sound){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()}};$('testAlarm').onclick=()=>{S.sound=true;$('sound').textContent='🔔 Alarm: ON';audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()};$('alarmEntry').onchange=e=>{if(e.target.checked)S.sound=true};$('alarmWin').onchange=e=>{if(e.target.checked)S       
