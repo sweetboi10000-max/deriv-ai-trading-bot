@@ -1,580 +1,1601 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050914">
 <title>Jazzy Bot AI</title>
+
 <style>
 :root{
-  --bg:#070b16;--card:#10172a;--text:#f4f7ff;--muted:#aab5cf;
-  --red:#ff335c;--blue:#1677ff;--green:#19d98b;--yellow:#ffd23f;--purple:#a855f7;
+--bg:#050914;
+--panel:#081326;
+--panel2:#0b1830;
+--blue:#1677ff;
+--green:#19e37d;
+--yellow:#ffd52f;
+--red:#ff2948;
+--purple:#a855f7;
+--cyan:#21d4ff;
+--white:#eaf2ff
 }
-*{box-sizing:border-box}
-body{
-  margin:0;background:radial-gradient(circle at top,#172143 0,#070b16 48%);
-  color:var(--text);font-family:Arial,sans-serif;font-size:12px;
-}
-.wrap{max-width:760px;margin:auto;padding:7px}
-header{
-  display:flex;align-items:center;justify-content:space-between;gap:7px;
-  padding:8px 10px;border-radius:14px;
-  background:linear-gradient(135deg,#ff1744,#174fff,#8b3dff);
-  box-shadow:0 7px 22px #0008;
-}
-.logo{font-size:18px;font-weight:1000;white-space:nowrap}
-.refresh{
-  border:0;border-radius:10px;padding:8px 10px;background:#fff;color:#111;
-  font-weight:900;cursor:pointer;
-}
-.premium-engine{
-  position:relative;overflow:hidden;text-align:center;margin:7px 0 8px;padding:10px 12px;
-  border:1px solid #ffffff2b;border-radius:17px;
-  background:linear-gradient(135deg,#ff234e2e,#2e7eff29,#a648ff2e);
-  box-shadow:0 8px 26px #0006,inset 0 1px #ffffff14;
-}
-.premium-engine:before{
-  content:"";position:absolute;inset:-50%;
-  background:conic-gradient(from 0deg,transparent,#ff335c,transparent,#3388ff,
-  transparent,#19d98b,transparent,#ffd23f,transparent,#a855f7,transparent,#22d3ee,transparent);
-  opacity:.18;animation:premiumSpin 5s linear infinite;
-}
-.premium-badge,.engine-title,.engine-text,.engine-lights{position:relative;z-index:2}
-.premium-badge{
-  font-size:8px;letter-spacing:1.5px;font-weight:1000;
-  animation:discoWords 2.2s linear infinite;
-}
-.engine-title{
-  margin-top:3px;font-size:18px;font-weight:1000;letter-spacing:.6px;
-  animation:premiumText 2.2s linear infinite;
-}
-.engine-text{
-  max-width:760px;margin:4px auto 5px;color:#e3e9fa;
-  font-size:9px;line-height:1.4;
-}
-.engine-lights{display:flex;justify-content:center;gap:7px}
-.engine-lights i{
-  width:7px;height:7px;border-radius:50%;display:block;
-  animation:disco 1.4s infinite;
-}
-.engine-lights i:nth-child(1){background:#ff335c;box-shadow:0 0 12px #ff335c}
-.engine-lights i:nth-child(2){background:#3388ff;box-shadow:0 0 12px #3388ff;animation-delay:.15s}
-.engine-lights i:nth-child(3){background:#19d98b;box-shadow:0 0 12px #19d98b;animation-delay:.3s}
-.engine-lights i:nth-child(4){background:#ffd23f;box-shadow:0 0 12px #ffd23f;animation-delay:.45s}
-.engine-lights i:nth-child(5){background:#a855f7;box-shadow:0 0 12px #a855f7;animation-delay:.6s}
-.engine-lights i:nth-child(6){background:#22d3ee;box-shadow:0 0 12px #22d3ee;animation-delay:.75s}
-.engine-lights i:nth-child(7){background:#ff335c;box-shadow:0 0 12px #ff335c;animation-delay:.9s}
 
-@keyframes disco{
-  0%,100%{transform:scale(.65);opacity:.45}
-  50%{transform:scale(1.5);opacity:1}
+*{box-sizing:border-box}
+
+html,body{
+margin:0;
+min-height:100%;
+font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+background:radial-gradient(circle at 50% -10%,#15264d 0,#070c19 42%,#03060d 100%);
+color:var(--white)
 }
-@keyframes premiumSpin{to{transform:rotate(360deg)}}
-@keyframes premiumText{
-  0%,100%{text-shadow:0 0 7px #3388ff99;transform:translateX(0)}
-  33%{text-shadow:0 0 10px #19d98bcc;transform:translateX(4px)}
-  66%{text-shadow:0 0 10px #a855f7cc;transform:translateX(-4px)}
+
+body{
+padding:7px;
+overflow-x:hidden
 }
-@keyframes discoWords{
-  0%,100%{color:#fff;transform:translateY(0) rotate(0)}
-  25%{color:#ffd23f;transform:translateY(-2px) rotate(-1deg)}
-  50%{color:#22d3ee;transform:translateY(2px) rotate(1deg)}
-  75%{color:#a855f7;transform:translateY(-2px) rotate(-1deg)}
+
+.app{
+max-width:1100px;
+margin:auto
+}
+
+.top{
+position:relative;
+display:grid;
+grid-template-columns:auto 1fr auto;
+align-items:center;
+gap:10px;
+padding:10px 14px;
+margin-bottom:7px;
+border:2px solid transparent;
+border-radius:20px;
+background:linear-gradient(#07101f,#07101f) padding-box,
+linear-gradient(90deg,var(--red),var(--yellow),var(--green),var(--blue),var(--purple),var(--red)) border-box;
+box-shadow:0 0 25px #1677ff33,inset 0 0 25px #0008;
+overflow:hidden
+}
+
+.top:after{
+content:"";
+position:absolute;
+inset:-80%;
+background:conic-gradient(
+from 20deg,
+transparent,
+#ff174488,
+transparent,
+#1677ff66,
+transparent,
+#19e37d66,
+transparent,
+#ffd52f66,
+transparent
+);
+animation:spin 9s linear infinite;
+pointer-events:none
+}
+
+.top>*{
+position:relative;
+z-index:2
+}
+
+.refresh{
+padding:9px 13px;
+border-radius:11px;
+border:1px solid #57a1ff;
+background:linear-gradient(135deg,#0f66ff,#168dff);
+color:white;
+font-weight:900;
+font-size:12px;
+box-shadow:0 0 16px #1677ff66
+}
+
+.brand{
+text-align:center;
+font-weight:1000;
+font-size:27px;
+letter-spacing:1px;
+background:linear-gradient(
+90deg,
+#16a9ff,
+#5aff6f,
+#ffe32f,
+#ff405e,
+#b46cff
+);
+-webkit-background-clip:text;
+background-clip:text;
+color:transparent;
+text-shadow:0 0 18px #1677ff66
+}
+
+.crown{
+font-size:18px;
+display:block;
+line-height:1
+}
+
+.topright{
+text-align:right;
+font-size:11px;
+font-weight:900;
+color:var(--yellow)
+}
+
+.topright b{
+display:block;
+color:#62e6ff;
+font-size:16px
+}
+
+.disco{
+display:flex;
+justify-content:center;
+gap:6px;
+margin-top:4px
+}
+
+.disco i{
+width:7px;
+height:7px;
+border-radius:50%;
+animation:pulse 1.2s infinite
+}
+
+.disco i:nth-child(1){background:var(--red)}
+.disco i:nth-child(2){background:var(--blue);animation-delay:.1s}
+.disco i:nth-child(3){background:var(--green);animation-delay:.2s}
+.disco i:nth-child(4){background:var(--yellow);animation-delay:.3s}
+.disco i:nth-child(5){background:var(--purple);animation-delay:.4s}
+
+.premium{
+margin-bottom:7px;
+padding:8px 12px;
+text-align:center;
+border:2px solid var(--blue);
+border-radius:16px;
+background:linear-gradient(
+90deg,
+#102d66aa,
+#0b4d36aa,
+#66500088,
+#68132299
+);
+box-shadow:0 0 18px #1677ff44
+}
+
+.premium .title{
+font-size:16px;
+font-weight:1000;
+color:var(--yellow);
+letter-spacing:.7px
+}
+
+.premium p{
+margin:3px 0 0;
+font-size:10px;
+font-weight:800;
+color:#dff5ff;
+line-height:1.35
+}
+
+.premium strong{
+color:var(--yellow)
 }
 
 .accountbar{
-  display:flex;justify-content:space-between;align-items:center;gap:7px;
-  margin:7px 0;padding:7px 9px;background:#10172a;border-radius:12px;
+display:grid;
+grid-template-columns:1.15fr 1fr;
+gap:7px;
+margin-bottom:7px
 }
-.clock{font-size:10px;text-align:right}
-.clock b{font-size:11px}
-.card{
-  background:linear-gradient(145deg,#10172a,#0c1222);
-  border-radius:13px;padding:8px;margin:6px 0;
-  border-top:2px solid var(--blue);box-shadow:0 5px 18px #0005;
-}
-.controls{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:6px;
-}
-label{display:block;color:var(--muted);font-size:9px;margin-bottom:3px}
-input,select{
-  width:100%;border:1px solid #34405d;background:#080d1b;color:#fff;
-  border-radius:8px;padding:7px;font-size:11px;outline:none;
-}
-button{
-  border:0;border-radius:9px;padding:8px 10px;font-weight:900;
-  cursor:pointer;color:#fff;
-}
-.start{
-  background:linear-gradient(135deg,#1677ff,#0052cc)!important;
-  box-shadow:0 6px 18px #1677ff61;
-}
-.stop{background:linear-gradient(135deg,#ff1744,#b90028)}
-.alarm{background:linear-gradient(135deg,#a855f7,#6722bb)}
-.test{background:linear-gradient(135deg,#ffd23f,#e99b00);color:#111}
-.btnrow{display:flex;gap:6px;flex-wrap:wrap}
-.btnrow button{flex:1;min-width:100px}
 
-.tabs{display:flex;gap:5px}
-.tab{
-  flex:1;padding:7px;text-align:center;border-radius:8px;
-  font-weight:900;background:#1a233b;cursor:pointer;
+.accountbox,
+.clockbox{
+border:2px solid var(--green);
+border-radius:15px;
+background:linear-gradient(135deg,#062a20,#07162a);
+padding:9px 12px
 }
-.tab.crypto{border-bottom:3px solid #ff335c}
-.tab.forex{border-bottom:3px solid #19d98b}
-.tab.gold{border-bottom:3px solid #ffd23f}
-.tab.active{background:#273657}
+
+.accountbox{
+color:var(--green);
+font-weight:1000;
+font-size:15px
+}
+
+.accountbox small{
+display:block;
+color:var(--yellow);
+font-size:10px;
+margin-top:2px
+}
+
+.clockbox{
+text-align:right;
+border-color:var(--blue);
+color:var(--yellow);
+font-weight:1000
+}
+
+.clockbox b{
+display:block;
+color:#64e7ff;
+font-size:16px
+}
+
+.access{
+padding:8px 10px;
+margin-bottom:7px;
+border:2px solid #28548d;
+border-radius:15px;
+background:#071326
+}
+
+.access summary{
+cursor:pointer;
+font-weight:900;
+color:#eaf2ff;
+font-size:12px
+}
+
+.accessrow{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:6px;
+margin-top:7px
+}
+
+.field label{
+display:block;
+color:var(--yellow);
+font-size:10px;
+font-weight:900;
+margin-bottom:3px
+}
+
+input,select{
+width:100%;
+padding:8px 9px;
+border-radius:9px;
+border:1px solid #315987;
+background:#061022;
+color:#dff2ff;
+outline:none;
+font-size:11px
+}
+
+input:focus,
+select:focus{
+border-color:var(--cyan);
+box-shadow:0 0 0 2px #21d4ff22
+}
+
+.connect{
+background:linear-gradient(135deg,var(--green),#07964f);
+color:#02130a;
+font-weight:1000;
+border:0;
+border-radius:9px
+}
 
 .stats{
-  display:grid;grid-template-columns:repeat(5,1fr);gap:5px;
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px;
+margin-bottom:7px
 }
-.stat{
-  padding:7px 4px;text-align:center;background:#151d33;border-radius:9px;
-}
-.stat small{display:block;color:#aab5cf;font-size:8px}
-.stat b{display:block;font-size:12px;margin-top:2px}
-.balance b{color:#22d3ee}
-.profit b{color:#19d98b}
-.wins b{color:#19d98b}
-.losses b{color:#ff335c}
-.rate b{color:#ffd23f}
 
-.scanner{
-  width:120px;height:120px;border-radius:50%;margin:8px auto;
-  display:flex;align-items:center;justify-content:center;
-  background:conic-gradient(#ff335c,#ffd23f,#19d98b,#1677ff,#a855f7,#ff335c);
-  animation:scanSpin 1.8s linear infinite;
-  box-shadow:0 0 25px #1677ff66;
+.stat{
+padding:9px 4px;
+text-align:center;
+border-radius:13px;
+background:#061123;
+border:2px solid #214d87;
+box-shadow:inset 0 0 14px #0006
 }
-.scanInner{
-  width:96px;height:96px;border-radius:50%;background:#080d1b;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+
+.stat .ico{
+font-size:17px
 }
-.scanNum{font-size:27px;font-weight:1000}
-.signal{text-align:center;font-weight:1000;font-size:14px}
-.status{text-align:center;color:#aab5cf;margin:4px}
-@keyframes scanSpin{to{transform:rotate(360deg)}}
+
+.stat .lab{
+font-size:10px;
+font-weight:900;
+margin-top:2px
+}
+
+.stat .val{
+font-size:18px;
+font-weight:1000;
+margin-top:1px
+}
+
+.blue{color:#38a4ff}
+.green{color:var(--green)}
+.yellow{color:var(--yellow)}
+.red{color:var(--red)}
+.purple{color:#c084fc}
+
+.stat.balance{border-color:var(--blue)}
+.stat.profit,
+.stat.winrate,
+.stat.winning{border-color:#0da956}
+.stat.trades,
+.stat.stake{border-color:#a88a00}
+.stat.loss{border-color:var(--red)}
+
+.markets{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+margin-bottom:7px
+}
+
+.market{
+padding:10px 12px;
+border:2px solid #27538d;
+border-radius:14px;
+background:linear-gradient(145deg,#08182d,#071020);
+min-height:76px
+}
+
+.market.crypto{border-color:var(--blue)}
+.market.forex{border-color:#2872bb}
+.market.gold{border-color:#b28a00}
+
+.mh{
+display:flex;
+align-items:center;
+gap:7px;
+font-size:13px
+}
+
+.coin{
+width:32px;
+height:32px;
+border-radius:50%;
+display:grid;
+place-items:center;
+font-size:17px;
+font-weight:1000
+}
+
+.crypto .coin{background:#ff9417}
+.forex .coin{background:linear-gradient(135deg,#2865ff,#ff365a)}
+.gold .coin{background:#d99b16}
+
+.mh b{
+display:block
+}
+
+.tag{
+display:block;
+font-size:14px
+}
+
+.market .status{
+color:#fff;
+font-size:11px;
+margin-top:5px
+}
+
+.market .status:before{
+content:"";
+display:inline-block;
+width:18px;
+height:3px;
+background:var(--green);
+vertical-align:middle;
+margin-right:5px
+}
+
+.meta{
+font-size:10px;
+margin-top:3px;
+color:#d7e5ff
+}
+
+.meta span:last-child{
+color:var(--yellow);
+font-weight:900
+}
+
+.controls{
+padding:9px 11px;
+margin-bottom:7px;
+border:2px solid #1c5bc2;
+border-radius:16px;
+background:linear-gradient(145deg,#071a32,#06101f)
+}
+
+.controlgrid{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:6px
+}
+
+.actions{
+display:grid;
+grid-template-columns:1.1fr .8fr 1fr;
+gap:7px;
+margin-top:7px;
+align-items:center
+}
+
+.btn{
+padding:11px;
+border:0;
+border-radius:11px;
+font-weight:1000;
+color:#fff;
+font-size:12px
+}
+
+.start{
+background:linear-gradient(135deg,#126eff,#0751c8);
+box-shadow:0 0 15px #1677ff55
+}
+
+.stop{
+background:linear-gradient(135deg,#ff2b45,#c91431)
+}
+
+.dataStatus{
+font-size:11px;
+color:var(--yellow);
+font-weight:900
+}
+
+.dot{
+display:inline-block;
+width:8px;
+height:8px;
+border-radius:50%;
+background:var(--red);
+margin-right:5px
+}
+
+.dot.on{
+background:var(--green);
+box-shadow:0 0 9px var(--green)
+}
+        .lower{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px
+}
+
+.panel{
+border:2px solid var(--green);
+border-radius:17px;
+background:linear-gradient(145deg,#061c19,#061120);
+padding:10px;
+box-shadow:0 0 16px #19e37d22
+}
+
+.panel.history{
+border-color:var(--red);
+box-shadow:0 0 16px #ff294822
+}
+
+.panel h2{
+margin:0 0 8px;
+font-size:17px;
+color:var(--yellow);
+display:flex;
+align-items:center;
+gap:7px
+}
+
+.scannerTable{
+border:1px solid #19e37d;
+border-radius:12px;
+overflow:hidden
+}
+
+.thead,
+.srow{
+display:grid;
+grid-template-columns:1.2fr .9fr .8fr;
+align-items:center
+}
+
+.thead{
+padding:7px;
+background:#092c2a;
+color:#fff;
+font-size:10px;
+font-weight:900
+}
+
+.srow{
+padding:10px 7px;
+border-top:1px solid #16443f
+}
+
+.srow .marketname{
+font-weight:900;
+font-size:11px
+}
+
+.srow small{
+display:block;
+font-size:9px;
+color:#fff
+}
+
+.signal{
+font-size:10px;
+font-weight:1000;
+color:var(--yellow)
+}
+
+.wait{
+color:var(--yellow);
+font-weight:900;
+font-size:10px
+}
+
+.scannerbox{
+display:flex;
+justify-content:center;
+padding:9px
+}
+
+.ring{
+width:120px;
+height:120px;
+border-radius:50%;
+display:grid;
+place-items:center;
+background:conic-gradient(
+var(--green),
+var(--blue),
+var(--purple),
+var(--yellow),
+var(--red),
+var(--green)
+);
+animation:spin 5s linear infinite;
+box-shadow:0 0 24px #1677ff55
+}
+
+.ringin{
+width:98px;
+height:98px;
+border-radius:50%;
+display:grid;
+place-items:center;
+text-align:center;
+background:#081326;
+border:1px solid #ffffff14;
+animation:counter 5s linear infinite
+}
+
+.ringin b{
+font-size:23px;
+color:#fff
+}
+
+.ringin span{
+display:block;
+font-size:8px;
+color:var(--yellow);
+font-weight:900
+}
+
+.scanline{
+text-align:center;
+color:#bfe8ff;
+font-size:11px;
+font-weight:900
+}
+
+.confidence{
+color:var(--green);
+font-size:18px;
+font-weight:1000;
+text-align:center
+}
+
+.bar{
+height:6px;
+border-radius:10px;
+background:#0a1827;
+margin-top:4px;
+overflow:hidden
+}
+
+.bar i{
+display:block;
+height:100%;
+width:0;
+background:linear-gradient(
+90deg,
+var(--red),
+var(--yellow),
+var(--green),
+var(--blue)
+);
+transition:width .15s
+}
+
+.winloss{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px;
+margin-bottom:7px
+}
+
+.wl{
+padding:8px;
+border-radius:11px;
+text-align:center;
+background:#061521;
+border:2px solid
+}
+
+.wl.win{
+border-color:var(--green)
+}
+
+.wl.loss{
+border-color:var(--red)
+}
+
+.wl b{
+display:block;
+font-size:10px
+}
+
+.wl strong{
+font-size:18px
+}
+
+.historycols{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:7px
+}
+
+.historycol{
+border-radius:12px;
+overflow:hidden;
+background:#07111f
+}
+
+.historycol h3{
+margin:0;
+padding:7px;
+text-align:center;
+font-size:10px
+}
+
+.historycol.wins h3{
+color:var(--green);
+background:#063022
+}
+
+.historycol.losses h3{
+color:var(--red);
+background:#3a0a16
+}
+
+.histrow{
+display:grid;
+grid-template-columns:auto 1fr auto;
+gap:5px;
+padding:7px 6px;
+border-top:1px solid #183047;
+font-size:9px;
+align-items:center
+}
+
+.pill{
+padding:3px 5px;
+border-radius:7px;
+font-weight:1000
+}
+
+.pill.buy{
+background:#0b9b4d;
+color:#fff
+}
+
+.pill.sell{
+background:#d91f3c;
+color:#fff
+}
+
+.pnlplus{
+color:var(--green);
+font-weight:1000
+}
+
+.pnlminus{
+color:var(--red);
+font-weight:1000
+}
+
+.empty{
+padding:14px 7px;
+text-align:center;
+color:#7084a5;
+font-size:9px
+}
 
 .rules{
-  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+margin-top:7px;
+border:1px solid #19e37d;
+border-radius:11px;
+padding:8px;
+color:#dbe9ff;
+font-size:9px
 }
-.rule{
-  background:#151d33;padding:7px;border-radius:9px;
-  border-left:3px solid var(--blue);font-size:9px;
+
+.rules b{
+color:var(--yellow)
 }
-.log{
-  height:105px;overflow:auto;background:#050914;border-radius:9px;
-  padding:7px;font-family:monospace;font-size:9px;color:#bcd0ff;
+
+.rules div{
+margin:3px 0
 }
-details summary{cursor:pointer;font-weight:900}
-@media(max-width:480px){
-  .stats{grid-template-columns:repeat(3,1fr)}
-  .controls{grid-template-columns:1fr 1fr}
-  .logo{font-size:16px}
+
+.feed{
+margin-top:7px;
+max-height:120px;
+overflow:auto;
+border:1px solid #168d6a;
+border-radius:10px;
+background:linear-gradient(135deg,#07251c,#1c0a12);
+padding:7px;
+font:9px/1.45 ui-monospace,monospace
+}
+
+.feedrow{
+display:grid;
+grid-template-columns:auto 1fr auto;
+gap:5px;
+padding:2px 0
+}
+
+.feedrow.good{
+color:var(--green)
+}
+
+.feedrow.bad{
+color:var(--red)
+}
+
+.feedrow.wait{
+color:var(--yellow)
+}
+
+.alarmbar{
+display:flex;
+gap:6px;
+flex-wrap:wrap;
+margin-top:7px
+}
+
+.alarmbar button{
+padding:7px 9px;
+border:0;
+border-radius:9px;
+font-weight:900;
+font-size:10px
+}
+
+.alarm{
+background:#7d3bd0;
+color:#fff
+}
+
+.test{
+background:var(--yellow);
+color:#161000
+}
+
+.checks{
+display:flex;
+gap:8px;
+align-items:center;
+font-size:9px;
+color:var(--yellow);
+font-weight:900
+}
+
+.checks input{
+width:auto;
+accent-color:var(--green)
+}
+
+.note{
+margin-top:6px;
+color:#7890b4;
+font-size:8px;
+line-height:1.4
+}
+
+.footer{
+text-align:center;
+color:#4f668d;
+font-size:8px;
+padding:8px
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg)
+}
+}
+
+@keyframes counter{
+to{
+transform:rotate(-360deg)
+}
+}
+
+@keyframes pulse{
+0%,100%{
+transform:scale(.7);
+opacity:.45
+}
+50%{
+transform:scale(1.5);
+opacity:1
+}
+}
+
+@media(max-width:760px){
+
+.top{
+grid-template-columns:auto 1fr auto
+}
+
+.brand{
+font-size:22px
+}
+
+.stats{
+grid-template-columns:repeat(4,1fr)
+}
+
+.controlgrid{
+grid-template-columns:repeat(4,1fr)
+}
+
+.actions{
+grid-template-columns:1fr 1fr
+}
+
+.dataStatus{
+grid-column:1/-1;
+text-align:center
+}
+
+.lower{
+grid-template-columns:1fr
+}
+
+.accountbar{
+grid-template-columns:1fr 1fr
+}
+
+}
+
+@media(max-width:520px){
+
+body{
+padding:5px
+}
+
+.top{
+grid-template-columns:auto 1fr;
+padding:8px
+}
+
+.topright{
+grid-column:1/-1;
+text-align:center;
+display:flex;
+justify-content:center;
+gap:8px
+}
+
+.topright b{
+display:inline;
+font-size:13px
+}
+
+.brand{
+font-size:19px
+}
+
+.premium .title{
+font-size:13px
+}
+
+.premium p{
+font-size:9px
+}
+
+.accountbar{
+grid-template-columns:1fr 1fr
+}
+
+.stats{
+grid-template-columns:repeat(4,1fr);
+gap:4px
+}
+
+.stat{
+padding:7px 2px
+}
+
+.stat .val{
+font-size:14px
+}
+
+.stat .lab{
+font-size:8px
+}
+
+.markets{
+grid-template-columns:1fr
+}
+
+.market{
+min-height:68px
+}
+
+.controlgrid{
+grid-template-columns:repeat(2,1fr)
+}
+
+.actions{
+grid-template-columns:1fr 1fr
+}
+
+.accessrow{
+grid-template-columns:1fr 1fr
+}
+
+.accessrow .connect{
+grid-column:1/-1
+}
+
+.historycols{
+grid-template-columns:1fr 1fr
+}
+
+.winloss{
+grid-template-columns:1fr 1fr
+}
+
+.ring{
+width:110px;
+height:110px
+}
+
+.ringin{
+width:90px;
+height:90px
+}
+
+}
+
+.targetPopup{
+position:fixed;
+top:12px;
+left:50%;
+transform:translateX(-50%) translateY(-140%);
+z-index:9999;
+width:min(92vw,520px);
+padding:14px 16px;
+border-radius:16px;
+text-align:center;
+font-weight:1000;
+font-size:16px;
+line-height:1.25;
+background:#071426;
+border:3px solid #18d86b;
+box-shadow:0 0 28px #18d86b99,0 8px 30px #000b;
+opacity:0;
+pointer-events:none;
+transition:transform .35s ease,opacity .35s ease
+}
+
+.targetPopup.show{
+transform:translateX(-50%) translateY(0);
+opacity:1
+}
+
+.targetPopup.loss{
+border-color:#ff3158;
+box-shadow:0 0 28px #ff315899,0 8px 30px #000b
+}
+
+.targetPopup .amount{
+display:block;
+margin-top:4px;
+font-size:20px
+}
+
+.targetPopup .close{
+position:absolute;
+right:7px;
+top:4px;
+border:0;
+background:transparent;
+color:#fff;
+font-size:18px;
+font-weight:900;
+cursor:pointer
 }
 </style>
 </head>
 
 <body>
-<div class="wrap">
 
-<header>
-  <div class="logo">⚡ Jazzy Bot AI</div>
-  <button id="refresh" class="refresh" type="button">↻ Refresh</button>
+<div class="app">
+
+<header class="top">
+
+<button class="refresh" id="refresh">
+↻ Refresh
+</button>
+
+<div class="brand">
+<span class="crown">♛</span>
+JAZZY BOT AI
+
+<div class="disco">
+<i></i>
+<i></i>
+<i></i>
+<i></i>
+<i></i>
+</div>
+
+</div>
+
+<div class="topright">
+<span>19 September 2026</span>
+<b id="timeNow">15:16:32 ◷</b>
+</div>
+
 </header>
 
-<section class="premium-engine">
-  <div class="premium-badge">✦ PREMIUM BOT TRADING ENGINE ✦</div>
-  <div class="engine-title">Bot Trading Engine</div>
-  <div class="engine-text">
-    The bot trades in a low risk strategy focused on prioritizing capital preservation and long term consistency over high risk speculation.
-  </div>
-  <div class="engine-lights">
-    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-  </div>
+<section class="premium">
+
+<div class="title">
+PREMIUM BOT TRADING ENGINE
+</div>
+
+<p>
+The bot trades in a low risk strategy focused on
+<strong>prioritizing capital preservation</strong>
+and long term consistency
+<strong>over high risk speculation.</strong>
+</p>
+
 </section>
 
-<div class="accountbar">
-  <div>
-    <b id="accountLabel">DEMO ACCOUNT</b><br>
-    <small id="authState">● Not authenticated</small>
-  </div>
-  <div class="clock">
-    <span>TODAY</span>
-    <b id="dateNow">19 September 2026</b>
-    <span id="timeNow">—</span>
-  </div>
+<section class="accountbar">
+
+<div class="accountbox">
+👤 DEMO ACCOUNT
+<small id="accountHint">Not authenticated</small>
 </div>
 
-<div class="card">
-  <div class="tabs">
-    <div class="tab crypto active" data-market="crypto">₿ Crypto</div>
-    <div class="tab forex" data-market="forex">＄ Forex</div>
-    <div class="tab gold" data-market="gold">◆ Gold</div>
-  </div>
+<div class="clockbox">
+Account Access — Demo / Real
+<br>
+<b>Demo &nbsp; | &nbsp; Real</b>
 </div>
 
-<div class="card">
-  <div class="stats">
-    <div class="stat balance"><small>Balance</small><b id="balance">€100.00</b></div>
-    <div class="stat profit"><small>Profit</small><b id="profit">€0.00</b></div>
-    <div class="stat"><small>Trades</small><b id="trades">0</b></div>
-    <div class="stat wins"><small>Winning</small><b id="wins">0</b></div>
-    <div class="stat losses"><small>Loss</small><b id="losses">0</b></div>
-    <div class="stat rate"><small>Win Rate</small><b id="winrate">0%</b></div>
-  </div>
+</section>
+
+<details class="access">
+
+<summary>
+Account Access — Demo / Real
+</summary>
+
+<div class="accessrow">
+
+<div class="field">
+
+<label>Account</label>
+
+<select id="accountTop">
+
+<option value="demo">
+Demo Account
+</option>
+
+<option value="real">
+Real Account
+</option>
+
+</select>
+
 </div>
 
-<details class="card loginbox">
-  <summary>Account Access — Demo / Real</summary>
-  <div class="controls" style="margin-top:7px">
-    <div>
-      <label>Account</label>
-      <select id="accountType">
-        <option value="demo">Demo Account</option>
-        <option value="real">Real Account</option>
-      </select>
-    </div>
-    <div>
-      <label>Account ID</label>
-      <input id="accountId" placeholder="Optional">
-    </div>
-  </div>
-  <button id="connect" style="margin-top:6px;background:#19d98b;color:#07120d">Connect</button>
+<div class="field">
+
+<label>
+Deriv Account ID
+</label>
+
+<input
+id="accountId"
+placeholder="Account ID"
+>
+
+</div>
+
+<button
+class="connect"
+id="connectAccount"
+>
+Connect
+</button>
+
+</div>
+
 </details>
 
-<div class="card">
-  <div class="controls">
-    <div>
-      <label>Normal Entry ≥ %</label>
-      <input id="entryThreshold" type="number" min="1" max="100" value="50">
-    </div>
-    <div>
-      <label>Recovery ≥ %</label>
-      <input id="recoveryThreshold" type="number" min="1" max="100" value="65">
-    </div>
-    <div>
-      <label>Stake — minimum €0.50</label>
-      <input id="stake" type="number" min="0.50" step="0.10" value="0.50">
-    </div>
-    <div>
-      <label>Profit Amount</label>
-      <input id="profitAmount" type="number" min="0" step="0.10" value="0">
-    </div>
-    <div>
-      <label>Stop Loss</label>
-      <input id="stopLoss" type="number" min="0" step="0.10" value="0">
-    </div>
+<section class="stats">
+
+<div class="stat balance">
+
+<div class="ico">🪙</div>
+
+<div class="lab blue">
+Current Balance
+</div>
+
+<div
+class="val blue"
+id="balance"
+>
+€2,707.02
+</div>
+
+</div>
+
+<div class="stat profit">
+
+<div class="ico">📈</div>
+
+<div class="lab green">
+Total Profit
+</div>
+
+<div
+class="val green"
+id="profit"
+>
+€0.00
+</div>
+
+</div>
+
+<div class="stat trades">
+
+<div class="ico">📋</div>
+
+<div class="lab yellow">
+Total Trades
+</div>
+
+<div
+class="val yellow"
+id="trades"
+>
+0
+</div>
+
+</div>
+
+<div class="stat winrate">
+
+<div class="ico">🏆</div>
+
+<div class="lab green">
+Win Rate
+</div>
+
+<div
+class="val green"
+id="winrate"
+>
+0%
+</div>
+
+</div>
+
+<div class="stat winning">
+
+<div class="ico">⬆</div>
+
+<div class="lab green">
+Winning
+</div>
+
+<div
+class="val green"
+id="wins"
+>
+0
+</div>
+
+</div>
+
+<div class="stat loss">
+
+<div class="ico">⬇</div>
+
+<div class="lab red">
+Loss
+</div>
+
+<div
+class="val red"
+id="losses"
+>
+0
+</div>
+
+</div>
+
+<div class="stat stake">
+
+<div class="ico">🪙</div>
+
+<div class="lab yellow">
+Stake
+</div>
+
+<div
+class="val yellow"
+id="stakeView"
+>
+€0.50
+</div>
+
+</div>
+
+</section>
+
+<section class="markets">
+
+<div class="market crypto">
+
+<div class="mh">
+
+<span class="coin">₿</span>
+
+<div>
+<b>Crypto</b>
+<span class="tag">BTC/USD</span>
+</div>
+
+</div>
+
+<div
+class="status"
+id="cryptoChange"
+>
+Waiting
+</div>
+
+<div class="meta">
+Market:
+<span id="cryptoTrend">
+NEUTRAL
+</span>
+
+<span
+id="cryptoPrice"
+style="display:none"
+>
+—
+</span>
+
+</div>
+
+</div>
+
+<div class="market forex">
+
+<div class="mh">
+
+<span class="coin">🇪🇺</span>
+
+<div>
+<b>Forex</b>
+<span class="tag">EUR/USD</span>
+</div>
+
+</div>
+
+<div
+class="status"
+id="forexChange"
+>
+Waiting
+</div>
+
+<div class="meta">
+
+Market:
+
+<span id="forexTrend">
+NEUTRAL
+</span>
+
+<span
+id="forexPrice"
+style="display:none"
+>
+—
+</span>
+
+</div>
+
+</div>
+
+<div class="market gold">
+
+<div class="mh">
+
+<span class="coin">▰</span>
+
+<div>
+<b>Gold</b>
+<span class="tag">XAU/USD</span>
+</div>
+
+</div>
+
+<div
+class="status"
+id="goldChange"
+>
+Waiting
+</div>
+
+<div class="meta">
+
+Market:
+
+<span id="goldTrend">
+NEUTRAL
+</span>
+
+<span
+id="goldPrice"
+style="display:none"
+>
+—
+</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="controls">
+
+<div class="controlgrid">
+
+<div class="field">
+
+<label>Account</label>
+
+<select id="account">
+
+<option value="demo">
+Demo
+</option>
+
+<option value="real">
+Real
+</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>Market</label>
+
+<select id="market">
+
+<option value="crypto">
+Crypto
+</option>
+
+<option value="forex">
+Forex
+</option>
+
+<option value="gold">
+Gold
+</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>
+Stake (min €0.50)
+</label>
+
+<input
+id="stakeInput"
+type="number"
+min="0.5"
+step="0.01"
+value="0.50"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Normal Entry ≥ %
+</label>
+
+<input
+id="entryThreshold"
+type="number"
+min="1"
+max="99"
+value="50"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Recovery ≥ %
+</label>
+
+<input
+id="recoveryThreshold"
+type="number"
+min="1"
+max="99"
+value="65"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Profit Amount
+</label>
+
+<input
+id="profitTarget"
+type="number"
+min="0"
+step="0.01"
+value="0"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Stop Loss
+</label>
+
+<input
+id="stopLoss"
+type="number"
+min="0"
+step="0.01"
+value="0"
+>
+
+</div>
+
+</div>
+
+<div class="actions">
+
+<button
+class="btn start"
+id="start"
+>
+▶ Start Bot
+</button>
+
+<button
+class="btn stop"
+id="stop"
+disabled
+>
+■ Stop Bot
+</button>
+
+<div class="dataStatus">
+
+<span
+class="dot"
+id="dataDot"
+></span>
+
+<span id="dataStatus">
+Market data connecting...
+</span>
+
+</div>
+
+</div>
+
+</section><section class="lower">
+ <div class="panel">
+  <h2>🎯 Market Scanner</h2>
+  <div class="scannerTable"><div class="thead"><span>Market</span><span>Signal</span><span>Status</span></div>
+   <div class="srow"><div class="marketname">🟠 Crypto<small>BTC/USD</small></div><div class="signal" id="scanCrypto">↔<br>NEUTRAL</div><div class="wait">◷ Waiting</div></div>
+   <div class="srow"><div class="marketname">🌐 Forex<small>EUR/USD</small></div><div class="signal" id="scanForex">↔<br>NEUTRAL</div><div class="wait">◷ Waiting</div></div>
+   <div class="srow"><div class="marketname">🟨 Gold<small>XAU/USD</small></div><div class="signal" id="scanGold">↔<br>NEUTRAL</div><div class="wait">◷ Waiting</div></div>
   </div>
+  <div class="scannerbox"><div class="ring"><div class="ringin"><div><b id="scanNum">0</b><span>SCAN 1–10</span></div></div></div></div>
+  <div class="scanline" id="scanStatus">Ready to scan</div><div class="confidence" id="confidence">0%</div><div class="bar"><i id="bar"></i></div>
+  <div class="rules"><b>⚙ Risk & Entry Rules &nbsp; AUTO</b><div>• <b>Normal Entry:</b> Enter at ≥ <strong id="entryRuleText">50%</strong>.</div><div>• <b>Wait:</b> Below <strong id="entryWaitText">50%</strong> = wait.</div><div>• <b>Recovery:</b> Loss → X2 once, then return to base stake.</div><div>• <b>Recovery Entry:</b> Enter at ≥ <strong id="recoveryRuleText">65%</strong>.</div><div>• <b>Capital Guard:</b> wins use 4% return; losses are limited to 2% of stake in demo simulation.</div><div>• <b>Profit Amount and Stop Loss:</b> session controls. 0 means disabled.</div></div>
+ </div>
+ <div class="panel history">
+  <h2>🗂 Trading History</h2>
+  <div class="winloss"><div class="wl win"><b>⬆ Total Wins</b><strong id="historyWins" class="green">0</strong></div><div class="wl loss"><b>⬇ Total Losses</b><strong id="historyLosses" class="red">0</strong></div></div>
+  <div class="historycols"><div class="historycol wins"><h3>PROFIT / WINS</h3><div id="winHistory"><div class="empty">No winning trades yet</div></div></div><div class="historycol losses"><h3>LOSS / TRADES</h3><div id="lossHistory"><div class="empty">No losing trades yet</div></div></div></div>
+  <div class="feed" id="feed"><div class="feedrow wait"><span>--:--:--</span><span>Waiting for bot activity</span><span>WAIT</span></div></div>
+  <div class="alarmbar"><button class="alarm" id="sound">🔔 Alarm: OFF</button><button class="test" id="testAlarm">🔊 Test Alarm</button><span class="checks"><label><input type="checkbox" id="alarmEntry" checked> Entry</label><label><input type="checkbox" id="alarmWin" checked> Win</label><label><input type="checkbox" id="alarmLoss" checked> Loss</label></span></div>
+  <div class="note">Demo trades are simulated with a regulated 4% win / 2% loss model and one-time X2 recovery; this does not guarantee real-market results. Public market data is used when available; authenticated Deriv access is required for actual account trading.</div>
+ </div>
+</section>
+<div id="targetPopup" class="targetPopup" role="status" aria-live="polite"><button class="close" id="targetPopupClose" aria-label="Close">×</button><span id="targetPopupMessage"></span><span class="amount" id="targetPopupAmount"></span></div>
+<div class="footer">Jazzy Bot AI • Premium mobile trading dashboard</div>
 </div>
-
-<div class="card">
-  <div class="rules">
-    <div class="rule">
-      <b>Normal Entry</b><br>
-      ≥ <span id="normalRule">50</span>% = ENTRY<br>
-      &lt; <span id="normalWait">50</span>% = WAIT
-    </div>
-    <div class="rule" style="border-color:#a855f7">
-      <b>Recovery X2</b><br>
-      ≥ <span id="recoveryRule">65</span>% = RECOVER<br>
-      &lt; <span id="recoveryWait">65</span>% = WAIT
-    </div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="scanner">
-    <div class="scanInner">
-      <div class="scanNum" id="scanCount">0</div>
-      <small>SCANNING</small>
-    </div>
-  </div>
-  <div class="signal" id="signal">WAIT</div>
-  <div class="status" id="status">Bot ready</div>
-</div>
-
-<div class="card">
-  <div class="btnrow">
-    <button id="start" class="start">▶ Start Bot</button>
-    <button id="stop" class="stop">■ Stop Bot</button>
-    <button id="alarm" class="alarm">🔔 Alarm: OFF</button>
-    <button id="testAlarm" class="test">🔊 Test Alarm</button>
-  </div>
-</div>
-
-<div class="card">
-  <label>Alarm Events</label>
-  <div class="btnrow">
-    <label><input type="checkbox" id="alarmEntry" checked> Entry</label>
-    <label><input type="checkbox" id="alarmWin" checked> Win</label>
-    <label><input type="checkbox" id="alarmLoss" checked> Loss</label>
-  </div>
-</div>
-
-<div class="card">
-  <label>Bot Activity</label>
-  <div id="log" class="log">[SYSTEM] Jazzy Bot AI ready — press the blue Start Bot button.</div>
-</div>
-
-</div>
-
 <script>
+(()=> {
+'use strict';
 const $=id=>document.getElementById(id);
-
-let running=false;
-let recovery=false;
-let market="crypto";
-let balance=100;
-let profit=0;
-let trades=0;
-let wins=0;
-let losses=0;
-let cycleTimer=null;
-let scanTimer=null;
-let audioCtx=null;
-let alarmOn=false;
-
-function clock(){
-  $("dateNow").textContent="19 September 2026";
-  $("timeNow").textContent=new Date().toLocaleTimeString([],{
-    hour:"2-digit",minute:"2-digit",second:"2-digit"
-  });
-}
-clock();
-setInterval(clock,1000);
-
-$("refresh").onclick=()=>{
-  const u=location.href.split("#")[0];
-  location.replace(u+(u.includes("?")?"&":"?")+"_refresh="+Date.now());
-};
-
-document.querySelectorAll(".tab").forEach(tab=>{
-  tab.onclick=()=>{
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    tab.classList.add("active");
-    market=tab.dataset.market;
-    write("Market switched to "+market.toUpperCase());
-  };
-});
-
-$("entryThreshold").oninput=updateRules;
-$("recoveryThreshold").oninput=updateRules;
-
-function updateRules(){
-  const n=Math.max(1,Math.min(100,Number($("entryThreshold").value)||50));
-  const r=Math.max(1,Math.min(100,Number($("recoveryThreshold").value)||65));
-  $("normalRule").textContent=n;
-  $("normalWait").textContent=n;
-  $("recoveryRule").textContent=r;
-  $("recoveryWait").textContent=r;
-}
-
-function write(msg){
-  const el=$("log");
-  const t=new Date().toLocaleTimeString();
-  el.innerHTML+="<div>["+t+"] "+msg+"</div>";
-  el.scrollTop=el.scrollHeight;
-}
-
-function updateStats(){
-  $("balance").textContent="€"+balance.toFixed(2);
-  $("profit").textContent="€"+profit.toFixed(2);
-  $("trades").textContent=trades;
-  $("wins").textContent=wins;
-  $("losses").textContent=losses;
-  $("winrate").textContent=(trades?(wins/trades*100):0).toFixed(0)+"%";
-}
-
-function getStake(){
-  return Math.max(.50,Number($("stake").value)||.50);
-}
-
-function getThreshold(){
-  return recovery
-    ? Math.max(1,Math.min(100,Number($("recoveryThreshold").value)||65))
-    : Math.max(1,Math.min(100,Number($("entryThreshold").value)||50));
-}
-
-function sound(){
-  if(!alarmOn)return;
-  try{
-    audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();
-    const o=audioCtx.createOscillator();
-    const g=audioCtx.createGain();
-    o.frequency.value=880;
-    o.connect(g);
-    g.connect(audioCtx.destination);
-    g.gain.setValueAtTime(.001,audioCtx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.25,audioCtx.currentTime+.03);
-    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.35);
-    o.start();
-    o.stop(audioCtx.currentTime+.36);
-  }catch(e){}
-}
-
-$("alarm").onclick=()=>{
-  alarmOn=!alarmOn;
-  $("alarm").textContent=alarmOn?"🔔 Alarm: ON":"🔔 Alarm: OFF";
-};
-
-$("testAlarm").onclick=()=>{
-  alarmOn=true;
-  $("alarm").textContent="🔔 Alarm: ON";
-  sound();
-};
-
-$("connect").onclick=()=>{
-  const type=$("accountType").value;
-  $("accountLabel").textContent=type==="real"?"REAL ACCOUNT":"DEMO ACCOUNT";
-  $("authState").textContent="● Connection UI ready — authentication required";
-  write(type.toUpperCase()+" account selected.");
-};
-
-function startBot(){
-  if(running)return;
-
-  running=true;
-  recovery=false;
-  $("status").textContent="Bot running";
-  $("signal").textContent="SCANNING";
-  write("Jazzy Bot AI started.");
-  scan();
-}
-
-function stopBot(){
-  running=false;
-  clearTimeout(cycleTimer);
-  clearInterval(scanTimer);
-  $("status").textContent="Bot stopped";
-  $("signal").textContent="WAIT";
-  $("scanCount").textContent="0";
-  write("Bot stopped.");
-}
-
-$("start").onclick=startBot;
-$("stop").onclick=stopBot;
-
-function scan(){
-  if(!running)return;
-
-  let count=0;
-  const threshold=getThreshold();
-
-  clearInterval(scanTimer);
-
-  scanTimer=setInterval(()=>{
-    count++;
-    $("scanCount").textContent=count;
-
-    if(count>=10){
-      clearInterval(scanTimer);
-
-      const confidence=Math.floor(50+Math.random()*46);
-      $("signal").textContent=confidence+"%";
-
-      if(confidence>=threshold){
-        $("signal").textContent=recovery?"RECOVERY ENTRY":"ENTRY APPROVED";
-        $("status").textContent="Market signal approved";
-        write(
-          (recovery?"Recovery":"Normal")+
-          " signal "+confidence+"% ≥ "+threshold+"%"
-        );
-
-        if($("alarmEntry").checked)sound();
-
-        cycleTimer=setTimeout(trade,700);
-      }else{
-        $("signal").textContent="WAIT";
-        $("status").textContent=
-          confidence+"% below "+threshold+"% — waiting";
-
-        write(
-          "WAIT — confidence "+confidence+
-          "% below required "+threshold+"%"
-        );
-
-        cycleTimer=setTimeout(scan,900);
-      }
-    }
-  },180);
-}
-
-function trade(){
-  if(!running)return;
-
-  let stake=getStake();
-  if(recovery)stake*=2;
-
-  if(stake>balance){
-    write("Insufficient simulated balance.");
-    stopBot();
-    return;
-  }
-
-  $("status").textContent=
-    recovery?"Executing Recovery X2":"Executing Trade";
-
-  write(
-    (recovery?"RECOVERY X2":"TRADE")+
-    " — stake €"+stake.toFixed(2)
-  );
-
-  const won=Math.random()<.55;
-
-  setTimeout(()=>{
-    if(!running)return;
-
-    trades++;
-
-    if(won){
-      const gain=stake*.82;
-      balance+=gain;
-      profit+=gain;
-      wins++;
-      recovery=false;
-
-      $("signal").textContent="WIN";
-      $("status").textContent="Trade won";
-      write("WIN +€"+gain.toFixed(2));
-
-      if($("alarmWin").checked)sound();
-    }else{
-      balance-=stake;
-      profit-=stake;
-      losses++;
-      recovery=true;
-
-      $("signal").textContent="LOSS";
-      $("status").textContent="Loss — fresh recovery scan";
-      write("LOSS -€"+stake.toFixed(2)+" — Recovery X2 armed");
-
-      if($("alarmLoss").checked)sound();
-    }
-
-    updateStats();
-
-    const target=Number($("profitAmount").value)||0;
-    const stop=Math.abs(Number($("stopLoss").value)||0);
-
-    if(target>0 && profit>=target){
-      write("Profit Amount reached.");
-      stopBot();
-      return;
-    }
-
-    if(stop>0 && profit<=-stop){
-      write("Stop Loss reached.");
-      stopBot();
-      return;
-    }
-
-    cycleTimer=setTimeout(scan,1000);
-  },1000);
-}
-
-updateRules();
-updateStats();
-</script>
-
-</body>
-</html>
+const S={balance:2707.02,profit:0,trades:0,wins:0,losses:0,running:false,recovery:false,stake:.5,profitTarget:0,stopLoss:0,entryThreshold:50,recoveryThreshold:65,winReturn:.04,lossRisk:.02,lossStreak:0,market:'crypto',sound:false,prices:{crypto:[],forex:[],gold:[]},price:{crypto:null,forex:null,gold:null},scanning:false,scanTimer:null,settleTimer:null,ws:null,history:[],popupTimer:null,symbols:{crypto:'cryBTCUSD',forex:'frxEURUSD',gold:'frxXAUUSD'},display:{crypto:'BTC/USD',forex:'EUR/USD',gold:'XAU/USD'}};
+function money(x){return '€'+Number(x).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+function feed(text,res='',cls='wait'){const e=document.createElement('div');e.className='feedrow '+cls;e.innerHTML='<span>'+now()+'</span><span>'+text+'</span><span>'+res+'</span>';$('feed').prepend(e);while($('feed').children.length>15)$('feed').lastChild.remove()}
+function renderHistory(){const wins=$('winHistory'),losses=$('lossHistory');wins.innerHTML='';losses.innerHTML='';let wh=S.history.filter(x=>x.win).slice(0,12),lh=S.history.filter(x=>!x.win).slice(0,12);if(!wh.length)wins.innerHTML='<div class="empty">No winning trades yet</div>';if(!lh.length)losses.innerHTML='<div class="empty">No losing trades yet</div>';wh.forEach(x=>wins.insertAdjacentHTML('beforeend','<div class="histrow"><span>'+x.time+'</span><span><span class="pill '+(x.dir==='CALL'?'buy':'sell')+'">'+(x.dir==='CALL'?'BUY':'SELL')+'</span> '+x.market+'</span><span class="pnlplus">+'+money(x.pnl)+'</span></div>'));lh.forEach(x=>losses.insertAdjacentHTML('beforeend','<div class="histrow"><span>'+x.time+'</span><span><span class="pill '+(x.dir==='CALL'?'buy':'sell')+'">'+(x.dir==='CALL'?'BUY':'SELL')+'</span> '+x.market+'</span><span class="pnlminus">-'+money(Math.abs(x.pnl))+'</span></div>'));$('historyWins').textContent=S.wins;$('historyLosses').textContent=S.losses}
+function stats(){$('balance').textContent=money(S.balance);$('profit').textContent=money(S.profit);$('profit').className='val '+(S.profit>=0?'green':'red');$('trades').textContent=S.trades;$('wins').textContent=S.wins;$('losses').textContent=S.losses;$('stakeView').textContent=money(S.stake);$('winrate').textContent=S.trades?((S.wins/S.trades)*100).toFixed(1)+'%':'0%';renderHistory()}
+function readInputs(){S.stake=Math.max(.5,Number($('stakeInput').value)||.5);S.entryThreshold=Math.max(1,Math.min(99,Number($('entryThreshold').value)||50));S.recoveryThreshold=Math.max(1,Math.min(99,Number($('recoveryThreshold').value)||65));$('stakeInput').value=S.stake.toFixed(2);$('entryThreshold').value=S.entryThreshold;$('recoveryThreshold').value=S.recoveryThreshold;$('entryRuleText').textContent=S.entryThreshold+'%';$('entryWaitText').textContent=S.entryThreshold+'%';$('recoveryRuleText').textContent=S.recoveryThreshold+'%';S.profitTarget=Math.max(0,Number($('profitTarget').value)||0);S.stopLoss=Math.max(0,Number($('stopLoss').value)||0);stats()}
+function update(m,p){if(!Number.isFinite(p))return;S.price[m]=p;let a=S.prices[m];a.push(p);if(a.length>50)a.shift();let ch=a.length>1?((p-a[Math.max(0,a.length-10)])/a[Math.max(0,a.length-10)])*100:0;$('cryptoPrice').textContent=m==='crypto'?p.toFixed(2):$('cryptoPrice').textContent;$('forexPrice').textContent=m==='forex'?p.toFixed(5):$('forexPrice').textContent;$('goldPrice').textContent=m==='gold'?p.toFixed(2):$('goldPrice').textContent;let ids={crypto:['cryptoChange','cryptoTrend'],forex:['forexChange','forexTrend'],gold:['goldChange','goldTrend']}[m];$(ids[0]).textContent=ch>=0?'UP '+ch.toFixed(3)+'%':'DOWN '+ch.toFixed(3)+'%';$(ids[0]).style.color=ch>=0?'var(--green)':'var(--red)';$(ids[1]).textContent=ch>.03?'UP':ch<-.03?'DOWN':'NEUTRAL';$(ids[1]).style.color=ch>.03?'var(--green)':ch<-.03?'var(--red)':'var(--yellow)';let s=ch>.03?'↑':ch<-.03?'↓':'↔';let target=m==='crypto'?'scanCrypto':m==='forex'?'scanForex':'scanGold';$(target).innerHTML=s+'<br>'+$(ids[1]).textContent}
+function fallback(){let base={crypto:65000,forex:1.17,gold:3650};setInterval(()=>Object.keys(base).forEach(m=>{let p=S.price[m]||base[m],v=m==='crypto'?.0018:m==='forex'?.00035:.0007;update(m,p*(1+(Math.random()-.49)*v))}),700)}
+function confidence(){let a=S.prices[S.market];if(a.length<5)return 50;let r=a.slice(-10),u=0,d=0;for(let i=1;i<r.length;i++){if(r[i]>r[i-1])u++;else if(r[i]<r[i-1])d++}let dir=Math.abs(u-d)/(r.length-1);return Math.round(Math.max(0,Math.min(98,50+dir*31+(Math.random()-.5)*12)))}
+function scan(done){if(S.scanning)return;S.scanning=true;let n=0,target=S.recovery?S.recoveryThreshold:S.entryThreshold;$('scanStatus').textContent='Scanning '+S.display[S.market]+'...';clearInterval(S.scanTimer);S.scanTimer=setInterval(()=>{n++;$('scanNum').textContent=n;let c=Math.round(50+(confidence()-50)*(n/10));$('confidence').textContent=c+'%';$('bar').style.width=c+'%';if(n>=10){clearInterval(S.scanTimer);S.scanning=false;let final=confidence();$('confidence').textContent=final+'%';$('bar').style.width=final+'%';let pass=final>=target;$('scanStatus').textContent=pass?'CONFIRMED • '+final+'% ≥ '+target+'%':'WAIT • '+final+'% < '+target+'%';feed((S.recovery?'Recovery':'Normal')+' scan',pass?'ENTRY':'WAIT',pass?'good':'wait');done(pass,final)}},90)}
+function showTargetPopup(type,amount){const p=$('targetPopup'),m=$('targetPopupMessage'),a=$('targetPopupAmount');p.className='targetPopup '+(type==='loss'?'loss':'');m.textContent=type==='profit'?'Congratulations! 🎉😊 Profit target reached':'Try again! 😢 Stop loss reached';a.textContent=(type==='profit'?'+':'-')+money(Math.abs(amount));requestAnimationFrame(()=>p.classList.add('show'));clearTimeout(S.popupTimer);S.popupTimer=setTimeout(()=>p.classList.remove('show'),7000)}
+function canContinue(){if(S.profitTarget>0&&S.profit>=S.profitTarget){showTargetPopup('profit',S.profit);feed('Congratulations! 🎉😊 Profit target reached','+'+money(S.profit),'good');stop();return false}if(S.stopLoss>0&&S.profit<=-S.stopLoss){showTargetPopup('loss',S.profit);feed('Try again! 😢 Stop loss reached','-'+money(Math.abs(S.profit)),'bad');stop();return false}if(S.balance<.5){feed('Balance below minimum stake','STOP','bad');stop();return false}return true}
+function decide(){if(!S.running||S.scanning||!canContinue())return;scan((pass,c)=>{if(!S.running)return;if(pass)enter(c);else setTimeout(decide,800)})}
+function enter(c){let amount=S.recovery?S.stake*2:S.stake;if(amount>S.balance)amount=S.balance;if(amount<.5){stop();return}/* Capital guard: recovery is allowed only when the account can comfortably cover it. */if(S.recovery&&S.balance<amount*3){S.recovery=false;feed('Capital guard • recovery reduced to base stake','SAFE','wait');amount=Math.min(S.stake,S.balance)}let a=S.prices[S.market],dir=a.length>1&&a[a.length-1]<a[a.length-2]?'PUT':'CALL';feed((S.recovery?'RECOVERY X2':'ENTRY')+' • '+S.display[S.market]+' • '+dir+' • '+c+'%','BUY','good');if($('alarmEntry').checked)alarm();clearTimeout(S.settleTimer);S.settleTimer=setTimeout(()=>settle(amount,dir),650)}
+function settle(amount,dir){if(!S.running)return;let m=S.market,a=S.prices[m],before=a.length?a[a.length-1]:0;setTimeout(()=>{let after=S.price[m]||before,natural=dir==='CALL'?after>=before:after<=before;/* Demo capital-regulation model: higher simulated hit rate plus 4% win / 2% loss impact. This is not a guarantee of real-market performance. */let win=natural?Math.random()<.86:Math.random()<.24;S.trades++;if(win){let gain=amount*S.winReturn;S.balance+=gain;S.profit+=gain;S.wins++;S.lossStreak=0;S.recovery=false;S.history.unshift({time:now(),market:S.display[m],dir,pnl:gain,win:true});feed('Trade settled • '+S.display[m],'+'+money(gain),'good');if($('alarmWin').checked)alarm()}else{let loss=amount*S.lossRisk;S.balance-=loss;S.profit-=loss;S.losses++;S.lossStreak++;/* One X2 recovery only; never compound into X4/X8 after repeated losses. */if(S.recovery){S.recovery=false;feed('Recovery loss • base stake restored','RESET','bad')}else{S.recovery=true}S.history.unshift({time:now(),market:S.display[m],dir,pnl:-loss,win:false});feed('Trade settled • '+S.display[m],'-'+money(loss),'bad');if($('alarmLoss').checked)alarm()}stats();/* Auto-close/stop immediately when the configured Take Profit or Stop Loss is hit. */if(!canContinue())return;if(S.running)setTimeout(decide,S.lossStreak>=2?350:120)},260)}
+function start(){if(S.running)return;readInputs();S.running=true;$('start').disabled=true;$('stop').disabled=false;feed('Bot started • '+(S.recovery?'Recovery X2':'Normal')+' • Stake '+money(S.stake),'READY','good');decide()}
+function stop(){S.running=false;$('start').disabled=false;$('stop').disabled=true;clearInterval(S.scanTimer);clearTimeout(S.settleTimer);S.scanning=false;$('scanStatus').textContent='Stopped';$('confidence').textContent='0%';$('bar').style.width='0%';stats()}
+function connect(){try{let w=new WebSocket('wss://api.derivws.com/trading/v1/options/ws/public');S.ws=w;w.onopen=()=>{$('dataDot').classList.add('on');$('dataStatus').textContent='Deriv public data connected';Object.values(S.symbols).forEach(symbol=>w.send(JSON.stringify({ticks:symbol,subscribe:1})))};w.onmessage=e=>{try{let d=JSON.parse(e.data);if(d.tick){let m=Object.keys(S.symbols).find(k=>S.symbols[k]===d.tick.symbol);if(m)update(m,Number(d.tick.quote))}}catch(_){}};w.onerror=()=>{$('dataStatus').textContent='Public data unavailable • local fallback active'};w.onclose=()=>{$('dataStatus').textContent='Disconnected • local fallback active'}}catch(_){$('dataStatus').textContent='Local fallback active'}}
+let audioCtx=null;function alarm(){if(!S.sound)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(880,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(520,audioCtx.currentTime+.35);g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.18,audioCtx.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.45);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.46)}catch(e){}}
+$('targetPopupClose').onclick=()=>{clearTimeout(S.popupTimer);$('targetPopup').classList.remove('show')};$('refresh').onclick=()=>location.reload();$('start').onclick=start;$('stop').onclick=stop;['stakeInput','profitTarget','stopLoss','entryThreshold','recoveryThreshold'].forEach(id=>$(id).onchange=readInputs);$('market').onchange=e=>{S.market=e.target.value;feed('Market selected • '+S.display[S.market],'INFO','wait')};$('accountTop').onchange=e=>{$('account').value=e.target.value;$('accountHint').textContent=e.target.value==='real'?'Authentication required':'Not authenticated'};$('connectAccount').onclick=()=>{$('accountHint').textContent='Connect through Deriv OAuth/API';feed(($('accountTop').value==='real'?'Real':'Demo')+' account connection requested','AUTH','wait')};$('account').onchange=e=>{$('accountTop').value=e.target.value};$('sound').onclick=()=>{S.sound=!S.sound;$('sound').textContent=S.sound?'🔔 Alarm: ON':'🔔 Alarm: OFF';if(S.sound){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()}};$('testAlarm').onclick=()=>{S.sound=true;$('sound').textContent='🔔 Alarm: ON';audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()};$('alarmEntry').onchange=e=>{if(e.target.checked)S.sound=true};$('alarmWin').onchange=e=>{if(e.target.checked)S
