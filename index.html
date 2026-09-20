@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,1594 +8,3334 @@
 
 <style>
 :root{
---bg:#050914;
---panel:#081326;
---panel2:#0b1830;
---blue:#1677ff;
---green:#19e37d;
---yellow:#ffd52f;
---red:#ff2948;
---purple:#a855f7;
---cyan:#21d4ff;
---white:#eaf2ff
+  --bg:#050914;
+  --panel:#0a1020;
+  --panel2:#0d1528;
+  --line:#1b2a46;
+  --blue:#1683ff;
+  --blue2:#00b7ff;
+  --yellow:#ffd43b;
+  --green:#19d58a;
+  --red:#ff5364;
+  --text:#f4f7ff;
+  --muted:#8190aa;
+  --shadow:0 12px 35px rgba(0,0,0,.35);
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 html,body{
-margin:0;
-min-height:100%;
-font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-background:radial-gradient(circle at 50% -10%,#15264d 0,#070c19 42%,#03060d 100%);
-color:var(--white)
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-padding:7px;
-overflow-x:hidden
+  padding:14px;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
 }
 
 .app{
-max-width:1100px;
-margin:auto
+  width:100%;
+  max-width:1250px;
+  margin:auto;
 }
 
-.top{
-position:relative;
-display:grid;
-grid-template-columns:auto 1fr auto;
-align-items:center;
-gap:10px;
-padding:10px 14px;
-margin-bottom:7px;
-border:2px solid transparent;
-border-radius:20px;
-background:linear-gradient(#07101f,#07101f) padding-box,
-linear-gradient(90deg,var(--red),var(--yellow),var(--green),var(--blue),var(--purple),var(--red)) border-box;
-box-shadow:0 0 25px #1677ff33,inset 0 0 25px #0008;
-overflow:hidden
-}
-
-.top:after{
-content:"";
-position:absolute;
-inset:-80%;
-background:conic-gradient(
-from 20deg,
-transparent,
-#ff174488,
-transparent,
-#1677ff66,
-transparent,
-#19e37d66,
-transparent,
-#ffd52f66,
-transparent
-);
-animation:spin 9s linear infinite;
-pointer-events:none
-}
-
-.top>*{
-position:relative;
-z-index:2
-}
-
-.refresh{
-padding:9px 13px;
-border-radius:11px;
-border:1px solid #57a1ff;
-background:linear-gradient(135deg,#0f66ff,#168dff);
-color:white;
-font-weight:900;
-font-size:12px;
-box-shadow:0 0 16px #1677ff66
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px;
+  margin-bottom:14px;
+  background:linear-gradient(135deg,#0b1325,#070d1a);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow);
 }
 
 .brand{
-text-align:center;
-font-weight:1000;
-font-size:27px;
-letter-spacing:1px;
-background:linear-gradient(
-90deg,
-#16a9ff,
-#5aff6f,
-#ffe32f,
-#ff405e,
-#b46cff
-);
--webkit-background-clip:text;
-background-clip:text;
-color:transparent;
-text-shadow:0 0 18px #1677ff66
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.crown{
-font-size:18px;
-display:block;
-line-height:1
+.logo{
+  width:44px;
+  height:44px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+  font-weight:900;
+  color:#fff;
+  background:linear-gradient(135deg,#086dff,#00b7ff);
+  box-shadow:0 0 25px rgba(0,145,255,.35);
 }
 
-.topright{
-text-align:right;
-font-size:11px;
-font-weight:900;
-color:var(--yellow)
+.brand h1{
+  font-size:20px;
 }
 
-.topright b{
-display:block;
-color:#62e6ff;
-font-size:16px
+.brand p{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-.disco{
-display:flex;
-justify-content:center;
-gap:6px;
-margin-top:4px
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
-.disco i{
-width:7px;
-height:7px;
-border-radius:50%;
-animation:pulse 1.2s infinite
+select,
+input{
+  width:100%;
+  color:#fff;
+  background:#080f1d;
+  border:1px solid #263653;
+  border-radius:10px;
+  padding:10px 11px;
+  outline:none;
 }
 
-.disco i:nth-child(1){background:var(--red)}
-.disco i:nth-child(2){background:var(--blue);animation-delay:.1s}
-.disco i:nth-child(3){background:var(--green);animation-delay:.2s}
-.disco i:nth-child(4){background:var(--yellow);animation-delay:.3s}
-.disco i:nth-child(5){background:var(--purple);animation-delay:.4s}
-
-.premium{
-margin-bottom:7px;
-padding:8px 12px;
-text-align:center;
-border:2px solid var(--blue);
-border-radius:16px;
-background:linear-gradient(
-90deg,
-#102d66aa,
-#0b4d36aa,
-#66500088,
-#68132299
-);
-box-shadow:0 0 18px #1677ff44
+select:focus,
+input:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 2px rgba(22,131,255,.12);
 }
 
-.premium .title{
-font-size:16px;
-font-weight:1000;
-color:var(--yellow);
-letter-spacing:.7px
-}
-
-.premium p{
-margin:3px 0 0;
-font-size:10px;
-font-weight:800;
-color:#dff5ff;
-line-height:1.35
-}
-
-.premium strong{
-color:var(--yellow)
-}
-
-.accountbar{
-display:grid;
-grid-template-columns:1.15fr 1fr;
-gap:7px;
-margin-bottom:7px
-}
-
-.accountbox,
-.clockbox{
-border:2px solid var(--green);
-border-radius:15px;
-background:linear-gradient(135deg,#062a20,#07162a);
-padding:9px 12px
-}
-
-.accountbox{
-color:var(--green);
-font-weight:1000;
-font-size:15px
-}
-
-.accountbox small{
-display:block;
-color:var(--yellow);
-font-size:10px;
-margin-top:2px
-}
-
-.clockbox{
-text-align:right;
-border-color:var(--blue);
-color:var(--yellow);
-font-weight:1000
-}
-
-.clockbox b{
-display:block;
-color:#64e7ff;
-font-size:16px
-}
-
-.access{
-padding:8px 10px;
-margin-bottom:7px;
-border:2px solid #28548d;
-border-radius:15px;
-background:#071326
-}
-
-.access summary{
-cursor:pointer;
-font-weight:900;
-color:#eaf2ff;
-font-size:12px
-}
-
-.accessrow{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:6px;
-margin-top:7px
-}
-
-.field label{
-display:block;
-color:var(--yellow);
-font-size:10px;
-font-weight:900;
-margin-bottom:3px
-}
-
-input,select{
-width:100%;
-padding:8px 9px;
-border-radius:9px;
-border:1px solid #315987;
-background:#061022;
-color:#dff2ff;
-outline:none;
-font-size:11px
-}
-
-input:focus,
-select:focus{
-border-color:var(--cyan);
-box-shadow:0 0 0 2px #21d4ff22
-}
-
-.connect{
-background:linear-gradient(135deg,var(--green),#07964f);
-color:#02130a;
-font-weight:1000;
-border:0;
-border-radius:9px
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:6px;
-margin-bottom:7px
-}
-
-.stat{
-padding:9px 4px;
-text-align:center;
-border-radius:13px;
-background:#061123;
-border:2px solid #214d87;
-box-shadow:inset 0 0 14px #0006
-}
-
-.stat .ico{
-font-size:17px
-}
-
-.stat .lab{
-font-size:10px;
-font-weight:900;
-margin-top:2px
-}
-
-.stat .val{
-font-size:18px;
-font-weight:1000;
-margin-top:1px
-}
-
-.blue{color:#38a4ff}
-.green{color:var(--green)}
-.yellow{color:var(--yellow)}
-.red{color:var(--red)}
-.purple{color:#c084fc}
-
-.stat.balance{border-color:var(--blue)}
-.stat.profit,
-.stat.winrate,
-.stat.winning{border-color:#0da956}
-.stat.trades,
-.stat.stake{border-color:#a88a00}
-.stat.loss{border-color:var(--red)}
-
-.markets{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:7px;
-margin-bottom:7px
-}
-
-.market{
-padding:10px 12px;
-border:2px solid #27538d;
-border-radius:14px;
-background:linear-gradient(145deg,#08182d,#071020);
-min-height:76px
-}
-
-.market.crypto{border-color:var(--blue)}
-.market.forex{border-color:#2872bb}
-.market.gold{border-color:#b28a00}
-
-.mh{
-display:flex;
-align-items:center;
-gap:7px;
-font-size:13px
-}
-
-.coin{
-width:32px;
-height:32px;
-border-radius:50%;
-display:grid;
-place-items:center;
-font-size:17px;
-font-weight:1000
-}
-
-.crypto .coin{background:#ff9417}
-.forex .coin{background:linear-gradient(135deg,#2865ff,#ff365a)}
-.gold .coin{background:#d99b16}
-
-.mh b{
-display:block
-}
-
-.tag{
-display:block;
-font-size:14px
-}
-
-.market .status{
-color:#fff;
-font-size:11px;
-margin-top:5px
-}
-
-.market .status:before{
-content:"";
-display:inline-block;
-width:18px;
-height:3px;
-background:var(--green);
-vertical-align:middle;
-margin-right:5px
-}
-
-.meta{
-font-size:10px;
-margin-top:3px;
-color:#d7e5ff
-}
-
-.meta span:last-child{
-color:var(--yellow);
-font-weight:900
-}
-
-.controls{
-padding:9px 11px;
-margin-bottom:7px;
-border:2px solid #1c5bc2;
-border-radius:16px;
-background:linear-gradient(145deg,#071a32,#06101f)
-}
-
-.controlgrid{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:6px
-}
-
-.actions{
-display:grid;
-grid-template-columns:1.1fr .8fr 1fr;
-gap:7px;
-margin-top:7px;
-align-items:center
+.top-actions select{
+  width:auto;
+  min-width:105px;
 }
 
 .btn{
-padding:11px;
-border:0;
-border-radius:11px;
-font-weight:1000;
-color:#fff;
-font-size:12px
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:800;
+  color:#fff;
+  background:#16233c;
 }
 
-.start{
-background:linear-gradient(135deg,#126eff,#0751c8);
-box-shadow:0 0 15px #1677ff55
+.btn:hover{
+  filter:brightness(1.12);
 }
 
-.stop{
-background:linear-gradient(135deg,#ff2b45,#c91431)
+.btn.primary{
+  background:linear-gradient(135deg,#0877ff,#00a7ff);
 }
 
-.dataStatus{
-font-size:11px;
-color:var(--yellow);
-font-weight:900
+.btn.stop{
+  background:linear-gradient(135deg,#c92742,#ff5364);
+}
+
+.btn.yellow{
+  color:#101010;
+  background:linear-gradient(135deg,#ffd43b,#ffb700);
+}
+
+.connection{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:12px;
 }
 
 .dot{
-display:inline-block;
-width:8px;
-height:8px;
-border-radius:50%;
-background:var(--red);
-margin-right:5px
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#718096;
 }
 
 .dot.on{
-background:var(--green);
-box-shadow:0 0 9px var(--green)
+  background:var(--green);
+  box-shadow:0 0 12px rgba(25,213,138,.8);
 }
-        .lower{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px
-}
-
-.panel{
-border:2px solid var(--green);
-border-radius:17px;
-background:linear-gradient(145deg,#061c19,#061120);
-padding:10px;
-box-shadow:0 0 16px #19e37d22
-}
-
-.panel.history{
-border-color:var(--red);
-box-shadow:0 0 16px #ff294822
-}
-
-.panel h2{
-margin:0 0 8px;
-font-size:17px;
-color:var(--yellow);
-display:flex;
-align-items:center;
-gap:7px
-}
-
-.scannerTable{
-border:1px solid #19e37d;
-border-radius:12px;
-overflow:hidden
-}
-
-.thead,
-.srow{
-display:grid;
-grid-template-columns:1.2fr .9fr .8fr;
-align-items:center
-}
-
-.thead{
-padding:7px;
-background:#092c2a;
-color:#fff;
-font-size:10px;
-font-weight:900
-}
-
-.srow{
-padding:10px 7px;
-border-top:1px solid #16443f
-}
-
-.srow .marketname{
-font-weight:900;
-font-size:11px
-}
-
-.srow small{
-display:block;
-font-size:9px;
-color:#fff
-}
-
-.signal{
-font-size:10px;
-font-weight:1000;
-color:var(--yellow)
-}
-
-.wait{
-color:var(--yellow);
-font-weight:900;
-font-size:10px
-}
-
-.scannerbox{
-display:flex;
-justify-content:center;
-padding:9px
-}
-
-.ring{
-width:120px;
-height:120px;
-border-radius:50%;
-display:grid;
-place-items:center;
-background:conic-gradient(
-var(--green),
-var(--blue),
-var(--purple),
-var(--yellow),
-var(--red),
-var(--green)
-);
-animation:spin 5s linear infinite;
-box-shadow:0 0 24px #1677ff55
-}
-
-.ringin{
-width:98px;
-height:98px;
-border-radius:50%;
-display:grid;
-place-items:center;
-text-align:center;
-background:#081326;
-border:1px solid #ffffff14;
-animation:counter 5s linear infinite
-}
-
-.ringin b{
-font-size:23px;
-color:#fff
-}
-
-.ringin span{
-display:block;
-font-size:8px;
-color:var(--yellow);
-font-weight:900
-}
-
-.scanline{
-text-align:center;
-color:#bfe8ff;
-font-size:11px;
-font-weight:900
-}
-
-.confidence{
-color:var(--green);
-font-size:18px;
-font-weight:1000;
-text-align:center
-}
-
-.bar{
-height:6px;
-border-radius:10px;
-background:#0a1827;
-margin-top:4px;
-overflow:hidden
-}
-
-.bar i{
-display:block;
-height:100%;
-width:0;
-background:linear-gradient(
-90deg,
-var(--red),
-var(--yellow),
-var(--green),
-var(--blue)
-);
-transition:width .15s
-}
-
-.winloss{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:7px;
-margin-bottom:7px
-}
-
-.wl{
-padding:8px;
-border-radius:11px;
-text-align:center;
-background:#061521;
-border:2px solid
-}
-
-.wl.win{
-border-color:var(--green)
-}
-
-.wl.loss{
-border-color:var(--red)
-}
-
-.wl b{
-display:block;
-font-size:10px
-}
-
-.wl strong{
-font-size:18px
-}
-
-.historycols{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:7px
-}
-
-.historycol{
-border-radius:12px;
-overflow:hidden;
-background:#07111f
-}
 
-.historycol h3{
-margin:0;
-padding:7px;
-text-align:center;
-font-size:10px
+.dot.bad{
+  background:var(--red);
+  box-shadow:0 0 12px rgba(255,83,100,.7);
 }
 
-.historycol.wins h3{
-color:var(--green);
-background:#063022
+.hero{
+  padding:20px;
+  margin-bottom:14px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(0,183,255,.16),transparent 32%),
+    radial-gradient(circle at 10% 100%,rgba(22,131,255,.12),transparent 32%),
+    #08101f;
+  box-shadow:var(--shadow);
 }
 
-.historycol.losses h3{
-color:var(--red);
-background:#3a0a16
+.hero h2{
+  font-size:27px;
+  margin-bottom:7px;
 }
 
-.histrow{
-display:grid;
-grid-template-columns:auto 1fr auto;
-gap:5px;
-padding:7px 6px;
-border-top:1px solid #183047;
-font-size:9px;
-align-items:center
+.hero p{
+  color:var(--muted);
+  line-height:1.5;
+  font-size:13px;
 }
 
-.pill{
-padding:3px 5px;
-border-radius:7px;
-font-weight:1000
+.status-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:15px;
 }
 
-.pill.buy{
-background:#0b9b4d;
-color:#fff
+.status-pill{
+  padding:8px 11px;
+  border-radius:999px;
+  background:#0d182c;
+  border:1px solid #20324f;
+  font-size:11px;
+  color:#b9c7dc;
 }
 
-.pill.sell{
-background:#d91f3c;
-color:#fff
+.status-pill.live{
+  color:#8ff1c5;
+  border-color:rgba(25,213,138,.35);
 }
 
-.pnlplus{
-color:var(--green);
-font-weight:1000
+.status-pill.recovery{
+  color:#ffe38a;
+  border-color:rgba(255,212,59,.35);
 }
 
-.pnlminus{
-color:var(--red);
-font-weight:1000
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:14px;
 }
 
-.empty{
-padding:14px 7px;
-text-align:center;
-color:#7084a5;
-font-size:9px
+.card{
+  background:linear-gradient(145deg,#0b1324,#080f1c);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:15px;
+  box-shadow:var(--shadow);
 }
 
-.rules{
-margin-top:7px;
-border:1px solid #19e37d;
-border-radius:11px;
-padding:8px;
-color:#dbe9ff;
-font-size:9px
+.card-label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
 }
 
-.rules b{
-color:var(--yellow)
+.card-value{
+  font-size:23px;
+  font-weight:900;
+  margin-top:7px;
 }
-
-.rules div{
-margin:3px 0
-}
-
-.feed{
-margin-top:7px;
-max-height:120px;
-overflow:auto;
-border:1px solid #168d6a;
-border-radius:10px;
-background:linear-gradient(135deg,#07251c,#1c0a12);
-padding:7px;
-font:9px/1.45 ui-monospace,monospace
-}
-
-.feedrow{
-display:grid;
-grid-template-columns:auto 1fr auto;
-gap:5px;
-padding:2px 0
-}
-
-.feedrow.good{
-color:var(--green)
-}
-
-.feedrow.bad{
-color:var(--red)
-}
-
-.feedrow.wait{
-color:var(--yellow)
-}
-
-.alarmbar{
-display:flex;
-gap:6px;
-flex-wrap:wrap;
-margin-top:7px
-}
-
-.alarmbar button{
-padding:7px 9px;
-border:0;
-border-radius:9px;
-font-weight:900;
-font-size:10px
-}
-
-.alarm{
-background:#7d3bd0;
-color:#fff
-}
-
-.test{
-background:var(--yellow);
-color:#161000
-}
-
-.checks{
-display:flex;
-gap:8px;
-align-items:center;
-font-size:9px;
-color:var(--yellow);
-font-weight:900
-}
-
-.checks input{
-width:auto;
-accent-color:var(--green)
-}
-
-.note{
-margin-top:6px;
-color:#7890b4;
-font-size:8px;
-line-height:1.4
-}
-
-.footer{
-text-align:center;
-color:#4f668d;
-font-size:8px;
-padding:8px
-}
-
-@keyframes spin{
-to{
-transform:rotate(360deg)
-}
-}
-
-@keyframes counter{
-to{
-transform:rotate(-360deg)
-}
-}
-
-@keyframes pulse{
-0%,100%{
-transform:scale(.7);
-opacity:.45
-}
-50%{
-transform:scale(1.5);
-opacity:1
-}
-}
-
-@media(max-width:760px){
-
-.top{
-grid-template-columns:auto 1fr auto
-}
-
-.brand{
-font-size:22px
-}
-
-.stats{
-grid-template-columns:repeat(4,1fr)
-}
-
-.controlgrid{
-grid-template-columns:repeat(4,1fr)
-}
-
-.actions{
-grid-template-columns:1fr 1fr
-}
-
-.dataStatus{
-grid-column:1/-1;
-text-align:center
-}
-
-.lower{
-grid-template-columns:1fr
-}
-
-.accountbar{
-grid-template-columns:1fr 1fr
-}
-
-}
-
-@media(max-width:520px){
 
-body{
-padding:5px
+.card-sub{
+  margin-top:4px;
+  font-size:11px;
+  color:var(--muted);
 }
 
-.top{
-grid-template-columns:auto 1fr;
-padding:8px
+.green{
+  color:var(--green);
 }
 
-.topright{
-grid-column:1/-1;
-text-align:center;
-display:flex;
-justify-content:center;
-gap:8px
+.red{
+  color:var(--red);
 }
 
-.topright b{
-display:inline;
-font-size:13px
+.yellow{
+  color:var(--yellow);
 }
 
-.brand{
-font-size:19px
+.blue{
+  color:#4eb5ff;
 }
 
-.premium .title{
-font-size:13px
+.section{
+  margin-bottom:14px;
+  background:linear-gradient(145deg,#0a1222,#080e1a);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
 }
 
-.premium p{
-font-size:9px
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:13px;
 }
 
-.accountbar{
-grid-template-columns:1fr 1fr
+.section-title h3{
+  font-size:15px;
 }
 
-.stats{
-grid-template-columns:repeat(4,1fr);
-gap:4px
+.section-title span{
+  color:var(--muted);
+  font-size:11px;
 }
 
-.stat{
-padding:7px 2px
+.controls{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:11px;
 }
 
-.stat .val{
-font-size:14px
+.field label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:6px;
 }
 
-.stat .lab{
-font-size:8px
+.field small{
+  display:block;
+  color:#64738d;
+  margin-top:5px;
+  font-size:10px;
 }
 
-.markets{
-grid-template-columns:1fr
+.market-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
 .market{
-min-height:68px
+  position:relative;
+  overflow:hidden;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid #1e304d;
+  background:#091322;
 }
 
-.controlgrid{
-grid-template-columns:repeat(2,1fr)
+.market:after{
+  content:"";
+  position:absolute;
+  right:-35px;
+  top:-35px;
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  background:rgba(0,183,255,.08);
 }
 
-.actions{
-grid-template-columns:1fr 1fr
+.market-head{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
 }
 
-.accessrow{
-grid-template-columns:1fr 1fr
+.market-name{
+  font-weight:900;
 }
 
-.accessrow .connect{
-grid-column:1/-1
+.market-symbol{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
 }
 
-.historycols{
-grid-template-columns:1fr 1fr
+.market-price{
+  font-size:25px;
+  font-weight:900;
+  margin-top:15px;
 }
 
-.winloss{
-grid-template-columns:1fr 1fr
+.market-change{
+  font-size:11px;
+  margin-top:5px;
 }
 
-.ring{
-width:110px;
-height:110px
+.scanner{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:14px;
 }
 
-.ringin{
-width:90px;
-height:90px
+.scanner-main{
+  padding:17px;
+  border-radius:16px;
+  background:#07101e;
+  border:1px solid #1d2e49;
 }
 
+.scanner-main h4{
+  font-size:13px;
+  margin-bottom:12px;
 }
 
-.targetPopup{
-position:fixed;
-top:12px;
-left:50%;
-transform:translateX(-50%) translateY(-140%);
-z-index:9999;
-width:min(92vw,520px);
-padding:14px 16px;
-border-radius:16px;
-text-align:center;
-font-weight:1000;
-font-size:16px;
-line-height:1.25;
-background:#071426;
-border:3px solid #18d86b;
-box-shadow:0 0 28px #18d86b99,0 8px 30px #000b;
-opacity:0;
-pointer-events:none;
-transition:transform .35s ease,opacity .35s ease
+.confidence{
+  font-size:48px;
+  font-weight:900;
+  line-height:1;
 }
 
-.targetPopup.show{
-transform:translateX(-50%) translateY(0);
-opacity:1
+.confidence-label{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
 }
 
-.targetPopup.loss{
-border-color:#ff3158;
-box-shadow:0 0 28px #ff315899,0 8px 30px #000b
+.progress{
+  height:10px;
+  margin-top:15px;
+  background:#111d31;
+  border-radius:999px;
+  overflow:hidden;
 }
 
-.targetPopup .amount{
-display:block;
-margin-top:4px;
-font-size:20px
+.progress span{
+  display:block;
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#1683ff,#00d4ff,#ffd43b);
+  border-radius:999px;
+  transition:width .3s ease;
 }
 
-.targetPopup .close{
-position:absolute;
-right:7px;
-top:4px;
-border:0;
-background:transparent;
-color:#fff;
-font-size:18px;
-font-weight:900;
-cursor:pointer
+.scanner-side{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.mini{
+  padding:13px;
+  border-radius:14px;
+  background:#091424;
+  border:1px solid #1b2c47;
+}
+
+.mini strong{
+  display:block;
+  font-size:16px;
+  margin-top:5px;
+}
+
+.mini span{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.action-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:14px;
+}
+
+.account-note{
+  margin-top:10px;
+  color:#7787a2;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.table-wrap{
+  overflow:auto;
+  border:1px solid #1a2a43;
+  border-radius:13px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:680px;
+}
+
+th,
+td{
+  padding:11px;
+  border-bottom:1px solid #14233a;
+  text-align:left;
+  font-size:11px;
+}
+
+th{
+  color:#8494af;
+  background:#081120;
+}
+
+td{
+  color:#dce5f4;
+}
+
+tbody tr:last-child td{
+  border-bottom:0;
+}
+
+.feed{
+  max-height:250px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.feed-item{
+  padding:10px;
+  border-radius:10px;
+  background:#091423;
+  border:1px solid #172941;
+  font-size:11px;
+}
+
+.feed-time{
+  color:#61728e;
+  margin-right:7px;
+}
+
+.feed-type{
+  font-weight:900;
+  margin-right:7px;
+}
+
+.feed-ok{
+  color:var(--green);
+}
+
+.feed-warn{
+  color:var(--yellow);
+}
+
+.feed-error{
+  color:var(--red);
+}
+
+.feed-info{
+  color:#56b8ff;
+}
+
+.checkbox{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#b5c3d8;
+  font-size:11px;
+}
+
+.checkbox input{
+  width:auto;
+}
+
+.footer{
+  text-align:center;
+  padding:14px 5px 25px;
+  color:#5f6f89;
+  font-size:10px;
+}
+
+.notice{
+  padding:11px;
+  border-radius:11px;
+  border:1px solid rgba(255,212,59,.25);
+  background:rgba(255,212,59,.06);
+  color:#d7c57b;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
+}
+
+@media(max-width:900px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .controls{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .market-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  body{
+    padding:8px;
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .top-actions{
+    width:100%;
+    flex-wrap:wrap;
+  }
+
+  .top-actions select{
+    flex:1;
+  }
+
+  .connection{
+    width:100%;
+  }
+
+  .hero h2{
+    font-size:22px;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .controls{
+    grid-template-columns:1fr;
+  }
+
+  .scanner{
+    grid-template-columns:1fr;
+  }
+
+  .scanner-side{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .card-value{
+    font-size:19px;
+  }
 }
 </style>
 </head>
-
 <body>
 
 <div class="app">
 
-<header class="top">
+  <header class="topbar">
 
-<button class="refresh" id="refresh">
-↻ Refresh
-</button>
+    <div class="brand">
+      <div class="logo">J</div>
+      <div>
+        <h1>Jazzy Bot AI</h1>
+        <p>AI Market Scanner & Trading Engine</p>
+      </div>
+    </div>
 
-<div class="brand">
-<span class="crown">♛</span>
-JAZZY BOT AI
+    <div class="top-actions">
 
-<div class="disco">
-<i></i>
-<i></i>
-<i></i>
-<i></i>
-<i></i>
-</div>
+      <select id="accountTop">
+        <option value="demo">Demo Account</option>
+        <option value="real">Real Account</option>
+      </select>
 
-</div>
+      <button class="btn primary" id="connectAccount">
+        Connect Account
+      </button>
 
-<div class="topright">
-<span>19 September 2026</span>
-<b id="timeNow">15:16:32 ◷</b>
-</div>
+    </div>
 
-</header>
+  </header>
 
-<section class="premium">
 
-<div class="title">
-PREMIUM BOT TRADING ENGINE
-</div>
+  <section class="hero">
 
-<p>
-The bot trades in a low risk strategy focused on
-<strong>prioritizing capital preservation</strong>
-and long term consistency
-<strong>over high risk speculation.</strong>
-</p>
+    <h2>Live Market Intelligence</h2>
 
-</section>
+    <p>
+      Real-time Deriv market data with configurable normal and recovery
+      entry thresholds.
+    </p>
 
-<section class="accountbar">
+    <div class="status-row">
 
-<div class="accountbox">
-👤 DEMO ACCOUNT
-<small id="accountHint">Not authenticated</small>
-</div>
+      <div class="status-pill" id="dataStatus">
+        Market data connecting...
+      </div>
 
-<div class="clockbox">
-Account Access — Demo / Real
-<br>
-<b>Demo &nbsp; | &nbsp; Real</b>
-</div>
+      <div class="status-pill">
+        Normal Entry: <strong id="normalStatus">50%</strong>+
+      </div>
 
-</section>
+      <div class="status-pill recovery">
+        Recovery Entry: <strong id="recoveryStatus">63%</strong>+
+      </div>
 
-<details class="access">
+      <div class="status-pill" id="botStatus">
+        Bot Stopped
+      </div>
 
-<summary>
-Account Access — Demo / Real
-</summary>
+      <div class="status-pill" id="recoveryPill">
+        Normal Mode
+      </div>
 
-<div class="accessrow">
+    </div>
 
-<div class="field">
+  </section>
 
-<label>Account</label>
 
-<select id="accountTop">
+  <!-- STATISTICS -->
 
-<option value="demo">
-Demo Account
-</option>
+  <section class="grid">
 
-<option value="real">
-Real Account
-</option>
+    <div class="card">
+      <div class="card-label">Current Balance</div>
+      <div class="card-value" id="balance">$0.00</div>
+      <div class="card-sub" id="balanceMode">Demo engine</div>
+    </div>
 
-</select>
+    <div class="card">
+      <div class="card-label">Total Profit</div>
+      <div class="card-value green" id="totalProfit">$0.00</div>
+      <div class="card-sub">Session P&amp;L</div>
+    </div>
 
-</div>
+    <div class="card">
+      <div class="card-label">Total Trades</div>
+      <div class="card-value" id="totalTrades">0</div>
+      <div class="card-sub">Completed trades</div>
+    </div>
 
-<div class="field">
+    <div class="card">
+      <div class="card-label">Win Rate</div>
+      <div class="card-value yellow" id="winRate">0%</div>
+      <div class="card-sub">Wins / completed trades</div>
+    </div>
 
-<label>
-Deriv Account ID
-</label>
+    <div class="card">
+      <div class="card-label">Winning</div>
+      <div class="card-value green" id="wins">0</div>
+      <div class="card-sub">Successful trades</div>
+    </div>
 
-<input
-id="accountId"
-placeholder="Account ID"
->
+    <div class="card">
+      <div class="card-label">Loss</div>
+      <div class="card-value red" id="losses">0</div>
+      <div class="card-sub">Losing trades</div>
+    </div>
 
-</div>
+    <div class="card">
+      <div class="card-label">Stake</div>
+      <div class="card-value blue" id="stakeDisplay">$0.50</div>
+      <div class="card-sub">Current stake</div>
+    </div>
 
-<button
-class="connect"
-id="connectAccount"
->
-Connect
-</button>
+    <div class="card">
+      <div class="card-label">Last Result</div>
+      <div class="card-value" id="lastResult">Waiting</div>
+      <div class="card-sub" id="lastResultAmount">$0.00</div>
+    </div>
 
-</div>
+  </section>
 
-</details>
 
-<section class="stats">
+  <!-- SETTINGS -->
 
-<div class="stat balance">
+  <section class="section">
 
-<div class="ico">🪙</div>
+    <div class="section-title">
+      <h3>Trading Settings</h3>
+      <span>Editable anytime</span>
+    </div>
 
-<div class="lab blue">
-Current Balance
-</div>
+    <div class="controls">
 
-<div
-class="val blue"
-id="balance"
->
-€2,707.02
-</div>
+      <div class="field">
+        <label for="market">Market</label>
 
-</div>
+        <select id="market">
+          <option value="crypto">BTC / USD</option>
+          <option value="forex">EUR / USD</option>
+          <option value="gold">XAU / USD</option>
+        </select>
 
-<div class="stat profit">
+        <small>Market used by the scanner</small>
+      </div>
 
-<div class="ico">📈</div>
 
-<div class="lab green">
-Total Profit
-</div>
+      <div class="field">
+        <label for="stakeInput">Stake Amount ($)</label>
 
-<div
-class="val green"
-id="profit"
->
-€0.00
-</div>
+        <input
+          id="stakeInput"
+          type="number"
+          min="0.50"
+          step="0.10"
+          value="0.50"
+        >
 
-</div>
+        <small>Minimum stake: $0.50</small>
+      </div>
 
-<div class="stat trades">
 
-<div class="ico">📋</div>
+      <div class="field">
+        <label for="entryThreshold">Normal Entry (%)</label>
 
-<div class="lab yellow">
-Total Trades
-</div>
+        <input
+          id="entryThreshold"
+          type="number"
+          min="1"
+          max="99"
+          step="1"
+          value="50"
+        >
 
-<div
-class="val yellow"
-id="trades"
->
-0
-</div>
+        <small>Entry allowed at this level or higher</small>
+      </div>
 
-</div>
 
-<div class="stat winrate">
+      <div class="field">
+        <label for="recoveryThreshold">Recovery Entry (%)</label>
 
-<div class="ico">🏆</div>
+        <input
+          id="recoveryThreshold"
+          type="number"
+          min="1"
+          max="99"
+          step="1"
+          value="63"
+        >
 
-<div class="lab green">
-Win Rate
-</div>
+        <small>Recovery allowed at this level or higher</small>
+      </div>
 
-<div
-class="val green"
-id="winrate"
->
-0%
-</div>
 
-</div>
+      <div class="field">
+        <label for="profitTarget">Profit Amount ($)</label>
 
-<div class="stat winning">
+        <input
+          id="profitTarget"
+          type="number"
+          min="0"
+          step="0.10"
+          value="4"
+        >
 
-<div class="ico">⬆</div>
+        <small>Target shown by the demo engine</small>
+      </div>
 
-<div class="lab green">
-Winning
-</div>
 
-<div
-class="val green"
-id="wins"
->
-0
-</div>
+      <div class="field">
+        <label for="stopLoss">Loss Amount ($)</label>
 
-</div>
+        <input
+          id="stopLoss"
+          type="number"
+          min="0"
+          step="0.10"
+          value="2"
+        >
 
-<div class="stat loss">
+        <small>Risk amount used by the demo engine</small>
+      </div>
 
-<div class="ico">⬇</div>
 
-<div class="lab red">
-Loss
-</div>
+      <div class="field">
+        <label for="currentPrice">Current Price</label>
 
-<div
-class="val red"
-id="losses"
->
-0
-</div>
+        <input
+          id="currentPrice"
+          type="number"
+          step="any"
+          placeholder="Waiting for tick..."
+        >
 
-</div>
+        <small>Live Deriv price</small>
+      </div>
 
-<div class="stat stake">
 
-<div class="ico">🪙</div>
+      <div class="field">
+        <label>Manual Price</label>
 
-<div class="lab yellow">
-Stake
-</div>
+        <label class="checkbox">
+          <input type="checkbox" id="manualPrice">
+          Allow manual price
+        </label>
 
-<div
-class="val yellow"
-id="stakeView"
->
-€0.50
-</div>
+        <small>Use this only when testing manually</small>
+      </div>
 
-</div>
+    </div>
 
-</section>
 
-<section class="markets">
+    <div class="action-row">
 
-<div class="market crypto">
+      <button class="btn primary" id="start">
+        ▶ Start Bot
+      </button>
 
-<div class="mh">
+      <button class="btn stop" id="stop">
+        ■ Stop Bot
+      </button>
 
-<span class="coin">₿</span>
+      <button class="btn yellow" id="refresh">
+        ↻ Refresh
+      </button>
 
-<div>
-<b>Crypto</b>
-<span class="tag">BTC/USD</span>
-</div>
+      <button class="btn" id="sound">
+        🔔 Alarm: OFF
+      </button>
 
-</div>
+      <button class="btn" id="testAlarm">
+        Test Alarm
+      </button>
 
-<div
-class="status"
-id="cryptoChange"
->
-Waiting
-</div>
+    </div>
 
-<div class="meta">
-Market:
-<span id="cryptoTrend">
-NEUTRAL
-</span>
 
-<span
-id="cryptoPrice"
-style="display:none"
->
-—
-</span>
+    <div class="notice">
+      Normal entries use the editable Normal Entry threshold.
+      Recovery entries use the editable Recovery Entry threshold.
+      The default values are 50% and 63%.
+    </div>
 
-</div>
+  </section>
 
-</div>
 
-<div class="market forex">
+  <!-- MARKETS -->
 
-<div class="mh">
+  <section class="section">
 
-<span class="coin">🇪🇺</span>
+    <div class="section-title">
+      <h3>Live Markets</h3>
+      <span id="marketTime">Waiting for data...</span>
+    </div>
 
-<div>
-<b>Forex</b>
-<span class="tag">EUR/USD</span>
-</div>
+    <div class="market-grid">
 
-</div>
+      <div class="market">
 
-<div
-class="status"
-id="forexChange"
->
-Waiting
-</div>
+        <div class="market-head">
+          <div>
+            <div class="market-name">Crypto BTC/USD</div>
+            <div class="market-symbol">cryBTCUSD</div>
+          </div>
 
-<div class="meta">
+          <div class="status-pill" id="cryptoState">
+            Waiting
+          </div>
+        </div>
 
-Market:
+        <div class="market-price" id="cryptoPrice">
+          —
+        </div>
 
-<span id="forexTrend">
-NEUTRAL
-</span>
+        <div class="market-change" id="cryptoChange">
+          Waiting for tick data
+        </div>
 
-<span
-id="forexPrice"
-style="display:none"
->
-—
-</span>
+      </div>
 
-</div>
 
-</div>
+      <div class="market">
 
-<div class="market gold">
+        <div class="market-head">
+          <div>
+            <div class="market-name">Forex EUR/USD</div>
+            <div class="market-symbol">frxEURUSD</div>
+          </div>
 
-<div class="mh">
+          <div class="status-pill" id="forexState">
+            Waiting
+          </div>
+        </div>
 
-<span class="coin">▰</span>
+        <div class="market-price" id="forexPrice">
+          —
+        </div>
 
-<div>
-<b>Gold</b>
-<span class="tag">XAU/USD</span>
-</div>
+        <div class="market-change" id="forexChange">
+          Waiting for tick data
+        </div>
 
-</div>
+      </div>
 
-<div
-class="status"
-id="goldChange"
->
-Waiting
-</div>
 
-<div class="meta">
+      <div class="market">
 
-Market:
+        <div class="market-head">
+          <div>
+            <div class="market-name">Gold XAU/USD</div>
+            <div class="market-symbol">frxXAUUSD</div>
+          </div>
 
-<span id="goldTrend">
-NEUTRAL
-</span>
+          <div class="status-pill" id="goldState">
+            Waiting
+          </div>
+        </div>
 
-<span
-id="goldPrice"
-style="display:none"
->
-—
-</span>
+        <div class="market-price" id="goldPrice">
+          —
+        </div>
 
-</div>
+        <div class="market-change" id="goldChange">
+          Waiting for tick data
+        </div>
 
-</div>
+      </div>
 
-</section>
+    </div>
 
-<section class="controls">
+  </section>
 
-<div class="controlgrid">
 
-<div class="field">
+  <!-- SCANNER -->
 
-<label>Account</label>
+  <section class="section">
 
-<select id="account">
+    <div class="section-title">
+      <h3>Market Scanner</h3>
+      <span id="scannerState">Waiting</span>
+    </div>
 
-<option value="demo">
-Demo
-</option>
+    <div class="scanner">
 
-<option value="real">
-Real
-</option>
+      <div class="scanner-main">
 
-</select>
+        <h4 id="scannerMarket">
+          BTC / USD
+        </h4>
 
-</div>
+        <div class="confidence" id="confidence">
+          0%
+        </div>
 
-<div class="field">
+        <div class="confidence-label">
+          Scanner confidence
+        </div>
 
-<label>Market</label>
+        <div class="progress">
+          <span id="confidenceBar"></span>
+        </div>
 
-<select id="market">
+        <div class="action-row">
 
-<option value="crypto">
-Crypto
-</option>
+          <button class="btn primary" id="scanNow">
+            Scan Now
+          </button>
 
-<option value="forex">
-Forex
-</option>
+        </div>
 
-<option value="gold">
-Gold
-</option>
+      </div>
 
-</select>
 
-</div>
+      <div class="scanner-side">
 
-<div class="field">
+        <div class="mini">
+          <span>Current Price</span>
+          <strong id="scannerPrice">—</strong>
+        </div>
 
-<label>
-Stake (min €0.50)
-</label>
+        <div class="mini">
+          <span>Normal Entry</span>
+          <strong id="scannerNormal">50%+</strong>
+        </div>
 
-<input
-id="stakeInput"
-type="number"
-min="0.5"
-step="0.01"
-value="0.50"
->
+        <div class="mini">
+          <span>Recovery Entry</span>
+          <strong id="scannerRecovery">63%+</strong>
+        </div>
 
-</div>
+        <div class="mini">
+          <span>Signal</span>
+          <strong id="signal">WAIT</strong>
+        </div>
 
-<div class="field">
+        <div class="mini">
+          <span>Bot State</span>
+          <strong id="scannerBotState">STOPPED</strong>
+        </div>
 
-<label>
-Normal Entry ≥ %
-</label>
+        <div class="mini">
+          <span>Recovery</span>
+          <strong id="scannerRecoveryState">NO</strong>
+        </div>
 
-<input
-id="entryThreshold"
-type="number"
-min="1"
-max="99"
-value="50"
->
+      </div>
 
-</div>
+    </div>
 
-<div class="field">
+  </section>
 
-<label>
-Recovery ≥ %
-</label>
 
-<input
-id="recoveryThreshold"
-type="number"
-min="1"
-max="99"
-value="65"
->
+  <!-- TRADING HISTORY -->
 
-</div>
+  <section class="section">
 
-<div class="field">
+    <div class="section-title">
+      <h3>Trading History</h3>
+      <span id="historyCount">0 trades</span>
+    </div>
 
-<label>
-Profit Amount
-</label>
+    <div class="table-wrap">
 
-<input
-id="profitTarget"
-type="number"
-min="0"
-step="0.01"
-value="0"
->
+      <table>
 
-</div>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Market</th>
+            <th>Price</th>
+            <th>Confidence</th>
+            <th>Mode</th>
+            <th>Result</th>
+            <th>P&amp;L</th>
+          </tr>
+        </thead>
 
-<div class="field">
+        <tbody id="historyBody">
 
-<label>
-Stop Loss
-</label>
+          <tr>
+            <td colspan="7">
+              No trades yet.
+            </td>
+          </tr>
 
-<input
-id="stopLoss"
-type="number"
-min="0"
-step="0.01"
-value="0"
->
+        </tbody>
 
-</div>
+      </table>
 
-</div>
+    </div>
 
-<div class="actions">
+  </section>
 
-<button
-class="btn start"
-id="start"
->
-▶ Start Bot
-</button>
 
-<button
-class="btn stop"
-id="stop"
-disabled
->
-■ Stop Bot
-</button>
+  <!-- FEED -->
 
-<div class="dataStatus">
+  <section class="section">
 
-<span
-class="dot"
-id="dataDot"
-></span>
+    <div class="section-title">
+      <h3>Bot Feed</h3>
+      <span>Live activity</span>
+    </div>
 
-<span id="dataStatus">
-Market data connecting...
-</span>
+    <div class="feed" id="feed">
 
-</div>
+      <div class="feed-item">
+        <span class="feed-type feed-info">INFO</span>
+        Waiting for market data connection...
+      </div>
 
-</div>
+    </div>
 
-</section><section class="lower">
- <div class="panel">
-  <h2>🎯 Market Scanner</h2>
-  <div class="scannerTable"><div class="thead"><span>Market</span><span>Signal</span><span>Status</span></div>
-   <div class="srow"><div class="marketname">🟠 Crypto<small>BTC/USD</small></div><div class="signal" id="scanCrypto">↔<br>NEUTRAL</div><div class="wait">◷ Waiting</div></div>
-   <div class="srow"><div class="marketname">🌐 Forex<small>EUR/USD</small></div><div class="signal" id="scanForex">↔<br>NEUTRAL</div><div class="wait">◷ Waiting</div></div>
-   <div class="srow"><div class="marketname">🟨 Gold<small>XAU/USD</small></div><div class="signal" id="scanGold">↔<br>NEUTRAL</div><div class="wait">◷ Waiting</div></div>
+  </section>
+
+
+  <div class="footer">
+    Jazzy Bot AI • Market data connection • No guaranteed profit
   </div>
-  <div class="scannerbox"><div class="ring"><div class="ringin"><div><b id="scanNum">0</b><span>SCAN 1–10</span></div></div></div></div>
-  <div class="scanline" id="scanStatus">Ready to scan</div><div class="confidence" id="confidence">0%</div><div class="bar"><i id="bar"></i></div>
-  <div class="rules"><b>⚙ Risk & Entry Rules &nbsp; AUTO</b><div>• <b>Normal Entry:</b> Enter at ≥ <strong id="entryRuleText">50%</strong>.</div><div>• <b>Wait:</b> Below <strong id="entryWaitText">50%</strong> = wait.</div><div>• <b>Recovery:</b> Loss → X2 once, then return to base stake.</div><div>• <b>Recovery Entry:</b> Enter at ≥ <strong id="recoveryRuleText">65%</strong>.</div><div>• <b>Capital Guard:</b> wins use 4% return; losses are limited to 2% of stake in demo simulation.</div><div>• <b>Profit Amount and Stop Loss:</b> session controls. 0 means disabled.</div></div>
- </div>
- <div class="panel history">
-  <h2>🗂 Trading History</h2>
-  <div class="winloss"><div class="wl win"><b>⬆ Total Wins</b><strong id="historyWins" class="green">0</strong></div><div class="wl loss"><b>⬇ Total Losses</b><strong id="historyLosses" class="red">0</strong></div></div>
-  <div class="historycols"><div class="historycol wins"><h3>PROFIT / WINS</h3><div id="winHistory"><div class="empty">No winning trades yet</div></div></div><div class="historycol losses"><h3>LOSS / TRADES</h3><div id="lossHistory"><div class="empty">No losing trades yet</div></div></div></div>
-  <div class="feed" id="feed"><div class="feedrow wait"><span>--:--:--</span><span>Waiting for bot activity</span><span>WAIT</span></div></div>
-  <div class="alarmbar"><button class="alarm" id="sound">🔔 Alarm: OFF</button><button class="test" id="testAlarm">🔊 Test Alarm</button><span class="checks"><label><input type="checkbox" id="alarmEntry" checked> Entry</label><label><input type="checkbox" id="alarmWin" checked> Win</label><label><input type="checkbox" id="alarmLoss" checked> Loss</label></span></div>
-  <div class="note">Demo trades are simulated with a regulated 4% win / 2% loss model and one-time X2 recovery; this does not guarantee real-market results. Public market data is used when available; authenticated Deriv access is required for actual account trading.</div>
- </div>
-</section>
-<div id="targetPopup" class="targetPopup" role="status" aria-live="polite"><button class="close" id="targetPopupClose" aria-label="Close">×</button><span id="targetPopupMessage"></span><span class="amount" id="targetPopupAmount"></span></div>
-<div class="footer">Jazzy Bot AI • Premium mobile trading dashboard</div>
+
 </div>
+
+
 <script>
-(()=> {
-'use strict';
-const $=id=>document.getElementById(id);
-const S={balance:2707.02,profit:0,trades:0,wins:0,losses:0,running:false,recovery:false,stake:.5,profitTarget:0,stopLoss:0,entryThreshold:50,recoveryThreshold:65,winReturn:.04,lossRisk:.02,lossStreak:0,market:'crypto',sound:false,prices:{crypto:[],forex:[],gold:[]},price:{crypto:null,forex:null,gold:null},scanning:false,scanTimer:null,settleTimer:null,ws:null,history:[],popupTimer:null,symbols:{crypto:'cryBTCUSD',forex:'frxEURUSD',gold:'frxXAUUSD'},display:{crypto:'BTC/USD',forex:'EUR/USD',gold:'XAU/USD'}};
-function money(x){return '€'+Number(x).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
-function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
-function feed(text,res='',cls='wait'){const e=document.createElement('div');e.className='feedrow '+cls;e.innerHTML='<span>'+now()+'</span><span>'+text+'</span><span>'+res+'</span>';$('feed').prepend(e);while($('feed').children.length>15)$('feed').lastChild.remove()}
-function renderHistory(){const wins=$('winHistory'),losses=$('lossHistory');wins.innerHTML='';losses.innerHTML='';let wh=S.history.filter(x=>x.win).slice(0,12),lh=S.history.filter(x=>!x.win).slice(0,12);if(!wh.length)wins.innerHTML='<div class="empty">No winning trades yet</div>';if(!lh.length)losses.innerHTML='<div class="empty">No losing trades yet</div>';wh.forEach(x=>wins.insertAdjacentHTML('beforeend','<div class="histrow"><span>'+x.time+'</span><span><span class="pill '+(x.dir==='CALL'?'buy':'sell')+'">'+(x.dir==='CALL'?'BUY':'SELL')+'</span> '+x.market+'</span><span class="pnlplus">+'+money(x.pnl)+'</span></div>'));lh.forEach(x=>losses.insertAdjacentHTML('beforeend','<div class="histrow"><span>'+x.time+'</span><span><span class="pill '+(x.dir==='CALL'?'buy':'sell')+'">'+(x.dir==='CALL'?'BUY':'SELL')+'</span> '+x.market+'</span><span class="pnlminus">-'+money(Math.abs(x.pnl))+'</span></div>'));$('historyWins').textContent=S.wins;$('historyLosses').textContent=S.losses}
-function stats(){$('balance').textContent=money(S.balance);$('profit').textContent=money(S.profit);$('profit').className='val '+(S.profit>=0?'green':'red');$('trades').textContent=S.trades;$('wins').textContent=S.wins;$('losses').textContent=S.losses;$('stakeView').textContent=money(S.stake);$('winrate').textContent=S.trades?((S.wins/S.trades)*100).toFixed(1)+'%':'0%';renderHistory()}
-function readInputs(){S.stake=Math.max(.5,Number($('stakeInput').value)||.5);S.entryThreshold=Math.max(1,Math.min(99,Number($('entryThreshold').value)||50));S.recoveryThreshold=Math.max(1,Math.min(99,Number($('recoveryThreshold').value)||65));$('stakeInput').value=S.stake.toFixed(2);$('entryThreshold').value=S.entryThreshold;$('recoveryThreshold').value=S.recoveryThreshold;$('entryRuleText').textContent=S.entryThreshold+'%';$('entryWaitText').textContent=S.entryThreshold+'%';$('recoveryRuleText').textContent=S.recoveryThreshold+'%';S.profitTarget=Math.max(0,Number($('profitTarget').value)||0);S.stopLoss=Math.max(0,Number($('stopLoss').value)||0);stats()}
-function update(m,p){if(!Number.isFinite(p))return;S.price[m]=p;let a=S.prices[m];a.push(p);if(a.length>50)a.shift();let ch=a.length>1?((p-a[Math.max(0,a.length-10)])/a[Math.max(0,a.length-10)])*100:0;$('cryptoPrice').textContent=m==='crypto'?p.toFixed(2):$('cryptoPrice').textContent;$('forexPrice').textContent=m==='forex'?p.toFixed(5):$('forexPrice').textContent;$('goldPrice').textContent=m==='gold'?p.toFixed(2):$('goldPrice').textContent;let ids={crypto:['cryptoChange','cryptoTrend'],forex:['forexChange','forexTrend'],gold:['goldChange','goldTrend']}[m];$(ids[0]).textContent=ch>=0?'UP '+ch.toFixed(3)+'%':'DOWN '+ch.toFixed(3)+'%';$(ids[0]).style.color=ch>=0?'var(--green)':'var(--red)';$(ids[1]).textContent=ch>.03?'UP':ch<-.03?'DOWN':'NEUTRAL';$(ids[1]).style.color=ch>.03?'var(--green)':ch<-.03?'var(--red)':'var(--yellow)';let s=ch>.03?'↑':ch<-.03?'↓':'↔';let target=m==='crypto'?'scanCrypto':m==='forex'?'scanForex':'scanGold';$(target).innerHTML=s+'<br>'+$(ids[1]).textContent}
-function fallback(){let base={crypto:65000,forex:1.17,gold:3650};setInterval(()=>Object.keys(base).forEach(m=>{let p=S.price[m]||base[m],v=m==='crypto'?.0018:m==='forex'?.00035:.0007;update(m,p*(1+(Math.random()-.49)*v))}),700)}
-function confidence(){let a=S.prices[S.market];if(a.length<5)return 50;let r=a.slice(-10),u=0,d=0;for(let i=1;i<r.length;i++){if(r[i]>r[i-1])u++;else if(r[i]<r[i-1])d++}let dir=Math.abs(u-d)/(r.length-1);return Math.round(Math.max(0,Math.min(98,50+dir*31+(Math.random()-.5)*12)))}
-function scan(done){if(S.scanning)return;S.scanning=true;let n=0,target=S.recovery?S.recoveryThreshold:S.entryThreshold;$('scanStatus').textContent='Scanning '+S.display[S.market]+'...';clearInterval(S.scanTimer);S.scanTimer=setInterval(()=>{n++;$('scanNum').textContent=n;let c=Math.round(50+(confidence()-50)*(n/10));$('confidence').textContent=c+'%';$('bar').style.width=c+'%';if(n>=10){clearInterval(S.scanTimer);S.scanning=false;let final=confidence();$('confidence').textContent=final+'%';$('bar').style.width=final+'%';let pass=final>=target;$('scanStatus').textContent=pass?'CONFIRMED • '+final+'% ≥ '+target+'%':'WAIT • '+final+'% < '+target+'%';feed((S.recovery?'Recovery':'Normal')+' scan',pass?'ENTRY':'WAIT',pass?'good':'wait');done(pass,final)}},90)}
-function showTargetPopup(type,amount){const p=$('targetPopup'),m=$('targetPopupMessage'),a=$('targetPopupAmount');p.className='targetPopup '+(type==='loss'?'loss':'');m.textContent=type==='profit'?'Congratulations! 🎉😊 Profit target reached':'Try again! 😢 Stop loss reached';a.textContent=(type==='profit'?'+':'-')+money(Math.abs(amount));requestAnimationFrame(()=>p.classList.add('show'));clearTimeout(S.popupTimer);S.popupTimer=setTimeout(()=>p.classList.remove('show'),7000)}
-function canContinue(){if(S.profitTarget>0&&S.profit>=S.profitTarget){showTargetPopup('profit',S.profit);feed('Congratulations! 🎉😊 Profit target reached','+'+money(S.profit),'good');stop();return false}if(S.stopLoss>0&&S.profit<=-S.stopLoss){showTargetPopup('loss',S.profit);feed('Try again! 😢 Stop loss reached','-'+money(Math.abs(S.profit)),'bad');stop();return false}if(S.balance<.5){feed('Balance below minimum stake','STOP','bad');stop();return false}return true}
-function decide(){if(!S.running||S.scanning||!canContinue())return;scan((pass,c)=>{if(!S.running)return;if(pass)enter(c);else setTimeout(decide,800)})}
-function enter(c){let amount=S.recovery?S.stake*2:S.stake;if(amount>S.balance)amount=S.balance;if(amount<.5){stop();return}/* Capital guard: recovery is allowed only when the account can comfortably cover it. */if(S.recovery&&S.balance<amount*3){S.recovery=false;feed('Capital guard • recovery reduced to base stake','SAFE','wait');amount=Math.min(S.stake,S.balance)}let a=S.prices[S.market],dir=a.length>1&&a[a.length-1]<a[a.length-2]?'PUT':'CALL';feed((S.recovery?'RECOVERY X2':'ENTRY')+' • '+S.display[S.market]+' • '+dir+' • '+c+'%','BUY','good');if($('alarmEntry').checked)alarm();clearTimeout(S.settleTimer);S.settleTimer=setTimeout(()=>settle(amount,dir),650)}
-function settle(amount,dir){if(!S.running)return;let m=S.market,a=S.prices[m],before=a.length?a[a.length-1]:0;setTimeout(()=>{let after=S.price[m]||before,natural=dir==='CALL'?after>=before:after<=before;/* Demo capital-regulation model: higher simulated hit rate plus 4% win / 2% loss impact. This is not a guarantee of real-market performance. */let win=natural?Math.random()<.86:Math.random()<.24;S.trades++;if(win){let gain=amount*S.winReturn;S.balance+=gain;S.profit+=gain;S.wins++;S.lossStreak=0;S.recovery=false;S.history.unshift({time:now(),market:S.display[m],dir,pnl:gain,win:true});feed('Trade settled • '+S.display[m],'+'+money(gain),'good');if($('alarmWin').checked)alarm()}else{let loss=amount*S.lossRisk;S.balance-=loss;S.profit-=loss;S.losses++;S.lossStreak++;/* One X2 recovery only; never compound into X4/X8 after repeated losses. */if(S.recovery){S.recovery=false;feed('Recovery loss • base stake restored','RESET','bad')}else{S.recovery=true}S.history.unshift({time:now(),market:S.display[m],dir,pnl:-loss,win:false});feed('Trade settled • '+S.display[m],'-'+money(loss),'bad');if($('alarmLoss').checked)alarm()}stats();/* Auto-close/stop immediately when the configured Take Profit or Stop Loss is hit. */if(!canContinue())return;if(S.running)setTimeout(decide,S.lossStreak>=2?350:120)},260)}
-function start(){if(S.running)return;readInputs();S.running=true;$('start').disabled=true;$('stop').disabled=false;feed('Bot started • '+(S.recovery?'Recovery X2':'Normal')+' • Stake '+money(S.stake),'READY','good');decide()}
-function stop(){S.running=false;$('start').disabled=false;$('stop').disabled=true;clearInterval(S.scanTimer);clearTimeout(S.settleTimer);S.scanning=false;$('scanStatus').textContent='Stopped';$('confidence').textContent='0%';$('bar').style.width='0%';stats()}
-function connect(){try{let w=new WebSocket('wss://api.derivws.com/trading/v1/options/ws/public');S.ws=w;w.onopen=()=>{$('dataDot').classList.add('on');$('dataStatus').textContent='Deriv public data connected';Object.values(S.symbols).forEach(symbol=>w.send(JSON.stringify({ticks:symbol,subscribe:1})))};w.onmessage=e=>{try{let d=JSON.parse(e.data);if(d.tick){let m=Object.keys(S.symbols).find(k=>S.symbols[k]===d.tick.symbol);if(m)update(m,Number(d.tick.quote))}}catch(_){}};w.onerror=()=>{$('dataStatus').textContent='Public data unavailable • local fallback active'};w.onclose=()=>{$('dataStatus').textContent='Disconnected • local fallback active'}}catch(_){$('dataStatus').textContent='Local fallback active'}}
-let audioCtx=null;function alarm(){if(!S.sound)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(880,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(520,audioCtx.currentTime+.35);g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.18,audioCtx.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.45);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+.46)}catch(e){}}
-$('targetPopupClose').onclick=()=>{clearTimeout(S.popupTimer);$('targetPopup').classList.remove('show')};$('refresh').onclick=()=>location.reload();$('start').onclick=start;$('stop').onclick=stop;['stakeInput','profitTarget','stopLoss','entryThreshold','recoveryThreshold'].forEach(id=>$(id).onchange=readInputs);$('market').onchange=e=>{S.market=e.target.value;feed('Market selected • '+S.display[S.market],'INFO','wait')};$('accountTop').onchange=e=>{$('account').value=e.target.value;$('accountHint').textContent=e.target.value==='real'?'Authentication required':'Not authenticated'};$('connectAccount').onclick=()=>{$('accountHint').textContent='Connect through Deriv OAuth/API';feed(($('accountTop').value==='real'?'Real':'Demo')+' account connection requested','AUTH','wait')};$('account').onchange=e=>{$('accountTop').value=e.target.value};$('sound').onclick=()=>{S.sound=!S.sound;$('sound').textContent=S.sound?'🔔 Alarm: ON':'🔔 Alarm: OFF';if(S.sound){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()}};$('testAlarm').onclick=()=>{S.sound=true;$('sound').textContent='🔔 Alarm: ON';audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();alarm()};$('alarmEntry').onchange=e=>{if(e.target.checked)S.sound=true};$('alarmWin').onchange=e=>{if(e.target.checked)S       
+ 'use strict';
+
+/*
+  JAZZY BOT AI
+  ----------------------------------------------------
+  Public Deriv market-data connection:
+  wss://api.derivws.com/trading/v1/options/ws/public
+
+  This version reads public market ticks.
+
+  It does NOT claim to be authenticated for Demo/Real
+  trading. Actual account trading requires an
+  authenticated Deriv WebSocket connection.
+*/
+
+
+const $ = id => document.getElementById(id);
+
+
+/* ====================================================
+   CONFIGURATION
+==================================================== */
+
+const DERIV_PUBLIC_WS =
+  'wss://api.derivws.com/trading/v1/options/ws/public';
+
+
+const S = {
+
+  ws: null,
+
+  wsConnected: false,
+
+  reconnectTimer: null,
+
+  reconnecting: false,
+
+  botRunning: false,
+
+  sound: false,
+
+  market: 'crypto',
+
+  recovery: false,
+
+  tradeOpen: false,
+
+  tradeTimer: null,
+
+  scanTimer: null,
+
+  balance: 200,
+
+  totalProfit: 0,
+
+  trades: 0,
+
+  wins: 0,
+
+  losses: 0,
+
+  stake: 0.50,
+
+  profitTarget: 4,
+
+  stopLoss: 2,
+
+  entryThreshold: 50,
+
+  recoveryThreshold: 63,
+
+  symbols: {
+    crypto: 'cryBTCUSD',
+    forex: 'frxEURUSD',
+    gold: 'frxXAUUSD'
+  },
+
+  display: {
+    crypto: 'BTC/USD',
+    forex: 'EUR/USD',
+    gold: 'XAU/USD'
+  },
+
+  prices: {
+    crypto: null,
+    forex: null,
+    gold: null
+  },
+
+  previousPrices: {
+    crypto: null,
+    forex: null,
+    gold: null
+  },
+
+  history: [],
+
+  ticks: {
+    crypto: [],
+    forex: [],
+    gold: []
+  }
+
+};
+
+
+/* ====================================================
+   FORMATTERS
+==================================================== */
+
+function money(value){
+
+  const n = Number(value) || 0;
+
+  return '$' + n.toFixed(2);
+
+}
+
+
+function price(value, market){
+
+  if(value === null || value === undefined || !Number.isFinite(Number(value))){
+    return '—';
+  }
+
+  const n = Number(value);
+
+  if(market === 'forex'){
+    return n.toFixed(5);
+  }
+
+  if(market === 'gold'){
+    return n.toFixed(2);
+  }
+
+  return n.toFixed(2);
+
+}
+
+
+function now(){
+
+  return new Date().toLocaleTimeString([],{
+    hour:'2-digit',
+    minute:'2-digit',
+    second:'2-digit'
+  });
+
+}
+
+
+/* ====================================================
+   FEED
+==================================================== */
+
+function feed(message,type='INFO',tone='info'){
+
+  const box = $('feed');
+
+  if(!box) return;
+
+  const item = document.createElement('div');
+
+  item.className = 'feed-item';
+
+  const safeType =
+    String(type).toUpperCase();
+
+  const toneClass =
+    tone === 'error'
+      ? 'feed-error'
+      : tone === 'warn'
+        ? 'feed-warn'
+        : tone === 'ok'
+          ? 'feed-ok'
+          : 'feed-info';
+
+  item.innerHTML =
+    '<span class="feed-time">' +
+    now() +
+    '</span>' +
+    '<span class="feed-type ' +
+    toneClass +
+    '">' +
+    safeType +
+    '</span>' +
+    String(message);
+
+  box.prepend(item);
+
+  while(box.children.length > 80){
+    box.removeChild(box.lastChild);
+  }
+
+}
+
+
+/* ====================================================
+   STATUS
+==================================================== */
+
+function setConnectionStatus(text,state){
+
+  const status = $('dataStatus');
+
+  if(status){
+    status.textContent = text;
+    status.classList.remove('live');
+    status.classList.remove('recovery');
+
+    if(state === 'live'){
+      status.classList.add('live');
+    }
+  }
+
+}
+
+
+function setMarketState(market,text,live=false){
+
+  const id = market + 'State';
+
+  const el = $(id);
+
+  if(!el) return;
+
+  el.textContent = text;
+
+  el.classList.remove('live');
+  el.classList.remove('recovery');
+
+  if(live){
+    el.classList.add('live');
+  }
+
+}
+
+
+/* ====================================================
+   INPUTS
+==================================================== */
+
+function readInputs(){
+
+  let stake =
+    Number($('stakeInput').value);
+
+  let normal =
+    Number($('entryThreshold').value);
+
+  let recovery =
+    Number($('recoveryThreshold').value);
+
+  let profit =
+    Number($('profitTarget').value);
+
+  let loss =
+    Number($('stopLoss').value);
+
+
+  if(!Number.isFinite(stake) || stake < 0.50){
+    stake = 0.50;
+  }
+
+  if(!Number.isFinite(normal)){
+    normal = 50;
+  }
+
+  if(!Number.isFinite(recovery)){
+    recovery = 63;
+  }
+
+  if(!Number.isFinite(profit) || profit < 0){
+    profit = 4;
+  }
+
+  if(!Number.isFinite(loss) || loss < 0){
+    loss = 2;
+  }
+
+
+  normal =
+    Math.max(1,Math.min(99,normal));
+
+  recovery =
+    Math.max(1,Math.min(99,recovery));
+
+
+  $('stakeInput').value = stake.toFixed(2);
+  $('entryThreshold').value = normal;
+  $('recoveryThreshold').value = recovery;
+  $('profitTarget').value = profit;
+  $('stopLoss').value = loss;
+
+
+  S.stake = stake;
+  S.entryThreshold = normal;
+  S.recoveryThreshold = recovery;
+  S.profitTarget = profit;
+  S.stopLoss = loss;
+
+
+  $('normalStatus').textContent = normal + '%';
+  $('recoveryStatus').textContent = recovery + '%';
+
+  $('scannerNormal').textContent =
+    normal + '%+';
+
+  $('scannerRecovery').textContent =
+    recovery + '%+';
+
+  $('stakeDisplay').textContent =
+    money(stake);
+
+}
+
+
+/* ====================================================
+   UI STATS
+==================================================== */
+
+function updateStats(){
+
+  $('balance').textContent =
+    money(S.balance);
+
+  $('totalProfit').textContent =
+    money(S.totalProfit);
+
+  $('totalTrades').textContent =
+    S.trades;
+
+  $('wins').textContent =
+    S.wins;
+
+  $('losses').textContent =
+    S.losses;
+
+  const rate =
+    S.trades > 0
+      ? (S.wins / S.trades) * 100
+      : 0;
+
+  $('winRate').textContent =
+    rate.toFixed(1) + '%';
+
+  $('stakeDisplay').textContent =
+    money(S.stake);
+
+  $('historyCount').textContent =
+    S.trades +
+    (S.trades === 1 ? ' trade' : ' trades');
+
+
+  if(S.trades > 0){
+
+    const last =
+      S.history[0];
+
+    if(last){
+
+      $('lastResult').textContent =
+        last.result;
+
+      $('lastResultAmount').textContent =
+        money(last.pnl);
+
+      $('lastResult').classList.remove('green');
+      $('lastResult').classList.remove('red');
+
+      if(last.pnl >= 0){
+        $('lastResult').classList.add('green');
+      }else{
+        $('lastResult').classList.add('red');
+      }
+
+    }
+
+  }
+
+
+  $('balanceMode').textContent =
+    $('accountTop').value === 'real'
+      ? 'Real account selected'
+      : 'Demo engine';
+
+}
+
+
+/* ====================================================
+   MARKET PRICE UI
+==================================================== */
+
+function updateMarketCard(market){
+
+  const p =
+    S.prices[market];
+
+  if(p === null) return;
+
+
+  const priceEl =
+    $(market + 'Price');
+
+  const changeEl =
+    $(market + 'Change');
+
+
+  if(priceEl){
+    priceEl.textContent =
+      price(p,market);
+  }
+
+
+  const old =
+    S.previousPrices[market];
+
+
+  if(changeEl){
+
+    if(old === null){
+
+      changeEl.textContent =
+        'Live price received';
+
+      changeEl.className =
+        'market-change green';
+
+    }else{
+
+      const difference =
+        p - old;
+
+      if(difference > 0){
+
+        changeEl.textContent =
+          '▲ ' + difference.toFixed(
+            market === 'forex' ? 5 : 2
+          );
+
+        changeEl.className =
+          'market-change green';
+
+      }else if(difference < 0){
+
+        changeEl.textContent =
+          '▼ ' + Math.abs(difference).toFixed(
+            market === 'forex' ? 5 : 2
+          );
+
+        changeEl.className =
+          'market-change red';
+
+      }else{
+
+        changeEl.textContent =
+          'No change';
+
+        changeEl.className =
+          'market-change';
+
+      }
+
+    }
+
+  }
+
+}
+
+
+/* ====================================================
+   MANUAL / LIVE CURRENT PRICE
+==================================================== */
+
+function setCurrentPriceUI(){
+
+  const p =
+    S.prices[S.market];
+
+  if(p === null) return;
+
+
+  const manual =
+    $('manualPrice').checked;
+
+
+  if(!manual){
+
+    $('currentPrice').value =
+      String(p);
+
+  }
+
+
+  $('scannerPrice').textContent =
+    price(p,S.market);
+
+  $('scannerMarket').textContent =
+    S.display[S.market];
+
+}
+
+
+/* ====================================================
+   TICK HANDLING
+==================================================== */
+
+function updateMarketFromTick(symbol,quote){
+
+  const market =
+    Object.keys(S.symbols)
+      .find(key => S.symbols[key] === symbol);
+
+
+  if(!market) return;
+
+
+  const value =
+    Number(quote);
+
+
+  if(!Number.isFinite(value)) return;
+
+
+  S.previousPrices[market] =
+    S.prices[market];
+
+
+  S.prices[market] =
+    value;
+
+
+  S.ticks[market].push(value);
+
+
+  if(S.ticks[market].length > 120){
+    S.ticks[market].shift();
+  }
+
+
+  updateMarketCard(market);
+
+
+  if(market === S.market){
+
+    setCurrentPriceUI();
+
+    runScanner();
+
+  }
+
+
+  $('marketTime').textContent =
+    'Last tick: ' + now();
+
+}
+
+
+/* ====================================================
+   DERIV PUBLIC CONNECTION
+==================================================== */
+
+function connect(){
+
+  if(
+    S.ws &&
+    (
+      S.ws.readyState === WebSocket.OPEN ||
+      S.ws.readyState === WebSocket.CONNECTING
+    )
+  ){
+    return;
+  }
+
+
+  setConnectionStatus(
+    'Connecting to Deriv public market data...',
+    'wait'
+  );
+
+
+  feed(
+    'Opening Deriv public market-data connection',
+    'DATA',
+    'info'
+  );
+
+
+  let ws;
+
+
+  try{
+
+    ws =
+      new WebSocket(DERIV_PUBLIC_WS);
+
+  }catch(error){
+
+    setConnectionStatus(
+      'WebSocket unavailable',
+      'bad'
+    );
+
+    feed(
+      'Could not create WebSocket connection',
+      'ERROR',
+      'error'
+    );
+
+    scheduleReconnect();
+
+    return;
+
+  }
+
+
+  S.ws = ws;
+
+
+  ws.onopen = function(){
+
+    S.wsConnected = true;
+    S.reconnecting = false;
+
+
+    setConnectionStatus(
+      'Deriv public market data connected',
+      'live'
+    );
+
+
+    feed(
+      'Deriv market-data connection established',
+      'CONNECTED',
+      'ok'
+    );
+
+
+    /*
+      Ask Deriv for currently active symbols.
+      This is public market data and needs no login.
+    */
+
+    try{
+
+      ws.send(JSON.stringify({
+        active_symbols:'brief',
+        product_type:'basic',
+        req_id:1
+      }));
+
+
+      /*
+        Subscribe to our three requested markets.
+      */
+
+      Object.values(S.symbols).forEach(
+        function(symbol,index){
+
+          ws.send(JSON.stringify({
+            ticks:symbol,
+            subscribe:1,
+            req_id:10 + index
+          }));
+
+        }
+      );
+
+
+      feed(
+        'Subscribed to BTC/USD, EUR/USD and XAU/USD',
+        'DATA',
+        'ok'
+      );
+
+    }catch(error){
+
+      feed(
+        'Subscription request failed',
+        'ERROR',
+        'error'
+      );
+
+    }
+
+  };
+
+
+  ws.onmessage = function(event){
+
+    let data;
+
+    try{
+
+      data =
+        JSON.parse(event.data);
+
+    }catch(error){
+
+      return;
+
+    }
+
+
+    /*
+      Current Deriv tick response.
+    */
+
+    if(data.msg_type === 'tick' && data.tick){
+
+      updateMarketFromTick(
+        data.tick.symbol,
+        data.tick.quote
+      );
+
+      return;
+
+    }
+
+
+    /*
+      Active-symbol response.
+    */
+
+    if(data.msg_type === 'active_symbols'){
+
+      feed(
+        'Deriv returned active market symbols',
+        'SYMBOLS',
+        'ok'
+      );
+
+      return;
+
+    }
+
+
+    /*
+      API error response.
+    */
+
+    if(data.error){
+
+      const message =
+        data.error.message ||
+        'Deriv returned an API error';
+
+      feed(
+        message,
+        'DERIV ERROR',
+        'error'
+      );
+
+      return;
+
+    }
+
+  };
+
+
+  ws.onerror = function(){
+
+    S.wsConnected = false;
+
+
+    setConnectionStatus(
+      'Deriv market-data connection error',
+      'bad'
+    );
+
+
+    feed(
+      'Market-data WebSocket error',
+      'ERROR',
+      'error'
+    );
+
+  };
+
+
+  ws.onclose = function(){
+
+    S.wsConnected = false;
+
+
+    setConnectionStatus(
+      'Market data disconnected — reconnecting...',
+      'bad'
+    );
+
+
+    feed(
+      'Deriv market-data connection closed',
+      'DATA',
+      'warn'
+    );
+
+
+    scheduleReconnect();
+
+  };
+
+}
+
+
+/* ====================================================
+   RECONNECT
+==================================================== */
+
+function scheduleReconnect(){
+
+  if(S.reconnectTimer){
+    return;
+  }
+
+
+  S.reconnectTimer =
+    setTimeout(function(){
+
+      S.reconnectTimer = null;
+
+      connect();
+
+    },5000);
+
+}
+
+
+/* ====================================================
+   CONFIDENCE CALCULATION
+==================================================== */
+
+function calculateConfidence(market){
+
+  const values =
+    S.ticks[market];
+
+
+  /*
+    Do not manufacture a signal before we have
+    actual market ticks.
+  */
+
+  if(!values || values.length < 5){
+
+    return null;
+
+  }
+
+
+  const recent =
+    values.slice(-20);
+
+
+  const first =
+    recent[0];
+
+  const last =
+    recent[recent.length - 1];
+
+
+  if(
+    !Number.isFinite(first) ||
+    !Number.isFinite(last) ||
+    first <= 0
+  ){
+
+    return null;
+
+  }
+
+
+  /*
+    Direction.
+  */
+
+  const direction =
+    last >= first ? 1 : -1;
+
+
+  /*
+    Momentum.
+  */
+
+  const move =
+    Math.abs(last - first) / first;
+
+
+  const momentum =
+    Math.min(1,move * 5000);
+
+
+  /*
+    Short-term trend.
+  */
+
+  let up = 0;
+  let down = 0;
+
+
+  for(let i=1;i<recent.length;i++){
+
+    if(recent[i] > recent[i-1]){
+      up++;
+    }else if(recent[i] < recent[i-1]){
+      down++;
+    }
+
+  }
+
+
+  const total =
+    Math.max(1,up + down);
+
+
+  const trend =
+    direction > 0
+      ? up / total
+      : down / total;
+
+
+  /*
+    Confidence starts at 50 and adjusts using
+    actual observed tick direction/momentum.
+  */
+
+  let confidence =
+    50 +
+    (trend - 0.5) * 40 +
+    momentum * 12;
+
+
+  confidence =
+    Math.max(0,Math.min(95,confidence));
+
+
+  return Math.round(confidence);
+
+}
+
+
+/* ====================================================
+   SCANNER
+==================================================== */
+
+function runScanner(){
+
+  const market =
+    S.market;
+
+
+  const confidence =
+    calculateConfidence(market);
+
+
+  if(confidence === null){
+
+    $('confidence').textContent =
+      '0%';
+
+    $('confidenceBar').style.width =
+      '0%';
+
+    $('signal').textContent =
+      'WAIT';
+
+    $('scannerState').textContent =
+      'Waiting for enough live ticks';
+
+    return;
+
+  }
+
+
+  $('confidence').textContent =
+    confidence + '%';
+
+
+  $('confidenceBar').style.width =
+    confidence + '%';
+
+
+  $('scannerState').textContent =
+    'Live scanner';
+
+
+  const threshold =
+    S.recovery
+      ? S.recoveryThreshold
+      : S.entryThreshold;
+
+
+  if(confidence >= threshold){
+
+    $('signal').textContent =
+      S.recovery
+        ? 'RECOVERY ENTRY'
+        : 'ENTRY';
+
+    $('signal').className =
+      'green';
+
+  }else{
+
+    $('signal').textContent =
+      'WAIT';
+
+    $('signal').className =
+      '';
+
+  }
+
+
+  $('scannerBotState').textContent =
+    S.botRunning
+      ? 'RUNNING'
+      : 'STOPPED';
+
+
+  $('scannerRecoveryState').textContent =
+    S.recovery
+      ? 'YES'
+      : 'NO';
+
+}
+
+
+/* ====================================================
+   SCAN BUTTON
+==================================================== */
+
+function manualScan(){
+
+  readInputs();
+
+  runScanner();
+
+  const confidence =
+    calculateConfidence(S.market);
+
+
+  if(confidence === null){
+
+    feed(
+      'Scanner is waiting for more live Deriv ticks',
+      'SCAN',
+      'warn'
+    );
+
+    return;
+
+  }
+
+
+  const threshold =
+    S.recovery
+      ? S.recoveryThreshold
+      : S.entryThreshold;
+
+
+  if(confidence >= threshold){
+
+    feed(
+      (
+        S.recovery
+          ? 'Recovery signal'
+          : 'Normal entry signal'
+      ) +
+      ' detected at ' +
+      confidence +
+      '%',
+      'SIGNAL',
+      'ok'
+    );
+
+  }else{
+
+    feed(
+      'No entry: ' +
+      confidence +
+      '% is below ' +
+      threshold +
+      '%',
+      'SCAN',
+      'warn'
+    );
+
+  }
+
+}
+
+
+/* ====================================================
+   START BOT
+==================================================== */
+
+function start(){
+
+  readInputs();
+
+
+  if(S.botRunning){
+    return;
+  }
+
+
+  /*
+    Require an actual market-data connection and price.
+  */
+
+  const p =
+    S.prices[S.market];
+
+
+  if(!S.wsConnected || p === null){
+
+    feed(
+      'Bot cannot start yet. Waiting for live Deriv market data.',
+      'BOT',
+      'warn'
+    );
+
+
+    $('botStatus').textContent =
+      'Waiting for Market Data';
+
+
+    return;
+
+  }
+
+
+  S.botRunning = true;
+
+
+  $('botStatus').textContent =
+    'Bot Running';
+
+
+  $('botStatus').classList.add('live');
+
+
+  $('scannerBotState').textContent =
+    'RUNNING';
+
+
+  feed(
+    'Bot started on ' +
+    S.display[S.market] +
+    ' • Normal entry ' +
+    S.entryThreshold +
+    '%+ • Recovery ' +
+    S.recoveryThreshold +
+    '%+',
+    'BOT',
+    'ok'
+  );
+
+
+  clearInterval(S.scanTimer);
+
+
+  S.scanTimer =
+    setInterval(function(){
+
+      botCycle();
+
+    },3000);
+
+
+  botCycle();
+
+}
+
+
+/* ====================================================
+   STOP BOT
+==================================================== */
+
+function stop(){
+
+  S.botRunning = false;
+
+
+  clearInterval(S.scanTimer);
+
+  S.scanTimer = null;
+
+
+  if(S.tradeTimer){
+
+    clearTimeout(S.tradeTimer);
+
+    S.tradeTimer = null;
+
+  }
+
+
+  $('botStatus').textContent =
+    'Bot Stopped';
+
+
+  $('botStatus').classList.remove('live');
+
+
+  $('scannerBotState').textContent =
+    'STOPPED';
+
+
+  feed(
+    'Bot stopped',
+    'BOT',
+    'warn'
+  );
+
+}
+
+
+/* ====================================================
+   BOT CYCLE
+==================================================== */
+
+function botCycle(){
+
+  if(!S.botRunning){
+    return;
+  }
+
+
+  if(S.tradeOpen){
+    return;
+  }
+
+
+  const confidence =
+    calculateConfidence(S.market);
+
+
+  if(confidence === null){
+    return;
+  }
+
+
+  const threshold =
+    S.recovery
+      ? S.recoveryThreshold
+      : S.entryThreshold;
+
+
+  $('confidence').textContent =
+    confidence + '%';
+
+
+  $('confidenceBar').style.width =
+    confidence + '%';
+
+
+  if(confidence < threshold){
+
+    $('signal').textContent =
+      'WAIT';
+
+
+    $('scannerState').textContent =
+      S.recovery
+        ? 'Waiting for recovery entry'
+        : 'Waiting for normal entry';
+
+
+    return;
+
+  }
+
+
+  openDemoTrade(confidence);
+
+}
+
+
+/* ====================================================
+   DEMO ENGINE TRADE
+==================================================== */
+
+function openDemoTrade(confidence){
+
+  if(S.tradeOpen){
+    return;
+  }
+
+
+  const market =
+    S.market;
+
+
+  const current =
+    S.prices[market];
+
+
+  if(current === null){
+    return;
+  }
+
+
+  S.tradeOpen = true;
+
+
+  const recoveryTrade =
+    S.recovery;
+
+
+  $('signal').textContent =
+    recoveryTrade
+      ? 'RECOVERY ACTIVE'
+      : 'ENTRY ACTIVE';
+
+
+  $('scannerState').textContent =
+    recoveryTrade
+      ? 'Recovery trade running'
+      : 'Trade running';
+
+
+  feed(
+    (
+      recoveryTrade
+        ? 'Recovery trade opened'
+        : 'Demo trade opened'
+    ) +
+    ' • ' +
+    S.display[market] +
+    ' • ' +
+    confidence +
+    '% confidence • ' +
+    money(S.stake),
+    'TRADE',
+    'ok'
+  );
+
+
+  /*
+    This is a dashboard/demo settlement model.
+    It does not place a Deriv account trade.
+  */
+
+  const strongSignal =
+    confidence >= thresholdForCurrentMode();
+
+
+  const probability =
+    strongSignal
+      ? 0.72
+      : 0.50;
+
+
+  const win =
+    Math.random() < probability;
+
+
+  S.tradeTimer =
+    setTimeout(function(){
+
+      settleDemoTrade({
+        market,
+        price:current,
+        confidence,
+        recovery:recoveryTrade,
+        win
+      });
+
+    },5000);
+
+}
+
+
+/* ====================================================
+   CURRENT THRESHOLD
+==================================================== */
+
+function thresholdForCurrentMode(){
+
+  return S.recovery
+    ? S.recoveryThreshold
+    : S.entryThreshold;
+
+}
+
+
+/* ====================================================
+   SETTLE DEMO TRADE
+==================================================== */
+
+function settleDemoTrade(trade){
+
+  S.tradeOpen = false;
+
+  S.tradeTimer = null;
+
+
+  let pnl;
+
+
+  if(trade.win){
+
+    /*
+      Profit amount can be edited from the dashboard.
+    */
+
+    pnl =
+      Math.max(
+        0,
+        Math.min(
+          S.profitTarget,
+          25
+        )
+      );
+
+
+    S.wins++;
+
+
+    $('lastResult').textContent =
+      'WIN';
+
+
+    $('lastResult').className =
+      'card-value green';
+
+
+    $('lastResultAmount').textContent =
+      '+' + money(pnl);
+
+
+    feed(
+      'WIN • +' +
+      money(pnl),
+      'RESULT',
+      'ok'
+    );
+
+
+    /*
+      Recovery finished after a win.
+    */
+
+    if(S.recovery){
+
+      S.recovery = false;
+
+      updateRecoveryUI();
+
+
+      feed(
+        'Recovery completed • returning to Normal Mode',
+        'RECOVERY',
+        'ok'
+      );
+
+    }
+
+  }else{
+
+    pnl =
+      -Math.max(
+        0,
+        Math.min(
+          S.stopLoss,
+          4
+        )
+      );
+
+
+    S.losses++;
+
+
+    $('lastResult').textContent =
+      'LOSS';
+
+
+    $('lastResult').className =
+      'card-value red';
+
+
+    $('lastResultAmount').textContent =
+      money(pnl);
+
+
+    feed(
+      'LOSS • ' +
+      money(pnl),
+      'RESULT',
+      'error'
+    );
+
+
+    /*
+      X2 recovery state becomes active after a loss.
+    */
+
+    if(!S.recovery){
+
+      S.recovery = true;
+
+
+      updateRecoveryUI();
+
+
+      feed(
+        'Recovery mode activated • waiting for ' +
+        S.recoveryThreshold +
+        '%+ confidence',
+        'RECOVERY',
+        'warn'
+      );
+
+    }else{
+
+      /*
+        After a recovery loss, remain in recovery
+        rather than silently pretending recovery succeeded.
+      */
+
+      feed(
+        'Recovery trade lost • recovery remains active',
+        'RECOVERY',
+        'warn'
+      );
+
+    }
+
+  }
+
+
+  S.trades++;
+
+
+  S.totalProfit += pnl;
+
+  S.balance += pnl;
+
+
+  S.history.unshift({
+
+    time:now(),
+
+    market:S.display[trade.market],
+
+    price:trade.price,
+
+    confidence:trade.confidence,
+
+    mode:trade.recovery
+      ? 'Recovery'
+      : 'Normal',
+
+    result:trade.win
+      ? 'WIN'
+      : 'LOSS',
+
+    pnl:pnl
+
+  });
+
+
+  while(S.history.length > 50){
+    S.history.pop();
+  }
+
+
+  renderHistory();
+
+  updateStats();
+
+  runScanner();
+
+
+  if(S.botRunning){
+
+    $('scannerState').textContent =
+      S.recovery
+        ? 'Recovery mode'
+        : 'Normal mode';
+
+  }
+
+}
+
+
+/* ====================================================
+   RECOVERY UI
+==================================================== */
+
+function updateRecoveryUI(){
+
+  const pill =
+    $('recoveryPill');
+
+
+  if(S.recovery){
+
+    pill.textContent =
+      'Recovery X2 Mode';
+
+    pill.classList.add('recovery');
+
+
+    $('scannerRecoveryState').textContent =
+      'YES';
+
+
+  }else{
+
+    pill.textContent =
+      'Normal Mode';
+
+    pill.classList.remove('recovery');
+
+
+    $('scannerRecoveryState').textContent =
+      'NO';
+
+  }
+
+
+  runScanner();
+
+}
+
+
+/* ====================================================
+   HISTORY
+==================================================== */
+
+function renderHistory(){
+
+  const body =
+    $('historyBody');
+
+
+  if(!body) return;
+
+
+  body.innerHTML = '';
+
+
+  if(S.history.length === 0){
+
+    const row =
+      document.createElement('tr');
+
+    row.innerHTML =
+      '<td colspan="7">No trades yet.</td>';
+
+    body.appendChild(row);
+
+    return;
+
+  }
+
+
+  S.history.forEach(function(item){
+
+    const row =
+      document.createElement('tr');
+
+
+    const resultClass =
+      item.result === 'WIN'
+        ? 'green'
+        : 'red';
+
+
+    row.innerHTML =
+      '<td>' + item.time + '</td>' +
+      '<td>' + item.market + '</td>' +
+      '<td>' + price(item.price,S.market) + '</td>' +
+      '<td>' + item.confidence + '%</td>' +
+      '<td>' + item.mode + '</td>' +
+      '<td class="' + resultClass + '">' +
+        item.result +
+      '</td>' +
+      '<td class="' + resultClass + '">' +
+        (item.pnl >= 0 ? '+' : '') +
+        money(item.pnl) +
+      '</td>';
+
+
+    body.appendChild(row);
+
+  });
+
+}
+
+
+/* ====================================================
+   ALARM
+==================================================== */
+
+let audioCtx = null;
+
+
+function alarm(){
+
+  if(!S.sound){
+    return;
+  }
+
+
+  try{
+
+    audioCtx =
+      audioCtx ||
+      new(
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+
+    const oscillator =
+      audioCtx.createOscillator();
+
+    const gain =
+      audioCtx.createGain();
+
+
+    oscillator.type =
+      'sine';
+
+
+    oscillator.frequency.setValueAtTime(
+      880,
+      audioCtx.currentTime
+    );
+
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+      520,
+      audioCtx.currentTime + 0.35
+    );
+
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      audioCtx.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.18,
+      audioCtx.currentTime + 0.02
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioCtx.currentTime + 0.45
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(audioCtx.destination);
+
+
+    oscillator.start();
+
+    oscillator.stop(
+      audioCtx.currentTime + 0.46
+    );
+
+  }catch(error){}
+
+}
+
+
+/* ====================================================
+   EVENT LISTENERS
+==================================================== */
+
+
+/*
+  Settings.
+*/
+
+[
+  'stakeInput',
+  'profitTarget',
+  'stopLoss',
+  'entryThreshold',
+  'recoveryThreshold'
+].forEach(function(id){
+
+  $(id).addEventListener(
+    'change',
+    function(){
+
+      readInputs();
+
+      feed(
+        'Trading settings updated',
+        'SETTINGS',
+        'info'
+      );
+
+      runScanner();
+
+    }
+  );
+
+});
+
+
+/*
+  Market selection.
+*/
+
+$('market').addEventListener(
+  'change',
+  function(event){
+
+    S.market =
+      event.target.value;
+
+
+    setCurrentPriceUI();
+
+    runScanner();
+
+
+    feed(
+      'Market selected • ' +
+      S.display[S.market],
+      'MARKET',
+      'info'
+    );
+
+  }
+);
+
+
+/*
+  Manual price.
+*/
+
+$('manualPrice').addEventListener(
+  'change',
+  function(){
+
+    if(this.checked){
+
+      feed(
+        'Manual price mode enabled',
+        'PRICE',
+        'warn'
+      );
+
+    }else{
+
+      feed(
+        'Live price mode enabled',
+        'PRICE',
+        'ok'
+      );
+
+      setCurrentPriceUI();
+
+    }
+
+  }
+);
+
+
+/*
+  Manual current-price change.
+*/
+
+$('currentPrice').addEventListener(
+  'change',
+  function(){
+
+    if(!$('manualPrice').checked){
+
+      setCurrentPriceUI();
+
+      return;
+
+    }
+
+
+    const value =
+      Number(this.value);
+
+
+    if(!Number.isFinite(value) || value <= 0){
+
+      feed(
+        'Invalid manual price',
+        'PRICE',
+        'error'
+      );
+
+      setCurrentPriceUI();
+
+      return;
+
+    }
+
+
+    S.prices[S.market] =
+      value;
+
+
+    $('scannerPrice').textContent =
+      price(value,S.market);
+
+
+    feed(
+      'Manual price applied • ' +
+      price(value,S.market),
+      'PRICE',
+      'warn'
+    );
+
+
+    runScanner();
+
+  }
+);
+
+
+/*
+  Start / stop.
+*/
+
+$('start').addEventListener(
+  'click',
+  start
+);
+
+
+$('stop').addEventListener(
+  'click',
+  stop
+);
+
+
+/*
+  Scan.
+*/
+
+$('scanNow').addEventListener(
+  'click',
+  manualScan
+);
+
+
+/*
+  Refresh.
+*/
+
+$('refresh').addEventListener(
+  'click',
+  function(){
+
+    location.reload();
+
+  }
+);
+
+
+/*
+  Sound.
+*/
+
+$('sound').addEventListener(
+  'click',
+  function(){
+
+    S.sound =
+      !S.sound;
+
+
+    this.textContent =
+      S.sound
+        ? '🔔 Alarm: ON'
+        : '🔔 Alarm: OFF';
+
+
+    if(S.sound){
+
+      audioCtx =
+        audioCtx ||
+        new(
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+
+      if(audioCtx.state === 'suspended'){
+        audioCtx.resume();
+      }
+
+
+      alarm();
+
+    }
+
+  }
+);
+
+
+/*
+  Test alarm.
+*/
+
+$('testAlarm').addEventListener(
+  'click',
+  function(){
+
+    S.sound = true;
+
+
+    $('sound').textContent =
+      '🔔 Alarm: ON';
+
+
+    audioCtx =
+      audioCtx ||
+      new(
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+
+    if(audioCtx.state === 'suspended'){
+      audioCtx.resume();
+    }
+
+
+    alarm();
+
+  }
+);
+
+
+/*
+  Account selector.
+*/
+
+$('accountTop').addEventListener(
+  'change',
+  function(){
+
+    const mode =
+      this.value;
+
+
+    $('balanceMode').textContent =
+      mode === 'real'
+        ? 'Real account selected'
+        : 'Demo engine';
+
+
+    feed(
+      (
+        mode === 'real'
+          ? 'Real account selected'
+          : 'Demo account selected'
+      ),
+      'ACCOUNT',
+      'info'
+    );
+
+  }
+);
+
+
+/*
+  Account connection button.
+
+  This does NOT fake authentication.
+  It simply tells the user that authenticated
+  Deriv account connection is a separate step.
+*/
+
+$('connectAccount').addEventListener(
+  'click',
+  function(){
+
+    const mode =
+      $('accountTop').value;
+
+
+    feed(
+      (
+        mode === 'real'
+          ? 'Real account authentication requested'
+          : 'Demo account authentication requested'
+      ) +
+      ' • OAuth/API authentication is required',
+      'AUTH',
+      'warn'
+    );
+
+
+    alert(
+      'Market data is connected separately. ' +
+      'Demo/Real account trading requires authenticated ' +
+      'Deriv OAuth/API access.'
+    );
+
+  }
+);
+
+
+/* ====================================================
+   INITIALIZE
+==================================================== */
+
+function initialize(){
+
+  readInputs();
+
+  updateStats();
+
+  renderHistory();
+
+  updateRecoveryUI();
+
+
+  $('scannerMarket').textContent =
+    S.display[S.market];
+
+
+  $('scannerNormal').textContent =
+    S.entryThreshold + '%+';
+
+
+  $('scannerRecovery').textContent =
+    S.recoveryThreshold + '%+';
+
+
+  $('scannerBotState').textContent =
+    'STOPPED';
+
+
+  $('signal').textContent =
+    'WAIT';
+
+
+  feed(
+    'Jazzy Bot AI initialized',
+    'SYSTEM',
+    'ok'
+  );
+
+
+  feed(
+    'Normal entry threshold: ' +
+    S.entryThreshold + '%+',
+    'SETTINGS',
+    'info'
+  );
+
+
+  feed(
+    'Recovery threshold: ' +
+    S.recoveryThreshold + '%+',
+    'SETTINGS',
+    'info'
+  );
+
+
+  /*
+    IMPORTANT:
+    Start the Deriv public market-data connection.
+  */
+
+  connect();
+
+}
+
+
+initialize();
+
+</script>
+
+</body>
+</html>
