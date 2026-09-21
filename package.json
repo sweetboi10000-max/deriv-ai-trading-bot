@@ -1,9 +1,8 @@
 {
-  "name": "jazzy-bot-ai-vercel-deriv",
+  "name": "jazzy-bot-ai",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "engines": {
     "node": "24.x"
   }
-}
+} 
