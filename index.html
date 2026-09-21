@@ -3139,29 +3139,6 @@ $('sound').addEventListener(
 
 
     if(S.sound){
-
-      audioCtx =
-        audioCtx ||
-        new(
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
-
-
-      if(audioCtx.state === 'suspended'){
-        audioCtx.resume();
-      }
-
-
-      alarm();
-
-    }
-
-  }
-);
-
-
-/*
   Test alarm.
 */
 
