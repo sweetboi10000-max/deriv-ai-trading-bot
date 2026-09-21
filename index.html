@@ -3339,3 +3339,139 @@ initialize();
 
 </body>
 </html>
+<script>
+const DERIV_CLIENT_ID = "34pQfqSMis7fcGcwCulwr";
+const DERIV_REDIRECT_URI =
+  "https://sweetboi10000-max.github.io/deriv-ai-trading-bot/";
+
+const SUPABASE_FUNCTION =
+  "https://cefzymqfzjkbcurnabng.supabase.co/functions/v1/smooth-handler";
+
+function randomString(length = 64) {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+  const bytes = crypto.getRandomValues(new Uint8Array(length));
+  return Array.from(bytes, b => chars[b % chars.length]).join("");
+}
+
+async function createDerivLogin() {
+  const verifier = randomString(64);
+
+  const hash = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(verifier)
+  );
+
+  const challenge = btoa(
+    String.fromCharCode(...new Uint8Array(hash))
+  )
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+
+  const state = crypto.randomUUID();
+
+  sessionStorage.setItem("deriv_code_verifier", verifier);
+  sessionStorage.setItem("deriv_oauth_state", state);
+
+  const url = new URL("https://auth.deriv.com/oauth2/auth");
+
+  url.searchParams.set("response_type", "code");
+  url.searchParams.set("client_id", DERIV_CLIENT_ID);
+  url.searchParams.set("redirect_uri", DERIV_REDIRECT_URI);
+  url.searchParams.set("scope", "trade account_manage");
+  url.searchParams.set("state", state);
+  url.searchParams.set("code_challenge", challenge);
+  url.searchParams.set("code_challenge_method", "S256");
+
+  window.location.href = url.toString();
+}
+
+async function loadDerivAccounts(accessToken) {
+  const response = await fetch(SUPABASE_FUNCTION, {
+    headers: {
+      Authorization: "Bearer " + accessToken
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(JSON.stringify(data));
+  }
+
+  console.log("Deriv accounts:", data);
+
+  return data;
+}
+
+async function handleDerivCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  const returnedState = params.get("state");
+
+  if (!code) return;
+
+  const savedState = sessionStorage.getItem("deriv_oauth_state");
+  const verifier = sessionStorage.getItem("deriv_code_verifier");
+
+  if (!savedState || returnedState !== savedState || !verifier) {
+    throw new Error("Deriv OAuth security check failed.");
+  }
+
+  const tokenResponse = await fetch(
+    "https://auth.deriv.com/oauth2/token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        grant_type: "authorization_code",
+        client_id: DERIV_CLIENT_ID,
+        code: code,
+        code_verifier: verifier,
+        redirect_uri: DERIV_REDIRECT_URI
+      })
+    }
+  );
+
+  const tokenData = await tokenResponse.json();
+
+  if (!tokenResponse.ok) {
+    throw new Error(JSON.stringify(tokenData));
+  }
+
+  sessionStorage.setItem(
+    "deriv_access_token",
+    tokenData.access_token
+  );
+
+  sessionStorage.removeItem("deriv_code_verifier");
+  sessionStorage.removeItem("deriv_oauth_state");
+
+  window.history.replaceState(
+    {},
+    document.title,
+    DERIV_REDIRECT_URI
+  );
+
+  const accounts = await loadDerivAccounts(
+    tokenData.access_token
+  );
+
+  console.log("CONNECTED DERIV ACCOUNTS:", accounts);
+
+  window.DERIV_ACCOUNTS = accounts;
+
+  document.dispatchEvent(
+    new CustomEvent("derivAccountsLoaded", {
+      detail: accounts
+    })
+  );
+}
+
+handleDerivCallback().catch(error => {
+  console.error("Deriv connection error:", error);
+});
+  </script> 
