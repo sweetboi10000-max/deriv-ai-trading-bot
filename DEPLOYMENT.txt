@@ -1,0 +1,9 @@
+JAZZY BOT AI Vercel deployment
+
+1. Deploy the folder/repository.
+2. Add DERIV_CLIENT_ID, DERIV_REDIRECT_URI and DERIV_SCOPE=trade in Vercel Environment Variables.
+3. Register the exact HTTPS DERIV_REDIRECT_URI in your Deriv OAuth app.
+4. Redeploy.
+5. Open the production URL and press Real -> Connect Deriv.
+
+Never commit secrets or send them in chat.
