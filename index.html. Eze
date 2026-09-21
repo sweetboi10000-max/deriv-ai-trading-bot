@@ -1,0 +1,2031 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>JAZZY BOT AI — VIP Deriv Trading</title>
+
+<style>
+
+:root{
+--bg:#05050c;
+--panel:#0d0d19;
+--line:#24243d;
+--pink:#ff20d0;
+--cyan:#00eaff;
+--green:#28ff86;
+--yellow:#ffe44d;
+--red:#ff4d70;
+--purple:#9d35ff;
+}
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:
+radial-gradient(circle at 50% 0,#211044 0,#080810 42%,#030308 100%);
+color:#fff;
+font-family:Inter,system-ui,Arial,sans-serif;
+}
+
+.wrap{
+max-width:1100px;
+margin:auto;
+padding:18px;
+}
+
+.top{
+display:flex;
+gap:10px;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.brand{
+font-size:28px;
+font-weight:900;
+letter-spacing:.8px;
+text-shadow:0 0 16px var(--pink);
+}
+
+.vip{
+color:#111;
+background:linear-gradient(90deg,#ffe600,#ff7a00);
+padding:4px 10px;
+border-radius:8px;
+font-weight:900;
+}
+
+.clock{
+color:#b7b7d7;
+font-size:13px;
+}
+
+.banner,
+.card{
+background:linear-gradient(180deg,#121225,#090914);
+border:1px solid var(--line);
+border-radius:18px;
+box-shadow:0 0 25px #0008;
+margin-top:14px;
+padding:16px;
+}
+
+.banner{
+border-color:#542e70;
+}
+
+.sub{
+color:#bdbbd4;
+font-size:13px;
+line-height:1.55;
+}
+
+.tabs{
+display:flex;
+gap:8px;
+}
+
+.tab,
+.btn{
+border:1px solid #343451;
+background:#111123;
+color:#fff;
+border-radius:10px;
+padding:10px 14px;
+font-weight:800;
+cursor:pointer;
+}
+
+.tab.active,
+.btn.primary{
+border-color:var(--cyan);
+box-shadow:0 0 14px #00eaff44;
+}
+
+.btn.danger{
+border-color:var(--red);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+}
+
+.metric b{
+font-size:23px;
+}
+
+.label{
+color:#8e8ea9;
+font-size:11px;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+
+.markets{
+display:grid;
+gap:9px;
+}
+
+.market{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#0a0a14;
+border:1px solid #202038;
+border-radius:12px;
+padding:11px;
+}
+
+.symbol{
+font-weight:900;
+}
+
+.price{
+color:var(--cyan);
+font-variant-numeric:tabular-nums;
+}
+
+.state{
+font-size:11px;
+color:#8e8ea9;
+}
+
+.scanner{
+width:260px;
+height:260px;
+border-radius:50%;
+margin:18px auto;
+display:grid;
+place-items:center;
+background:
+conic-gradient(
+from 0deg,
+var(--cyan),
+var(--pink),
+var(--purple),
+var(--cyan)
+);
+padding:10px;
+animation:spin 1.5s linear infinite;
+box-shadow:0 0 35px #ff20d044;
+position:relative;
+}
+
+.scanner:before{
+content:"";
+position:absolute;
+inset:10px;
+border-radius:50%;
+background:#07070f;
+}
+
+.scannerInner{
+position:relative;
+text-align:center;
+z-index:2;
+}
+
+.scanNo{
+font-size:35px;
+font-weight:1000;
+}
+
+.scanText{
+font-size:11px;
+color:#aaa;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+input,
+select{
+width:100%;
+background:#07070e;
+color:#fff;
+border:1px solid #30304a;
+border-radius:9px;
+padding:11px;
+margin-top:6px;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:12px;
+}
+
+.status{
+padding:10px;
+border-radius:10px;
+background:#07070e;
+color:#aaa;
+font-size:12px;
+}
+
+.ok{
+color:var(--green);
+}
+
+.warn{
+color:var(--yellow);
+}
+
+.bad{
+color:var(--red);
+}
+
+.marketGroup{
+margin-bottom:15px;
+}
+
+.marketTitle{
+font-size:12px;
+font-weight:900;
+color:var(--pink);
+text-transform:uppercase;
+margin-bottom:7px;
+}
+
+@media(max-width:700px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.scanner{
+width:220px;
+height:220px;
+}
+
+.brand{
+font-size:22px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="top">
+
+<div>
+<span class="brand">JAZZY BOT AI</span>
+<span class="vip">VIP</span>
+</div>
+
+<div class="clock" id="clock">
+Loading local time…
+</div>
+
+</div>
+
+
+<div class="banner">
+
+<b>VIP BOT TRADING ENGINE</b>
+
+<div class="sub">
+The bot trades in a low risk strategy focused on prioritizing capital preservation and long term consistency over high risk speculation.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="top">
+
+<div>
+
+<b id="modeTitle">
+DEMO ACCOUNT
+</b>
+
+<div class="sub" id="connection">
+Demo simulation — no real-money orders
+</div>
+
+</div>
+
+<div class="tabs">
+
+<button
+id="demoBtn"
+class="tab active"
+onclick="setMode('demo')">
+Demo
+</button>
+
+<button
+id="realBtn"
+class="tab"
+onclick="setMode('real')">
+Real
+</button>
+
+</div>
+
+</div>
+
+
+<div
+class="grid"
+style="margin-top:12px"
+>
+
+<div class="metric">
+
+<div class="label">
+Balance
+</div>
+
+<b id="balance">
+—
+</b>
+
+</div>
+
+
+<div class="metric">
+
+<div class="label">
+Mode
+</div>
+
+<b id="mode">
+DEMO
+</b>
+
+</div>
+
+
+<div class="metric">
+
+<div class="label">
+Engine
+</div>
+
+<b id="engine">
+WAIT
+</b>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<b>
+Risk Management
+</b>
+
+<div
+class="grid"
+style="margin-top:12px"
+>
+
+<div>
+
+<div class="label">
+Stake minimum
+</div>
+
+<input
+id="stake"
+type="number"
+min=".5"
+step=".01"
+value=".50"
+>
+
+</div>
+
+
+<div>
+
+<div class="label">
+Loss control
+</div>
+
+<input
+value="30%"
+readonly
+>
+
+</div>
+
+
+<div>
+
+<div class="label">
+Profit limit
+</div>
+
+<input
+value="50%"
+readonly
+>
+
+</div>
+
+
+<div>
+
+<div class="label">
+Recovery
+</div>
+
+<input
+value="X2"
+readonly
+>
+
+</div>
+
+
+<div>
+
+<div class="label">
+Normal threshold
+</div>
+
+<input
+value="55%"
+readonly
+>
+
+</div>
+
+
+<div>
+
+<div class="label">
+Recovery threshold
+</div>
+
+<input
+value="65%"
+readonly
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="top">
+
+<b>
+Market Scanner
+</b>
+
+<span
+class="state"
+id="marketStatus"
+>
+Checking Deriv public market data…
+</span>
+
+</div>
+
+
+<div class="scanner">
+
+<div class="scannerInner">
+
+<div
+class="scanNo"
+id="scanNo"
+>
+SCAN 1
+</div>
+
+<div class="scanText">
+LIVE SCANNER
+</div>
+
+</div>
+
+</div>
+
+
+<div
+id="markets"
+>
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="startScan()"
+>
+Start Scanner
+</button>
+
+<button
+class="btn danger"
+onclick="stopScan()"
+>
+Stop Scanner
+</button>
+
+<button
+class="btn"
+onclick="refreshDashboard()"
+>
+Refresh
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<b>
+Deriv Account
+</b>
+
+<div class="sub">
+
+Real mode uses Deriv OAuth.
+Your password and client secret never belong in this page.
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="loginDeriv()"
+>
+Connect Deriv
+</button>
+
+<button
+class="btn"
+onclick="disconnect()"
+>
+Disconnect
+</button>
+
+</div>
+
+
+<div
+id="authStatus"
+class="status"
+style="margin-top:10px"
+>
+Not connected.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<b>
+Trading Controls
+</b>
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="startBot()"
+>
+Start Bot
+</button>
+
+<button
+class="btn danger"
+onclick="stopBot()"
+>
+Stop Bot
+</button>
+
+</div>
+
+
+<div
+id="botStatus"
+class="status"
+style="margin-top:10px"
+>
+Bot stopped.
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+const marketSets = {
+
+crypto:[
+"BTC/USD",
+"ETH/USD",
+"LTC/USD",
+"XRP/USD",
+"BCH/USD"
+],
+
+forex:[
+"EUR/USD",
+"GBP/USD",
+"USD/JPY",
+"AUD/USD",
+"USD/CAD",
+"EUR/GBP"
+],
+
+gold:[
+"XAU/USD"
+]
+
+};
+
+
+let mode="demo";
+
+let scannerTimer=null;
+
+let scanIndex=0;
+
+let ws=null;
+
+let auth={
+token:null,
+account:null,
+wsUrl:null
+};
+
+let publicSymbols=[];
+
+let symbolPrices={};
+
+let cryptoIndex=0;
+
+let forexIndex=0;
+
+
+function localClock(){
+
+document.getElementById("clock").textContent =
+new Intl.DateTimeFormat(
+undefined,
+{
+dateStyle:"medium",
+timeStyle:"medium"
+}
+).format(new Date());
+
+}
+
+setInterval(localClock,1000);
+
+localClock();
+
+
+function setMode(m){
+
+mode=m;
+
+document.getElementById("mode").textContent=
+m.toUpperCase();
+
+document.getElementById("modeTitle").textContent=
+m==="real"
+?
+"REAL ACCOUNT"
+:
+"DEMO ACCOUNT";
+
+document.getElementById("demoBtn")
+.classList
+.toggle("active",m==="demo");
+
+document.getElementById("realBtn")
+.classList
+.toggle("active",m==="real");
+
+
+if(m==="demo"){
+
+document.getElementById("connection")
+.textContent=
+"Demo simulation — no real-money orders";
+
+}
+
+else{
+
+document.getElementById("connection")
+.textContent=
+auth.token
+?
+"Deriv authenticated"
+:
+"Connect Deriv to enable real account";
+
+}
+
+}
+
+
+function randomString(length=64){
+
+const chars=
+"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+
+let result="";
+
+const values=
+new Uint8Array(length);
+
+crypto.getRandomValues(values);
+
+for(const value of values){
+
+result+=
+chars[value % chars.length];
+
+}
+
+return result;
+
+}
+
+
+function base64url(bytes){
+
+let binary="";
+
+for(const byte of bytes){
+
+binary+=String.fromCharCode(byte);
+
+}
+
+return btoa(binary)
+.replace(/\+/g,"-")
+.replace(/\//g,"_")
+.replace(/=+$/,"");
+
+}
+
+
+async function pkce(){
+
+const verifier=randomString(64);
+
+const hash=
+await crypto.subtle.digest(
+"SHA-256",
+new TextEncoder().encode(verifier)
+);
+
+return {
+
+verifier,
+
+challenge:
+base64url(new Uint8Array(hash)),
+
+state:
+crypto.randomUUID()
+
+};
+
+}
+
+
+async function loginDeriv(){
+
+try{
+
+const config=
+await fetch("/api/config")
+.then(r=>r.json());
+
+
+if(!config.configured){
+
+alert(
+"Vercel is missing DERIV_CLIENT_ID or DERIV_REDIRECT_URI."
+);
+
+return;
+
+}
+
+
+const pk=
+await pkce();
+
+
+sessionStorage.setItem(
+"pkce_verifier",
+pk.verifier
+);
+
+sessionStorage.setItem(
+"oauth_state",
+pk.state
+);
+
+
+const url=
+new URL(
+"https://auth.deriv.com/oauth2/auth"
+);
+
+
+url.searchParams.set(
+"response_type",
+"code"
+);
+
+url.searchParams.set(
+"client_id",
+config.clientId
+);
+
+url.searchParams.set(
+"redirect_uri",
+config.redirectUri
+);
+
+url.searchParams.set(
+"scope",
+config.scope
+);
+
+url.searchParams.set(
+"state",
+pk.state
+);
+
+url.searchParams.set(
+"code_challenge",
+pk.challenge
+);
+
+url.searchParams.set(
+"code_challenge_method",
+"S256"
+);
+
+
+location.href=url.toString();
+
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+
+async function handleCallback(){
+
+const params=
+new URLSearchParams(
+location.search
+);
+
+const code=params.get("code");
+
+const state=params.get("state");
+
+
+if(!code){
+
+return;
+
+}
+
+
+if(
+state !==
+sessionStorage.getItem("oauth_state")
+){
+
+throw new Error(
+"OAuth state mismatch."
+);
+
+}
+
+
+const verifier=
+sessionStorage.getItem(
+"pkce_verifier"
+);
+
+
+const config=
+await fetch("/api/config")
+.then(r=>r.json());
+
+
+const response=
+await fetch(
+"/api/token",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:JSON.stringify({
+
+code,
+
+code_verifier:
+verifier,
+
+redirect_uri:
+config.redirectUri
+
+})
+
+}
+);
+
+
+const data=
+await response.json();
+
+
+if(!response.ok){
+
+throw new Error(
+data.error ||
+"Token exchange failed."
+);
+
+}
+
+
+auth.token=
+data.access_token;
+
+
+sessionStorage.removeItem(
+"pkce_verifier"
+);
+
+sessionStorage.removeItem(
+"oauth_state"
+);
+
+
+history.replaceState(
+{},
+document.title,
+"/"
+);
+
+
+document.getElementById(
+"authStatus"
+).innerHTML=
+"<span class='ok'>Deriv OAuth authenticated.</span>";
+
+
+await loadAccounts();
+
+}
+
+
+async function loadAccounts(){
+
+if(!auth.token){
+
+return;
+
+}
+
+
+const response=
+await fetch(
+"/api/accounts",
+{
+method:"POST",
+
+headers:{
+Authorization:
+"Bearer "+auth.token
+}
+
+}
+);
+
+
+const data=
+await response.json();
+
+
+if(!response.ok){
+
+throw new Error(
+data.error ||
+"Could not load Deriv accounts."
+);
+
+}
+
+
+let accounts=[];
+
+
+if(
+Array.isArray(data.data)
+){
+
+accounts=data.data;
+
+}
+
+else if(
+data.data &&
+Array.isArray(data.data.accounts)
+){
+
+accounts=data.data.accounts;
+
+}
+
+else if(
+Array.isArray(data.accounts)
+){
+
+accounts=data.accounts;
+
+}
+
+
+auth.account=
+accounts[0] || null;
+
+
+if(!auth.account){
+
+document.getElementById(
+"authStatus"
+).textContent=
+"OAuth succeeded, but no Options account was returned.";
+
+return;
+
+}
+
+
+const accountId=
+auth.account.account_id ||
+auth.account.id ||
+"Deriv account";
+
+
+const balance=
+auth.account.balance ??
+auth.account.available_balance ??
+"—";
+
+
+const currency=
+auth.account.currency ||
+"";
+
+
+document.getElementById(
+"balance"
+).textContent=
+`${balance} ${currency}`;
+
+
+document.getElementById(
+"authStatus"
+).innerHTML=
+`<span class="ok">
+Connected: ${accountId}
+</span>`;
+
+
+document.getElementById(
+"connection"
+).textContent=
+"Deriv authenticated account connected";
+
+
+}
+
+
+async function connectAuthenticatedSocket(){
+
+if(!auth.token || !auth.account){
+
+throw new Error(
+"Connect your Deriv account first."
+);
+
+}
+
+
+const accountId=
+auth.account.account_id ||
+auth.account.id;
+
+
+const response=
+await fetch(
+"/api/otp",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json",
+
+Authorization:
+"Bearer "+auth.token
+
+},
+
+body:JSON.stringify({
+accountId
+})
+
+}
+);
+
+
+const data=
+await response.json();
+
+
+if(!response.ok){
+
+throw new Error(
+data.error ||
+"Unable to obtain Deriv WebSocket OTP."
+);
+
+}
+
+
+const url=
+data.data?.url ||
+data.url;
+
+
+if(!url){
+
+throw new Error(
+"Deriv did not return an authenticated WebSocket URL."
+);
+
+}
+
+
+auth.wsUrl=url;
+
+
+return new Promise(
+(resolve,reject)=>{
+
+const socket=
+new WebSocket(url);
+
+
+socket.onopen=()=>{
+
+resolve(socket);
+
+};
+
+
+socket.onerror=()=>{
+
+reject(
+new Error(
+"Authenticated Deriv WebSocket connection failed."
+)
+);
+
+};
+
+}
+);
+
+}
+
+
+function disconnect(){
+
+if(ws){
+
+try{
+ws.close();
+}catch(_){}
+
+ws=null;
+
+}
+
+
+auth={
+token:null,
+account:null,
+wsUrl:null
+};
+
+
+document.getElementById(
+"authStatus"
+).textContent=
+"Disconnected.";
+
+
+document.getElementById(
+"connection"
+).textContent=
+mode==="demo"
+?
+"Demo simulation — no real-money orders"
+:
+"Not connected";
+
+
+document.getElementById(
+"balance"
+).textContent=
+"—";
+
+}
+
+
+function getVisibleMarkets(){
+
+const crypto=
+marketSets.crypto[
+cryptoIndex %
+marketSets.crypto.length
+];
+
+const forex=
+marketSets.forex[
+forexIndex %
+marketSets.forex.length
+];
+
+return [
+
+{
+group:"CRYPTO",
+symbols:[
+crypto,
+marketSets.crypto[
+(cryptoIndex+1) %
+marketSets.crypto.length
+]
+]
+},
+
+{
+group:"FOREX",
+symbols:[
+forex,
+marketSets.forex[
+(forexIndex+1) %
+marketSets.forex.length
+]
+]
+},
+
+{
+group:"GOLD",
+symbols:[
+"XAU/USD"
+]
+}
+
+];
+
+}
+
+
+function renderMarkets(){
+
+const container=
+document.getElementById(
+"markets"
+);
+
+
+const groups=
+getVisibleMarkets();
+
+
+container.innerHTML="";
+
+
+groups.forEach(
+(group)=>{
+
+const wrapper=
+document.createElement("div");
+
+wrapper.className=
+"marketGroup";
+
+
+const title=
+document.createElement("div");
+
+title.className=
+"marketTitle";
+
+title.textContent=
+group.group;
+
+
+wrapper.appendChild(title);
+
+
+group.symbols.forEach(
+(symbol)=>{
+
+const row=
+document.createElement("div");
+
+row.className=
+"market";
+
+
+const left=
+document.createElement("span");
+
+left.className=
+"symbol";
+
+left.textContent=
+symbol;
+
+
+const right=
+document.createElement("span");
+
+
+const price=
+document.createElement("span");
+
+price.className=
+"price";
+
+price.textContent=
+symbolPrices[symbol] ??
+"—";
+
+
+const state=
+document.createElement("span");
+
+state.className=
+"state";
+
+state.textContent=
+symbolPrices[symbol]
+?
+"LIVE"
+:
+"WAIT";
+
+
+right.appendChild(price);
+
+right.appendChild(
+document.createTextNode(" ")
+);
+
+right.appendChild(state);
+
+
+row.appendChild(left);
+
+row.appendChild(right);
+
+wrapper.appendChild(row);
+
+});
+
+
+container.appendChild(wrapper);
+
+});
+
+}
+
+
+renderMarkets();
+
+
+function rotateMarkets(){
+
+cryptoIndex++;
+
+forexIndex++;
+
+renderMarkets();
+
+subscribeCurrentMarkets();
+
+}
+
+
+function startScan(){
+
+if(scannerTimer){
+
+return;
+
+}
+
+
+scanIndex=0;
+
+
+scannerTimer=
+setInterval(
+()=>{
+
+scanIndex=
+(scanIndex % 10)+1;
+
+document.getElementById(
+"scanNo"
+).textContent=
+"SCAN "+scanIndex;
+
+
+if(scanIndex===10){
+
+rotateMarkets();
+
+}
+
+},
+100
+);
+
+
+document.getElementById(
+"marketStatus"
+).textContent=
+"Connecting to Deriv public market stream…";
+
+
+connectPublic();
+
+}
+
+
+function stopScan(){
+
+clearInterval(
+scannerTimer
+);
+
+scannerTimer=null;
+
+
+document.getElementById(
+"scanNo"
+).textContent=
+"SCAN 1";
+
+
+if(ws){
+
+try{
+ws.close();
+}catch(_){}
+
+ws=null;
+
+}
+
+}
+
+
+function allCurrentSymbols(){
+
+const groups=
+getVisibleMarkets();
+
+return groups.flatMap(
+g=>g.symbols
+);
+
+}
+
+
+function subscribeCurrentMarkets(){
+
+if(
+!ws ||
+ws.readyState !== WebSocket.OPEN
+){
+
+return;
+
+}
+
+
+for(
+const symbol
+of allCurrentSymbols()
+){
+
+const found=
+publicSymbols.find(
+item=>{
+
+const value=
+item.underlying_symbol ||
+item.symbol ||
+"";
+
+return normalizeSymbol(value) ===
+normalizeSymbol(symbol);
+
+}
+);
+
+
+if(found){
+
+const value=
+found.underlying_symbol ||
+found.symbol;
+
+
+ws.send(
+JSON.stringify({
+ticks:value,
+subscribe:1
+})
+);
+
+}
+
+}
+
+}
+
+
+function normalizeSymbol(symbol){
+
+return String(symbol)
+.toUpperCase()
+.replace(/\//g,"")
+.replace(/_/g,"");
+
+}
+
+
+function connectPublic(){
+
+if(ws){
+
+return;
+
+}
+
+
+ws=
+new WebSocket(
+"wss://api.derivws.com/trading/v1/options/ws/public"
+);
+
+
+ws.onopen=()=>{
+
+document.getElementById(
+"marketStatus"
+).innerHTML=
+"<span class='ok'>Deriv public stream connected</span>";
+
+
+ws.send(
+JSON.stringify({
+active_symbols:"brief",
+req_id:1
+})
+);
+
+};
+
+
+ws.onmessage=(event)=>{
+
+try{
+
+const data=
+JSON.parse(event.data);
+
+
+if(data.error){
+
+document.getElementById(
+"marketStatus"
+).innerHTML=
+`<span class="bad">
+Deriv error: ${data.error.message}
+</span>`;
+
+return;
+
+}
+
+
+if(
+data.msg_type==="active_symbols"
+){
+
+publicSymbols=
+data.active_symbols ||
+data.activeSymbols ||
+[];
+
+
+subscribeCurrentMarkets();
+
+}
+
+
+if(
+data.msg_type==="tick"
+){
+
+const tick=
+data.tick;
+
+
+if(!tick){
+
+return;
+
+}
+
+
+const symbol=
+tick.symbol ||
+tick.underlying_symbol;
+
+
+const quote=
+tick.quote;
+
+
+if(
+symbol &&
+quote !== undefined
+){
+
+const normalized=
+normalizeSymbol(symbol);
+
+
+const match=
+allCurrentSymbols()
+.find(
+item=>
+normalizeSymbol(item)===normalized
+);
+
+
+if(match){
+
+symbolPrices[match]=
+Number(quote)
+.toLocaleString(
+undefined,
+{
+maximumFractionDigits:5
+}
+);
+
+renderMarkets();
+
+}
+
+}
+
+}
+
+}
+catch(error){
+
+console.error(
+"Market message error",
+error
+);
+
+}
+
+};
+
+
+ws.onerror=()=>{
+
+document.getElementById(
+"marketStatus"
+).innerHTML=
+"<span class='bad'>Deriv public stream error</span>";
+
+};
+
+
+ws.onclose=()=>{
+
+ws=null;
+
+document.getElementById(
+"marketStatus"
+).textContent=
+"Deriv public stream closed";
+
+};
+
+}
+
+
+async function startBot(){
+
+if(
+mode==="real" &&
+!auth.token
+){
+
+document.getElementById(
+"botStatus"
+).innerHTML=
+"<span class='bad'>Real mode requires Deriv OAuth authentication first.</span>";
+
+return;
+
+}
+
+
+document.getElementById(
+"engine"
+).textContent=
+"RUNNING";
+
+
+if(mode==="demo"){
+
+document.getElementById(
+"botStatus"
+).innerHTML=
+"<span class='warn'>Demo bot running — simulated only.</span>";
+
+startScan();
+
+return;
+
+}
+
+
+try{
+
+const socket=
+await connectAuthenticatedSocket();
+
+
+ws=socket;
+
+
+document.getElementById(
+"botStatus"
+).innerHTML=
+"<span class='ok'>Authenticated Deriv trading connection established.</span>";
+
+
+document.getElementById(
+"marketStatus"
+).innerHTML=
+"<span class='ok'>Authenticated Deriv WebSocket connected.</span>";
+
+
+socket.onmessage=
+handleAuthenticatedMessage;
+
+
+socket.send(
+JSON.stringify({
+balance:1,
+subscribe:1,
+req_id:100
+})
+);
+
+
+socket.send(
+JSON.stringify({
+active_symbols:"brief",
+req_id:101
+})
+);
+
+
+}
+catch(error){
+
+document.getElementById(
+"engine"
+).textContent=
+"WAIT";
+
+
+document.getElementById(
+"botStatus"
+).innerHTML=
+`<span class="bad">${error.message}</span>`;
+
+}
+
+}
+
+
+function handleAuthenticatedMessage(event){
+
+try{
+
+const data=
+JSON.parse(event.data);
+
+
+console.log(
+"Authenticated Deriv message",
+data
+);
+
+
+if(
+data.msg_type==="balance"
+){
+
+const balance=
+data.balance?.balance ??
+data.balance;
+
+
+const currency=
+data.balance?.currency ??
+"";
+
+
+if(balance !== undefined){
+
+document.getElementById(
+"balance"
+).textContent=
+`${balance} ${currency}`;
+
+}
+
+}
+
+
+if(
+data.error
+){
+
+document.getElementById(
+"botStatus"
+).innerHTML=
+`<span class="bad">
+Deriv error: ${data.error.message}
+</span>`;
+
+}
+
+}
+catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+function stopBot(){
+
+document.getElementById(
+"engine"
+).textContent=
+"WAIT";
+
+
+document.getElementById(
+"botStatus"
+).textContent=
+"Bot stopped.";
+
+}
+
+
+function refreshDashboard(){
+
+if(ws){
+
+try{
+ws.close();
+}catch(_){}
+
+}
+
+ws=null;
+
+publicSymbols=[];
+
+symbolPrices={};
+
+cryptoIndex=0;
+
+forexIndex=0;
+
+renderMarkets();
+
+document.getElementById(
+"marketStatus"
+).textContent=
+"Refreshing Deriv market data…";
+
+
+startScan();
+
+}
+
+
+handleCallback()
+.catch(
+error=>{
+
+document.getElementById(
+"authStatus"
+).innerHTML=
+`<span class="bad">
+${error.message}
+</span>`;
+
+}
+);
+
+
+startScan();
+
+</script>
+
+</body>
+  </html>
