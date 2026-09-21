@@ -1,1235 +1,2982 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Jazzy Bot AI — VIP Bot Trading Engine</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#01070d;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh;padding:0 14px 18px;overflow-x:hidden}
+:root{
+--blue:#086dff;
+--green:#00ff54;
+--yellow:#ffe500;
+--red:#ff0739;
+--cyan:#00d9ff;
+--panel:#020d18;
+--text:#f6f6f6
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.neon{
+border:2px solid var(--blue);
+box-shadow:0 0 5px var(--blue),inset 0 0 18px rgba(0,120,255,.08)
+}
+
+.top{
+height:238px;
+margin:0 -14px 10px;
+border:3px solid #ff1b58;
+border-radius:34px;
+background:
+radial-gradient(circle at 12% 30%,#0c5b24 0,transparent 20%),
+radial-gradient(circle at 85% 38%,#15490f 0,transparent 20%),
+linear-gradient(135deg,#04051d,#03111c 45%,#07021b);
+box-shadow:0 0 10px #ff1b58,0 0 35px #ff1b58 inset;
+position:relative;
+overflow:hidden;
+text-align:center
+}
+
+.top:before{
+content:"";
+position:absolute;
+inset:0;
+background:repeating-radial-gradient(
+circle at 8% 15%,
+rgba(255,255,255,.12) 0 2px,
+transparent 3px 80px
+);
+opacity:.25;
+pointer-events:none
+}
+
+.lights{
+position:absolute;
+inset:0;
+pointer-events:none;
+background:
+linear-gradient(
+115deg,
+transparent 15%,
+rgba(0,255,100,.2),
+transparent 24%,
+transparent 55%,
+rgba(0,220,255,.16),
+transparent 70%
+),
+linear-gradient(
+65deg,
+transparent 18%,
+rgba(255,0,60,.2),
+transparent 30%,
+transparent 75%,
+rgba(0,110,255,.2),
+transparent 85%
+)
+}
+
+.refresh{
+position:absolute;
+left:20px;
+top:28px;
+background:linear-gradient(#106aff,#0343cc);
+border:2px solid #1790ff;
+border-radius:10px;
+padding:11px 18px;
+color:white;
+font-weight:700;
+font-size:20px;
+box-shadow:0 0 8px #1386ff
+}
+
+.refresh span{
+font-size:26px;
+margin-right:6px
+}
+
+.date{
+position:absolute;
+right:22px;
+top:22px;
+font-size:21px;
+font-weight:800;
+color:#fff500;
+line-height:1.5
+}
+
+.date b{color:#00f5ff}
+
+.clock{
+font-size:30px;
+color:#24dfff;
+vertical-align:middle
+}
+
+.title{
+position:relative;
+z-index:1;
+margin-top:39px;
+font-size:68px;
+line-height:1;
+font-weight:900;
+letter-spacing:-2px
+}
+
+.title .j{color:#3ba8ff;text-shadow:0 0 12px #167fff}
+.title .a{color:#58ff2d;text-shadow:0 0 12px #00ff54}
+.title .z{color:#ffeb20}
+.title .zy{color:#ffba19}
+.title .b{color:#ff7c12}
+.title .ot{color:#ffcf12}
+.title .ai{color:#ff2f78}
+
+.crown{
+position:absolute;
+top:4px;
+left:50%;
+transform:translateX(-50%);
+font-size:48px;
+color:#ffe800;
+text-shadow:0 0 12px #ffe800
+}
+
+.subtitle{
+position:relative;
+z-index:1;
+display:inline-block;
+margin-top:8px;
+border:1px solid #c5b800;
+padding:3px 25px;
+color:#ffe900;
+font-size:28px;
+font-weight:900;
+background:#06101b
+}
+
+.tagline{
+position:relative;
+z-index:1;
+font-size:18px;
+font-weight:700;
+margin-top:7px
+}
+
+.tagline .y{color:#ffe900}
+
+.disco{
+position:absolute;
+width:98px;
+height:98px;
+border-radius:50%;
+top:82px;
+background:repeating-linear-gradient(
+90deg,
+#ff2b79 0 9px,
+#9b24ff 9px 18px,
+#1ff5ff 18px 27px,
+#42ff25 27px 36px,
+#ffd52c 36px 45px
+);
+border:2px solid #ff4fc2;
+box-shadow:0 0 22px #ff32a5,inset 0 0 15px rgba(255,255,255,.6)
+}
+
+.disco:after{
+content:"";
+position:absolute;
+inset:18px 0;
+border-top:6px solid rgba(255,255,255,.2);
+border-bottom:6px solid rgba(255,255,255,.2);
+border-radius:50%
+}
+
+.leftball{left:122px}
+.rightball{right:123px}
+
+.row{
+display:grid;
+gap:10px
+}
+
+.access{
+grid-template-columns:1.05fr .95fr
+}
+
+.card{
+background:linear-gradient(145deg,#020c14,#02111a);
+border-radius:18px;
+padding:10px 14px
+}
+
+.identity{
+border:3px solid #00ff4c;
+height:92px;
+display:flex;
+align-items:center;
+gap:15px
+}
+
+.avatar{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#129cff;
+color:#03111c;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:35px;
+box-shadow:0 0 12px #129cff
+}
+
+.identity .big{
+font-size:21px;
+font-weight:900;
+color:#14ff4e
+}
+
+.identity .small{
+font-size:18px;
+font-weight:900;
+color:#ffe900;
+margin-top:3px
+}
+
+.mode{
+height:92px;
+border-color:#0875ff
+}
+
+.mode-title{
+font-size:20px;
+font-weight:900;
+margin-bottom:3px
+}
+
+.tabs{
+display:flex;
+height:44px
+}
+
+.tab{
+flex:1;
+border:2px solid #006eff;
+background:#061a32;
+color:#fff;
+font-size:20px;
+font-weight:900
+}
+
+.tab:first-child{
+border-radius:9px 0 0 9px
+}
+
+.tab:last-child{
+border-radius:0 9px 9px 0
+}
+
+.tab.active{
+background:#08dd35;
+box-shadow:0 0 10px #00ff4c
+}
+
+.stats{
+grid-template-columns:repeat(7,1fr);
+margin-top:10px
+}
+
+.stat{
+height:129px;
+border:3px solid #0b76ff;
+border-radius:17px;
+background:#020c16;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center
+}
+
+.stat .icon{font-size:30px}
+.stat .label{font-size:18px;font-weight:900}
+.stat .value{font-size:28px;font-weight:900}
+
+.stat.green{
+border-color:#00ff55
+}
+
+.stat.green .label,
+.stat.green .value{
+color:#20ff55
+}
+
+.stat.yellow{
+border-color:#ffe600
+}
+
+.stat.yellow .label,
+.stat.yellow .value{
+color:#ffe600
+}
+
+.stat.red{
+border-color:#ff073c
+}
+
+.stat.red .label,
+.stat.red .value{
+color:#ff0b3d
+}
+
+.stat.blue .value{
+color:#00bfff
+}
+
+.markets{
+grid-template-columns:1.05fr 1.35fr 1.35fr 1.35fr;
+margin-top:10px
+}
+
+.status{
+height:115px
+}
+
+.stopline{
+display:flex;
+align-items:center;
+gap:10px;
+color:#ff1748;
+font-size:27px;
+font-weight:900
+}
+
+.stopbox{
+width:30px;
+height:30px;
+background:#ff1b48;
+border-radius:4px
+}
+
+.asset{
+height:115px
+}
+
+.asset .assetname{
+font-size:19px;
+font-weight:900
+}
+
+.asset .waiting{
+font-size:18px;
+font-weight:900;
+color:#fff
+}
+
+.asset .neutral{
+font-size:17px;
+font-weight:900;
+color:#ffe600
+}
+
+.asset .g{
+color:#00ff56;
+font-size:25px
+}
+
+.coin{
+display:inline-flex;
+width:42px;
+height:42px;
+border-radius:50%;
+align-items:center;
+justify-content:center;
+margin-right:7px;
+font-size:25px;
+font-weight:900;
+vertical-align:middle
+}
+
+.btc{background:#ff9c00}
+.usd{background:#173fff}
+.gold{background:#eaa900}
+
+.section-title{
+font-size:22px;
+font-weight:900;
+color:#ffe900;
+margin:2px 0 8px
+}
+
+.controls{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:8px
+}
+
+.control{
+border:2px solid #096dff;
+border-radius:13px;
+background:#020c16;
+padding:8px
+}
+
+.control label{
+display:block;
+font-size:12px;
+font-weight:900;
+color:#00e5ff;
+margin-bottom:4px
+}
+
+.control input,
+.control select{
+width:100%;
+background:#00111e;
+border:1px solid #126cff;
+border-radius:7px;
+padding:7px;
+color:#fff;
+outline:none
+}
+
+.control input:focus,
+.control select:focus{
+box-shadow:0 0 8px #00d9ff
+}
+
+.rules{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-top:8px
+}
+
+.rule{
+border:2px solid #00aaff;
+border-radius:12px;
+background:#020b15;
+padding:10px;
+text-align:center
+}
+
+.rule b{
+display:block;
+font-size:12px;
+color:#00d9ff
+}
+
+.rule span{
+font-size:21px;
+font-weight:900;
+color:#ffe900
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:10px
+}
+
+.action{
+flex:1;
+border:2px solid;
+border-radius:12px;
+padding:13px;
+font-size:20px;
+font-weight:900;
+color:#fff
+}
+
+.start{
+background:#00a93c;
+border-color:#00ff55
+}
+
+.stop{
+background:#c90032;
+border-color:#ff1748
+}
+
+.scanner-card{
+margin-top:10px;
+border:3px solid #ff00d4;
+border-radius:20px;
+padding:13px;
+background:
+radial-gradient(circle,#1a0030 0,#050012 42%,#02080e 75%);
+box-shadow:0 0 15px #ff00d4
+}
+
+.scanner-head{
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.scanner-title{
+font-size:24px;
+font-weight:900;
+color:#ff28e5
+}
+
+.scan-status{
+font-size:16px;
+font-weight:900;
+color:#00ff66
+}
+
+.scanner-wrap{
+display:flex;
+justify-content:center;
+align-items:center;
+padding:15px
+}
+
+.scanner-ring{
+width:235px;
+height:235px;
+border-radius:50%;
+background:conic-gradient(
+#ff00d4,
+#00d9ff,
+#ffe500,
+#00ff54,
+#ff0739,
+#ff00d4
+);
+padding:9px;
+animation:scannerSpin 1s linear infinite;
+box-shadow:
+0 0 18px #ff00d4,
+0 0 35px #00d9ff
+}
+
+.scanner-inner{
+height:100%;
+width:100%;
+border-radius:50%;
+background:#02060d;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+box-shadow:inset 0 0 30px #00d9ff55
+}
+
+.scan-number{
+font-size:48px;
+font-weight:900;
+color:#fff;
+text-shadow:0 0 10px #00d9ff
+}
+
+.scan-caption{
+color:#ffe900;
+font-size:15px;
+font-weight:900
+}
+
+@keyframes scannerSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+
+.market-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:9px;
+margin-top:10px
+}
+
+.market-box{
+border:2px solid #086dff;
+border-radius:13px;
+padding:10px;
+background:#020b14
+}
+
+.market-box h4{
+margin:0 0 5px;
+color:#00d9ff;
+font-size:18px
+}
+
+.market-symbol{
+font-size:20px;
+font-weight:900
+}
+
+.market-price{
+font-size:22px;
+font-weight:900;
+color:#ffe500;
+margin-top:4px
+}
+
+.market-signal{
+font-weight:900;
+margin-top:4px
+}
+
+.live{
+color:#00ff54
+}
+
+.waiting{
+color:#ffe500
+}
+
+.connection{
+margin-top:10px;
+border:2px solid #0875ff;
+border-radius:10px;
+padding:9px;
+background:#020b14;
+font-weight:900;
+text-align:center
+}
+
+.history{
+margin-top:10px;
+border:2px solid #713cff;
+border-radius:14px;
+background:#020b14;
+padding:10px
+}
+
+.history-head,
+.history-row{
+display:grid;
+grid-template-columns:1.1fr 1.2fr .7fr .7fr .8fr;
+gap:8px;
+align-items:center
+}
+
+.history-head{
+color:#00d9ff;
+font-weight:900;
+padding-bottom:8px;
+border-bottom:1px solid #26354c
+}
+
+.history-row{
+padding:8px 0;
+border-bottom:1px solid #172131
+}
+
+.badge{
+display:inline-block;
+padding:4px 7px;
+border-radius:6px;
+font-size:11px;
+font-weight:900
+}
+
+.buy{
+background:#006b31;
+color:#6aff9b
+}
+
+.sell{
+background:#7b102c;
+color:#ff7797
+}
+
+.waiting-badge{
+background:#5e4c00;
+color:#ffe900
+}
+
+.pplus{
+color:#00ff54;
+font-weight:900
+}
+
+.pminus{
+color:#ff1748;
+font-weight:900
+}
+
+.real-panel{
+margin-top:10px;
+border:2px solid #ff9d00;
+border-radius:15px;
+background:#090b10;
+padding:12px
+}
+
+.real-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px
+}
+
+.real-grid input{
+width:100%;
+background:#020b14;
+border:1px solid #ff9d00;
+color:#fff;
+border-radius:8px;
+padding:9px
+}
+
+.real-buttons{
+display:flex;
+gap:8px;
+margin-top:9px
+}
+
+.real-buttons button{
+flex:1;
+border:0;
+border-radius:9px;
+padding:10px;
+font-weight:900
+}
+
+.connect{
+background:#ff9d00;
+color:#111
+}
+
+.disconnect{
+background:#9b1730;
+color:#fff
+}
+
+.real-state{
+margin-top:8px;
+color:#ffe900;
+font-weight:900
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:20px;
+transform:translateX(-50%);
+background:#071727;
+border:2px solid #00d9ff;
+border-radius:10px;
+padding:10px 16px;
+font-weight:900;
+z-index:10000;
+display:none;
+box-shadow:0 0 15px #00d9ff
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.78);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999
+}
+
+.modal-box{
+width:min(430px,92vw);
+border:3px solid #00d9ff;
+border-radius:18px;
+background:#020b14;
+padding:18px;
+box-shadow:0 0 30px #00d9ff
+}
+
+.modal-box h2{
+margin-top:0;
+color:#ffe900
+}
+
+.modal-box input{
+display:block;
+width:100%;
+margin:9px 0;
+padding:11px;
+background:#01070d;
+border:1px solid #0875ff;
+border-radius:8px;
+color:#fff
+}
+
+.modal-actions{
+display:flex;
+gap:8px
+}
+
+.modal-actions button{
+flex:1;
+padding:10px;
+border:0;
+border-radius:8px;
+font-weight:900
+}
+
+.close{
+background:#4b1521;
+color:#fff
+}
+
+.modal-connect{
+background:#00c94b;
+color:#001
+}
+
+.congrats{
+position:fixed;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+z-index:12000;
+background:rgba(0,0,0,.72)
+}
+
+.congrats-box{
+width:min(520px,90vw);
+text-align:center;
+padding:35px;
+border:4px solid #ffe500;
+border-radius:25px;
+background:
+radial-gradient(circle at center,#173800,#020a0d 65%);
+box-shadow:
+0 0 30px #ffe500,
+0 0 80px #00ff54
+}
+
+.congrats-box h1{
+font-size:42px;
+color:#ffe500;
+margin:0 0 12px
+}
+
+.congrats-profit{
+font-size:32px;
+font-weight:900;
+color:#00ff54
+}
+
+@media(max-width:1000px){
+
+.stats{
+grid-template-columns:repeat(4,1fr)
+}
+
+.controls{
+grid-template-columns:repeat(3,1fr)
+}
+
+.markets{
+grid-template-columns:1fr 1fr
+}
+
+}
+
+@media(max-width:700px){
+
+body{
+padding:0 7px 15px
+}
+
+.top{
+height:275px;
+margin:0 -7px 10px;
+border-radius:22px
+}
+
+.refresh{
+left:10px;
+top:14px;
+font-size:15px;
+padding:8px 10px
+}
+
+.date{
+right:10px;
+top:13px;
+font-size:13px;
+text-align:right
+}
+
+.clock{
+font-size:18px;
+display:block
+}
+
+.title{
+font-size:45px;
+margin-top:75px
+}
+
+.subtitle{
+font-size:18px;
+padding:3px 10px
+}
+
+.tagline{
+font-size:13px;
+padding:0 10px
+}
+
+.disco{
+width:60px;
+height:60px;
+top:125px
+}
+
+.leftball{
+left:20px
+}
+
+.rightball{
+right:20px
+}
+
+.access{
+grid-template-columns:1fr
+}
+
+.stats{
+grid-template-columns:repeat(2,1fr)
+}
+
+.markets{
+grid-template-columns:1fr
+}
+
+.controls{
+grid-template-columns:1fr 1fr
+}
+
+.rules{
+grid-template-columns:1fr 1fr
+}
+
+.market-grid{
+grid-template-columns:1fr
+}
+
+.real-grid{
+grid-template-columns:1fr
+}
+
+.history{
+overflow-x:auto
+}
+
+.history-head,
+.history-row{
+min-width:600px
+}
+
+.scanner-ring{
+width:205px;
+height:205px
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+
+<div class="lights"></div>
+
+<button class="refresh" onclick="refreshAll()">
+<span>↻</span> REFRESH
+</button>
+
+<!-- AUTOMATIC DATE AND TIME -->
+<div class="date" id="dateDisplay">
+21 September 2026<br>
+<span class="clock" id="clock">--:--:--</span>
+</div>
+
+<div class="crown">♛</div>
+
+<div class="disco leftball"></div>
+<div class="disco rightball"></div>
+
+<div class="title">
+<span class="j">J</span><span class="a">A</span><span class="z">Z</span><span class="zy">Z</span><span class="y">Y</span>
+<span class="b"> B</span><span class="ot">O</span><span class="ai">T AI</span>
+</div>
+
+<div class="subtitle">
+VIP BOT TRADING ENGINE
+</div>
+
+<div class="tagline">
+<span class="y">The bot trades in a low risk strategy focused on prioritizing capital preservation and long term consistency over high risk speculation.</span>
+</div>
+
+</header>
+
+
+<div class="row access">
+
+<div class="card identity neon">
+
+<div class="avatar">♛</div>
+
+<div>
+<div class="big">
+JAZZY BOT AI
+</div>
+
+<div class="small">
+VIP TRADING ENGINE
+</div>
+</div>
+
+</div>
+
+
+<div class="card mode neon">
+
+<div class="mode-title">
+ACCOUNT MODE
+</div>
+
+<div class="tabs">
+
+<button
+id="demoTab"
+class="tab active"
+onclick="setMode('demo')">
+DEMO
+</button>
+
+<button
+id="realTab"
+class="tab"
+onclick="setMode('real')">
+REAL
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="row stats">
+
+<div class="stat green">
+<div class="icon">💰</div>
+<div class="label">BALANCE</div>
+<div class="value" id="balance">€100.00</div>
+</div>
+
+<div class="stat green">
+<div class="icon">📈</div>
+<div class="label">PROFIT</div>
+<div class="value" id="profit">€0.00</div>
+</div>
+
+<div class="stat blue">
+<div class="icon">📊</div>
+<div class="label">TRADES</div>
+<div class="value" id="trades">0</div>
+</div>
+
+<div class="stat green">
+<div class="icon">🏆</div>
+<div class="label">WINS</div>
+<div class="value" id="wins">0</div>
+</div>
+
+<div class="stat red">
+<div class="icon">❌</div>
+<div class="label">LOSSES</div>
+<div class="value" id="losses">0</div>
+</div>
+
+<div class="stat yellow">
+<div class="icon">🎯</div>
+<div class="label">WIN RATE</div>
+<div class="value" id="winrate">0%</div>
+</div>
+
+<div class="stat red">
+<div class="icon">⛔</div>
+<div class="label">BOT STATUS</div>
+<div class="value" id="botStatus">STOPPED</div>
+</div>
+
+</div>
+
+
+<div class="row markets">
+
+<div class="card status neon">
+
+<div class="stopline">
+<div class="stopbox"></div>
+<span id="statusBoxText">BOT STOPPED</span>
+</div>
+
+<div style="margin-top:13px;color:#aaa;font-weight:700">
+Account:
+<span id="accountModeText">DEMO</span>
+</div>
+
+</div>
+
+
+<div class="card asset neon">
+
+<div class="assetname">
+<span class="coin btc">₿</span>
+<span id="cryptoName">BTC/USD</span>
+</div>
+
+<div class="market-price" id="cryptoPrice">—</div>
+
+<div class="waiting" id="cryptoSignal">
+WAIT
+</div>
+
+</div>
+
+
+<div class="card asset neon">
+
+<div class="assetname">
+<span class="coin usd">$</span>
+<span id="forexName">EUR/USD</span>
+</div>
+
+<div class="market-price" id="forexPrice">—</div>
+
+<div class="waiting" id="forexSignal">
+WAIT
+</div>
+
+</div>
+
+
+<div class="card asset neon">
+
+<div class="assetname">
+<span class="coin gold">Au</span>
+XAU/USD
+</div>
+
+<div class="market-price" id="goldPrice">—</div>
+
+<div class="waiting" id="goldSignal">
+WAIT
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card neon" style="margin-top:10px">
+
+<div class="section-title">
+⚙ RISK MANAGEMENT & BOT SETTINGS
+</div>
+
+<div class="controls">
+
+<div class="control">
+<label>MARKET</label>
+<select id="market">
+<option>All Markets</option>
+<option>Crypto</option>
+<option>Forex</option>
+<option>Gold</option>
+</select>
+</div>
+
+<div class="control">
+<label>STAKE MINIMUM</label>
+<input id="stake" type="number" value="0.50" min="0.50" step="0.10">
+</div>
+
+<div class="control">
+<label>LOSS LIMIT %</label>
+<input id="lossLimit" type="number" value="30" min="0" max="100">
+</div>
+
+<div class="control">
+<label>PROFIT LIMIT %</label>
+<input id="profitLimit" type="number" value="50" min="0" max="100">
+</div>
+
+<div class="control">
+<label>RECOVERY</label>
+<select id="recovery">
+<option>X2 Stake</option>
+</select>
+</div>
+
+<div class="control">
+<label>SCANNER %</label>
+<input id="scannerThreshold" type="number" value="55" min="0" max="100">
+</div>
+
+<div class="control">
+<label>NORMAL ENTRY %</label>
+<input id="normalEntry" type="number" value="55" min="0" max="100">
+</div>
+
+<div class="control">
+<label>RECOVERY ENTRY %</label>
+<input id="recoveryEntry" type="number" value="65" min="0" max="100">
+</div>
+
+<div class="control">
+<label>SCANNER SPEED</label>
+<select id="scannerSpeed">
+<option value="1">1 — FASTEST</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10 — SLOWEST</option>
+</select>
+</div>
+
+<div class="control">
+<label>TAKE PROFIT €</label>
+<input id="takeProfit" type="number" value="0" min="0" step="0.10">
+</div>
+
+<div class="control">
+<label>STOP LOSS €</label>
+<input id="stopLoss" type="number" value="0" min="0" step="0.10">
+</div>
+
+<div class="control">
+<label>SOUND</label>
+<select id="sound">
+<option>OFF</option>
+<option>ON</option>
+</select>
+</div>
+
+</div>
+
+
+<div class="rules">
+
+<div class="rule">
+<b>NORMAL ENTRY</b>
+<span>55%+</span>
+</div>
+
+<div class="rule">
+<b>BELOW NORMAL</b>
+<span>WAIT</span>
+</div>
+
+<div class="rule">
+<b>RECOVERY ENTRY</b>
+<span>65%+</span>
+</div>
+
+<div class="rule">
+<b>BELOW RECOVERY</b>
+<span>WAIT</span>
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="action start"
+onclick="startBot()">
+▶ START BOT
+</button>
+
+<button
+class="action stop"
+onclick="stopBot()">
+■ STOP BOT
+</button>
+
+</div>
+
+</div>
+
+
+<div class="scanner-card">
+
+<div class="scanner-head">
+
+<div class="scanner-title">
+🌈 MARKET SCANNER
+</div>
+
+<div class="scan-status" id="scanLive">
+● READY
+</div>
+
+</div>
+
+
+<div class="scanner-wrap">
+
+<div class="scanner-ring">
+
+<div class="scanner-inner">
+
+<div class="scan-number" id="scanNumber">
+SCAN 1–10
+</div>
+
+<div class="scan-caption">
+LIVE SCANNER
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="connection" id="publicConnection">
+● PUBLIC MARKET DATA CONNECTING...
+</div>
+
+
+<div class="market-grid">
+
+<div class="market-box">
+
+<h4>CRYPTO</h4>
+
+<div class="market-symbol" id="scanCrypto">
+BTC/USD
+</div>
+
+<div class="market-price" id="scanCryptoPrice">
+—
+</div>
+
+<div class="market-signal" id="scanCryptoSignal">
+WAIT
+</div>
+
+</div>
+
+
+<div class="market-box">
+
+<h4>FOREX</h4>
+
+<div class="market-symbol" id="scanForex">
+EUR/USD
+</div>
+
+<div class="market-price" id="scanForexPrice">
+—
+</div>
+
+<div class="market-signal" id="scanForexSignal">
+WAIT
+</div>
+
+</div>
+
+
+<div class="market-box">
+
+<h4>GOLD</h4>
+
+<div class="market-symbol">
+XAU/USD
+</div>
+
+<div class="market-price" id="scanGoldPrice">
+—
+</div>
+
+<div class="market-signal" id="scanGoldSignal">
+WAIT
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card real-panel">
+
+<div class="section-title">
+🔐 DERIV REAL ACCOUNT
+</div>
+
+<div class="real-grid">
+
+<input
+id="email"
+type="email"
+placeholder="Email">
+
+<input
+id="password"
+type="password"
+placeholder="Password">
+
+<input
+id="brokerUrl"
+placeholder="Broker URL">
+
+<input
+id="apiToken"
+type="password"
+placeholder="API Token">
+
+</div>
+
+<div class="real-buttons">
+
+<button
+class="connect"
+onclick="connectReal()">
+CONNECT
+</button>
+
+<button
+class="disconnect"
+onclick="disconnectReal()">
+DISCONNECT
+</button>
+
+</div>
+
+<div class="real-state" id="realEngineState">
+Real account disconnected
+</div>
+
+<div style="margin-top:7px">
+Real Balance:
+<b id="realBalance">€0.00</b>
+</div>
+
+</div>
+
+
+<div class="card history">
+
+<div class="section-title">
+📜 TRADING HISTORY
+</div>
+
+<div class="history-head">
+<div>TIME</div>
+<div>MARKET</div>
+<div>TYPE</div>
+<div>RESULT</div>
+<div>P/L</div>
+</div>
+
+<div id="historyRows">
+<div style="padding:12px;color:#888">
+No trades yet.
+</div>
+</div>
+
+</div>
+
+
+<div class="toast" id="toast">
+Ready
+</div>
+
+
+<div class="modal" id="loginModal">
+
+<div class="modal-box">
+
+<h2>🔐 REAL ACCOUNT LOGIN</h2>
+
+<input
+id="modalEmail"
+type="email"
+placeholder="Email">
+
+<input
+id="modalPassword"
+type="password"
+placeholder="Password">
+
+<div class="modal-actions">
+
+<button
+class="close"
+onclick="closeLogin()">
+CANCEL
+</button>
+
+<button
+class="modal-connect"
+onclick="connectRealFromModal()">
+CONNECT
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="congrats" id="congrats">
+
+<div class="congrats-box">
+
+<h1>
+🎉 CONGRATULATIONS! 🎉
+</h1>
+
+<div>
+TAKE PROFIT HIT
+</div>
+
+<div
+class="congrats-profit"
+id="congratsProfit">
++€0.00
+</div>
+
+</div>
+
+</div>
+
+
 <script>
-const $=id=>document.getElementById(id);
 
-let ws=null;
-let mode='demo';
-let running=false;
-let realConnected=false;
-let scanNo=1;
-let scanTimer=null;
-let reconnectTimer=null;
+const $ = id => document.getElementById(id);
 
-let trades=0;
-let wins=0;
-let losses=0;
-let balance=100;
-let profit=0;
-let history=[];
+let running = false;
+let realConnected = false;
+let interval = null;
+let scanTimer = null;
+let scanNumber = 1;
 
-let markets={
- crypto:{symbols:[],ticks:{}},
- forex:{symbols:[],ticks:{}},
- gold:{symbols:[],ticks:{}}
+let balance = 100;
+let profit = 0;
+let trades = 0;
+let wins = 0;
+let losses = 0;
+
+let recoveryNext = false;
+let history = [];
+
+let publicWS = null;
+let publicEndpointIndex = 0;
+
+const publicEndpoints = [
+"wss://api.derivws.com/trading/v1/options/ws/public",
+"wss://ws.binaryws.com/websockets/v3"
+];
+
+const cryptoPairs = [
+"BTC/USD",
+"ETH/USD",
+"LTC/USD",
+"BCH/USD"
+];
+
+const forexPairs = [
+"EUR/USD",
+"GBP/USD",
+"USD/JPY",
+"AUD/USD",
+"USD/CAD",
+"EUR/GBP"
+];
+
+const publicSymbols = {
+crypto:[],
+forex:[],
+gold:[]
 };
 
-const cryptoNames=[
- "BTC/USD",
- "ETH/USD",
- "LTC/USD",
- "BCH/USD",
- "XRP/USD"
-];
+const tickSeries = {};
 
-const forexNames=[
- "EUR/USD",
- "GBP/USD",
- "USD/JPY",
- "AUD/USD",
- "USD/CAD",
- "EUR/GBP"
-];
+const publicRequests = {};
 
-/* =========================
-   BASIC UI
-========================= */
 
-function toast(msg){
- const t=$("toast");
- if(!t)return;
-
- t.textContent=msg;
- t.style.display="block";
-
- clearTimeout(window.toastTimer);
-
- window.toastTimer=setTimeout(()=>{
-  t.style.display="none";
- },3000);
-}
+/* =========================================
+   DATE + TIME
+   ========================================= */
 
 function updateClock(){
- const d=new Date();
 
- if($("date")){
-  $("date").textContent=d.toLocaleDateString(
-   "en-GB",
-   {
-    day:"numeric",
-    month:"long",
-    year:"numeric"
-   }
-  );
- }
+const d = new Date();
 
- if($("clock")){
-  $("clock").textContent=d.toLocaleTimeString(
-   [],
-   {
-    hour12:false
-   }
-  );
- }
+const date =
+d.toLocaleDateString(
+"en-GB",
+{
+day:"2-digit",
+month:"long",
+year:"numeric"
+}
+);
+
+const time =
+d.toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit",
+hour12:false
+}
+);
+
+const dateEl = $("dateDisplay");
+
+if(dateEl){
+
+dateEl.innerHTML =
+date +
+"<br><span class='clock'>" +
+time +
+"</span>";
+
 }
 
-setInterval(updateClock,1000);
+}
+
 updateClock();
 
-/* =========================
-   ACCOUNT MODE
-========================= */
+setInterval(updateClock,1000);
 
-function setMode(m){
- mode=m;
 
- $("demoTab").classList.toggle(
-  "active",
-  m==="demo"
- );
+/* =========================================
+   TIME
+   ========================================= */
 
- $("realTab").classList.toggle(
-  "active",
-  m==="real"
- );
+function nowTime(){
 
- if(m==="real"){
-  $("authState").textContent=
-   realConnected
-   ? "REAL ACCOUNT CONNECTED"
-   : "REAL ACCOUNT — CONNECT REQUIRED";
-
-  $("loginModal").classList.add("open");
-
- }else{
-
-  if(running)stopBot();
-
-  $("authState").textContent="Demo account";
-
-  toast("Demo account selected");
- }
+return new Date().toLocaleTimeString(
+"en-GB",
+{
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit",
+hour12:false
 }
+);
+
+}
+
+
+/* =========================================
+   TOAST
+   ========================================= */
+
+function toast(message){
+
+const el = $("toast");
+
+el.textContent = message;
+el.style.display = "block";
+
+clearTimeout(toast.timer);
+
+toast.timer = setTimeout(
+function(){
+el.style.display = "none";
+},
+2500
+);
+
+}
+
+
+/* =========================================
+   MODE
+   ========================================= */
+
+function setMode(mode){
+
+$("demoTab").classList.toggle(
+"active",
+mode === "demo"
+);
+
+$("realTab").classList.toggle(
+"active",
+mode === "real"
+);
+
+$("accountModeText").textContent =
+mode.toUpperCase();
+
+if(mode === "real"){
+
+$("loginModal").style.display = "flex";
+
+}else{
+
+if(running){
+stopBot();
+}
+
+toast("Demo account selected");
+
+}
+
+}
+
+
+/* =========================================
+   LOGIN MODAL
+   ========================================= */
 
 function closeLogin(){
- $("loginModal").classList.remove("open");
+
+$("loginModal").style.display = "none";
+
+$("demoTab").classList.add("active");
+$("realTab").classList.remove("active");
+
+$("accountModeText").textContent = "DEMO";
+
 }
 
-/* =========================
-   DERIV CONNECTION
-========================= */
 
-function setConnection(text){
- const el=$("connectionText");
+function connectRealFromModal(){
 
- if(el){
-  el.textContent=text;
- }
+const email =
+$("modalEmail").value.trim();
+
+const password =
+$("modalPassword").value;
+
+if(!email || !password){
+
+toast("Enter your email and password");
+
+return;
+
 }
 
-function connectDeriv(){
+$("email").value = email;
+$("password").value = password;
 
- clearTimeout(reconnectTimer);
+$("loginModal").style.display = "none";
 
- if(ws){
-  try{
-   ws.onclose=null;
-   ws.close();
-  }catch(e){}
- }
+connectReal();
 
- ws=null;
-
- markets={
-  crypto:{symbols:[],ticks:{}},
-  forex:{symbols:[],ticks:{}},
-  gold:{symbols:[],ticks:{}}
- };
-
- setConnection(
-  "● DERIV PUBLIC DATA CONNECTING..."
- );
-
- try{
-
-  /*
-   Current Deriv public market-data endpoint.
-   No authentication is required.
-  */
-
-  ws=new WebSocket(
-   "wss://api.derivws.com/trading/v1/options/ws/public"
-  );
-
-  ws.onopen=function(){
-
-   setConnection(
-    "● DERIV PUBLIC MARKET DATA CONNECTED"
-   );
-
-   toast("Deriv market data connected");
-
-   /*
-    Ask Deriv for the available markets.
-   */
-
-   ws.send(JSON.stringify({
-    active_symbols:"brief",
-    req_id:1
-   }));
-
-  };
-
-  ws.onerror=function(event){
-
-   console.error(
-    "Deriv WebSocket error:",
-    event
-   );
-
-   setConnection(
-    "● DERIV CONNECTION ERROR — RETRYING..."
-   );
-  };
-
-  ws.onclose=function(event){
-
-   console.warn(
-    "Deriv WebSocket closed:",
-    event.code,
-    event.reason
-   );
-
-   setConnection(
-    "● DERIV DISCONNECTED — RECONNECTING..."
-   );
-
-   reconnectTimer=setTimeout(
-    connectDeriv,
-    3000
-   );
-  };
-
-  ws.onmessage=function(event){
-
-   try{
-
-    const data=JSON.parse(event.data);
-
-    /*
-     Show API errors instead of silently
-     leaving the dashboard at CONNECTING.
-    */
-
-    if(data.error){
-
-     console.error(
-      "Deriv API error:",
-      data.error
-     );
-
-     setConnection(
-      "● DERIV ERROR: "+
-      (
-       data.error.message ||
-       data.error.code ||
-       "REQUEST FAILED"
-      )
-     );
-
-     return;
-    }
-
-    /*
-     Current Deriv active-symbol response.
-    */
-
-    if(
-     data.msg_type==="active_symbols" ||
-     data.active_symbols
-    ){
-
-     const list=
-      data.active_symbols ||
-      [];
-
-     loadSymbols(list);
-
-     return;
-    }
-
-    /*
-     Current tick response.
-    */
-
-    if(
-     data.msg_type==="tick" ||
-     data.tick
-    ){
-
-     handleTick(data.tick);
-
-     return;
-    }
-
-    /*
-     Historical tick response.
-    */
-
-    if(
-     data.msg_type==="history" ||
-     data.history
-    ){
-
-     handleHistory(data);
-
-     return;
-    }
-
-   }catch(error){
-
-    console.error(
-     "Deriv message parse error:",
-     error
-    );
-   }
-  };
-
- }catch(error){
-
-  console.error(
-   "WebSocket creation failed:",
-   error
-  );
-
-  setConnection(
-   "● DERIV WEBSOCKET FAILED — RETRYING..."
-  );
-
-  reconnectTimer=setTimeout(
-   connectDeriv,
-   3000
-  );
- }
 }
 
-/* =========================
-   SYMBOL PROCESSING
-========================= */
 
-function loadSymbols(list){
-
- if(!Array.isArray(list)){
-  setConnection(
-   "● DERIV RETURNED NO MARKET LIST"
-  );
-  return;
- }
-
- const crypto=[];
- const forex=[];
- const gold=[];
-
- list.forEach(item=>{
-
-  const id=
-   item.underlying_symbol ||
-   item.symbol ||
-   "";
-
-  const name=
-   item.underlying_symbol_name ||
-   item.display_name ||
-   id;
-
-  const type=
-   (
-    item.underlying_symbol_type ||
-    item.symbol_type ||
-    ""
-   ).toLowerCase();
-
-  if(!id)return;
-
-  const upper=(
-   id+" "+name
-  ).toUpperCase();
-
-  /*
-   Crypto
-  */
-
-  if(
-   upper.includes("BTC") ||
-   upper.includes("ETH") ||
-   upper.includes("LTC") ||
-   upper.includes("BCH") ||
-   upper.includes("XRP")
-  ){
-
-   crypto.push({
-    id,
-    name,
-    type
-   });
-
-  }
-
-  /*
-   Forex
-  */
-
-  if(
-   type.includes("forex") ||
-   upper.includes("EUR/USD") ||
-   upper.includes("GBP/USD") ||
-   upper.includes("USD/JPY") ||
-   upper.includes("AUD/USD") ||
-   upper.includes("USD/CAD") ||
-   upper.includes("EUR/GBP")
-  ){
-
-   forex.push({
-    id,
-    name,
-    type
-   });
-
-  }
-
-  /*
-   Gold.
-   Keep XAU/USD only.
-  */
-
-  if(
-   upper.includes("XAU") ||
-   upper.includes("GOLD")
-  ){
-
-   gold.push({
-    id,
-    name,
-    type
-   });
-  }
-
- });
-
- markets.crypto.symbols=
-  pickPreferred(
-   crypto,
-   cryptoNames
-  );
-
- markets.forex.symbols=
-  pickPreferred(
-   forex,
-   forexNames
-  );
-
- markets.gold.symbols=
-  gold.filter(x=>
-   x.id.toUpperCase().includes("XAU")
-  );
-
- /*
-  If symbols were found, subscribe.
- */
-
- subscribeMarkets();
-
- setConnection(
-  "● DERIV LIVE — "+
-  (
-   markets.crypto.symbols.length+
-   markets.forex.symbols.length+
-   markets.gold.symbols.length
-  )+
-  " MARKETS"
- );
-
- renderMarkets();
-}
-
-function pickPreferred(
- items,
- preferred
-){
-
- const result=[];
-
- preferred.forEach(name=>{
-
-  const found=items.find(x=>
-   x.id.toUpperCase()===name ||
-   x.name.toUpperCase().includes(name)
-  );
-
-  if(
-   found &&
-   !result.some(
-    x=>x.id===found.id
-   )
-  ){
-
-   result.push(found);
-  }
-
- });
-
- /*
-  Add additional markets returned
-  by Deriv if available.
- */
-
- items.forEach(item=>{
-
-  if(
-   result.length<6 &&
-   !result.some(
-    x=>x.id===item.id
-   )
-  ){
-
-   result.push(item);
-  }
-
- });
-
- return result.slice(0,6);
-}
-
-/* =========================
-   LIVE SUBSCRIPTIONS
-========================= */
-
-function subscribeMarkets(){
-
- if(
-  !ws ||
-  ws.readyState!==WebSocket.OPEN
- ){
-  return;
- }
-
- let requestId=100;
-
- const all=[
-  ...markets.crypto.symbols,
-  ...markets.forex.symbols,
-  ...markets.gold.symbols
- ];
-
- all.forEach(symbol=>{
-
-  /*
-   Initialize storage.
-  */
-
-  if(
-   markets.crypto.symbols.some(
-    x=>x.id===symbol.id
-   )
-  ){
-
-   markets.crypto.ticks[symbol.id]=
-    markets.crypto.ticks[symbol.id]||[];
-
-  }
-
-  if(
-   markets.forex.symbols.some(
-    x=>x.id===symbol.id
-   )
-  ){
-
-   markets.forex.ticks[symbol.id]=
-    markets.forex.ticks[symbol.id]||[];
-
-  }
-
-  if(
-   markets.gold.symbols.some(
-    x=>x.id===symbol.id
-   )
-  ){
-
-   markets.gold.ticks[symbol.id]=
-    markets.gold.ticks[symbol.id]||[];
-
-  }
-
-  /*
-   Subscribe directly to the live tick stream.
-  */
-
-  ws.send(JSON.stringify({
-   ticks:symbol.id,
-   subscribe:1,
-   req_id:requestId++
-  }));
-
- });
-}
-
-/* =========================
-   TICK HANDLING
-========================= */
-
-function handleTick(tick){
-
- if(!tick)return;
-
- const id=tick.symbol;
-
- const price=Number(
-  tick.quote
- );
-
- if(
-  !id ||
-  !Number.isFinite(price)
- ){
-  return;
- }
-
- let group=null;
-
- if(
-  markets.crypto.symbols.some(
-   x=>x.id===id
-  )
- ){
-  group=markets.crypto;
- }
-
- else if(
-  markets.forex.symbols.some(
-   x=>x.id===id
-  )
- ){
-  group=markets.forex;
- }
-
- else if(
-  markets.gold.symbols.some(
-   x=>x.id===id
-  )
- ){
-  group=markets.gold;
- }
-
- if(!group)return;
-
- group.ticks[id]=
-  group.ticks[id]||[];
-
- group.ticks[id].push({
-  price:price,
-  time:Date.now()
- });
-
- if(
-  group.ticks[id].length>50
- ){
-  group.ticks[id].shift();
- }
-
- renderMarkets();
-}
-
-function handleHistory(data){
-
- /*
-  History is optional.
-  The live tick subscription is sufficient
-  for the dashboard.
-  We keep this function so history responses
-  don't cause errors.
-  */
-
- if(
-  data &&
-  data.echo_req &&
-  data.echo_req.ticks_history
- ){
-  return;
- }
-}
-
-/* =========================
-   SIGNAL ENGINE
-========================= */
-
-function getSeries(group){
-
- const result=[];
-
- group.symbols.forEach(symbol=>{
-
-  const ticks=
-   group.ticks[symbol.id]||[];
-
-  if(ticks.length){
-
-   result.push({
-    symbol,
-    ticks
-   });
-
-  }
-
- });
-
- return result;
-}
-
-function calculateConfidence(ticks){
-
- if(
-  !ticks ||
-  ticks.length<2
- ){
-  return 0;
- }
-
- const recent=
-  ticks.slice(-12);
-
- const first=
-  recent[0].price;
-
- const last=
-  recent[recent.length-1].price;
-
- if(!first)return 0;
-
- const change=
-  ((last-first)/first)*100;
-
- const strength=
-  Math.min(
-   45,
-   Math.abs(change)*5000
-  );
-
- return Math.round(
-  55+strength
- );
-}
-
-function signalFor(group){
-
- const candidates=
-  getSeries(group);
-
- if(!candidates.length){
-
-  return {
-   symbol:"Connecting...",
-   price:null,
-   confidence:0
-  };
- }
-
- /*
-  Select the market with the most
-  received live ticks.
-  */
-
- candidates.sort(
-  (a,b)=>
-   b.ticks.length-
-   a.ticks.length
- );
-
- const best=
-  candidates[0];
-
- const ticks=
-  best.ticks;
-
- const latest=
-  ticks[ticks.length-1];
-
- return {
-  symbol:best.symbol.id,
-  price:latest?
-   latest.price:
-   null,
-  confidence:
-   calculateConfidence(ticks)
- };
-}
-
-/* =========================
-   RENDER MARKETS
-========================= */
-
-function renderMarkets(){
-
- const crypto=
-  signalFor(markets.crypto);
-
- const forex=
-  signalFor(markets.forex);
-
- const gold=
-  signalFor(markets.gold);
-
- renderGroup(
-  "crypto",
-  crypto,
-  "Crypto"
- );
-
- renderGroup(
-  "forex",
-  forex,
-  "Forex"
- );
-
- renderGroup(
-  "gold",
-  gold,
-  "Gold"
- );
-
- window.scanData={
-  crypto,
-  forex,
-  gold
- };
-}
-
-function renderGroup(
- key,
- data,
- tableName
-){
-
- if(!data)return;
-
- const symbol=
-  data.symbol||"Connecting...";
-
- const price=
-  data.price;
-
- const confidence=
-  data.confidence||0;
-
- $(key+"Symbol").textContent=
-  symbol;
-
- $(key+"Price").textContent=
-  price===null
-  ? "—"
-  : Number(price).toFixed(5);
-
- $(key+"Signal").textContent=
-  confidence>=55
-  ? "SIGNAL "+confidence+"%"
-  : "WAIT";
-
- const tableSymbol=
-  $("table"+tableName);
-
- const tablePrice=
-  $("table"+tableName+"Price");
-
- const tableSignal=
-  $("table"+tableName+"Signal");
-
- if(tableSymbol)
-  tableSymbol.textContent=symbol;
-
- if(tablePrice)
-  tablePrice.textContent=
-   price===null
-   ? "—"
-   : Number(price).toFixed(5);
-
- if(tableSignal)
-  tableSignal.textContent=
-   confidence>=55
-   ? confidence+"%"
-   : "WAIT";
-}
-
-/* =========================
-   SCANNER
-========================= */
-
-function scannerCandidates(){
-
- const data=
-  window.scanData||{};
-
- const selected=
-  $("market").value;
-
- const result=[];
-
- if(
-  selected==="All Markets" ||
-  selected==="Crypto"
- ){
-
-  if(data.crypto)
-   result.push([
-    "Crypto",
-    data.crypto
-   ]);
-
- }
-
- if(
-  selected==="All Markets" ||
-  selected==="Forex"
- ){
-
-  if(data.forex)
-   result.push([
-    "Forex",
-    data.forex
-   ]);
-
- }
-
- if(
-  selected==="All Markets" ||
-  selected==="Gold"
- ){
-
-  if(data.gold)
-   result.push([
-    "Gold",
-    data.gold
-   ]);
-
- }
-
- return result.filter(
-  x=>x[1].confidence>0
- );
-}
-
-function runScan(){
-
- const candidates=
-  scannerCandidates();
-
- $("scanNumber").textContent=
-  scanNo;
-
- scanNo++;
-
- if(scanNo>10)
-  scanNo=1;
-
- if(!candidates.length){
-
-  $("scanState").textContent=
-   "WAITING FOR LIVE DATA";
-
-  $("scanConfidence").textContent=
-   "0%";
-
-  $("scanProgress").style.width=
-   "0%";
-
-  return;
- }
-
- candidates.sort(
-  (a,b)=>
-   b[1].confidence-
-   a[1].confidence
- );
-
- const best=
-  candidates[0];
-
- const confidence=
-  best[1].confidence;
-
- const threshold=
-  Math.max(
-   55,
-   Number(
-    $("scannerThreshold").value
-   )||55
-  );
-
- $("scanState").textContent=
-  best[0]+" — "+
-  (
-   confidence>=threshold
-   ? "SIGNAL"
-   : "WAIT"
-  );
-
- $("scanConfidence").textContent=
-  confidence+"%";
-
- $("scanProgress").style.width=
-  Math.min(
-   100,
-   confidence
-  )+"%";
-}
-
-function scheduleScanner(){
-
- clearInterval(scanTimer);
-
- const speed=
-  Math.max(
-   1,
-   Math.min(
-    10,
-    Number(
-     $("scannerSpeed").value
-    )||1
-   )
-  );
-
- /*
-  Speed 1 = fastest.
-  All settings remain below 10 seconds.
- */
-
- const interval=
-  450+
-  ((speed-1)*120);
-
- scanTimer=
-  setInterval(
-   runScan,
-   interval
-  );
-}
-
-/* =========================
-   BOT
-========================= */
-
-function startBot(){
-
- if(running)return;
-
- if(
-  mode==="real" &&
-  !realConnected
- ){
-
-  $("loginModal")
-   .classList.add("open");
-
-  toast(
-   "Connect the real account first"
-  );
-
-  return;
- }
-
- running=true;
-
- $("botStatus").textContent=
-  mode==="real"
-  ? "REAL READY"
-  : "RUNNING";
-
- $("botStatus").style.color=
-  "#00ff55";
-
- $("scanLive").textContent=
-  "● LIVE";
-
- scheduleScanner();
-
- runScan();
-
- toast(
-  mode==="real"
-  ? "Real account engine ready"
-  : "VIP scanner started"
- );
-}
-
-function stopBot(){
-
- running=false;
-
- clearInterval(scanTimer);
-
- scanTimer=null;
-
- $("botStatus").textContent=
-  "STOPPED";
-
- $("botStatus").style.color=
-  "#ff1645";
-
- $("scanLive").textContent=
-  "● READY";
-
- toast("Bot stopped");
-}
-
-/* =========================
-   REAL ACCOUNT BACKEND
-========================= */
+/* =========================================
+   REAL ACCOUNT
+   ========================================= */
 
 async function connectReal(){
 
- const email=
-  $("modalEmail").value.trim() ||
-  $("email").value.trim();
+const email =
+$("email").value.trim();
 
- const password=
-  $("modalPassword").value ||
-  $("password").value;
+const password =
+$("password").value;
 
- if(!email || !password){
+const url =
+$("brokerUrl").value.trim();
 
-  toast(
-   "Enter your Deriv login details"
-  );
+const token =
+$("apiToken").value.trim();
 
-  return;
- }
+if(!email || !password){
 
- $("email").value=email;
- $("password").value=password;
+toast("Email and password required");
 
- try{
+return;
 
-  const response=
-   await fetch(
-    "/api/health",
-    {
-     method:"GET",
-     headers:{
-      "Accept":
-       "application/json"
-     }
-    }
-   );
-
-  if(!response.ok)
-   throw new Error(
-    "Backend unavailable"
-   );
-
-  realConnected=true;
-
-  $("authState").textContent=
-   "REAL ACCOUNT — BACKEND READY";
-
-  $("realBalance").textContent=
-   "Real balance: authentication backend ready";
-
-  $("realEngineState").textContent=
-   "Real engine: awaiting authenticated Deriv session";
-
-  $("loginModal")
-   .classList.remove("open");
-
-  toast(
-   "Vercel backend connected"
-  );
-
- }catch(error){
-
-  console.error(
-   "Backend error:",
-   error
-  );
-
-  realConnected=false;
-
-  $("authState").textContent=
-   "REAL ACCOUNT — CONNECTION REQUIRED";
-
-  $("realEngineState").textContent=
-   "Real engine: backend connection failed";
-
-  toast(
-   "Vercel API connection failed"
-  );
- }
 }
 
-/* =========================
-   CONGRATULATIONS
-========================= */
+if(!url || !token){
 
-function showCongratulations(amount){
+$("realEngineState").textContent =
+"Enter Broker URL and API Token to connect";
 
- $("congratsProfit").textContent=
-  "Profit: €"+
-  Number(amount).toFixed(2);
+toast("Broker URL and API Token required");
 
- $("congrats")
-  .classList.add("show");
+return;
 
- setTimeout(()=>{
-  $("congrats")
-   .classList.remove("show");
- },10000);
 }
 
-/* =========================
-   INPUTS
-========================= */
+try{
 
-$("stake").addEventListener(
- "change",
- function(){
+$("realEngineState").textContent =
+"Connecting...";
 
-  if(
-   Number(this.value)<0.50
-  ){
-   this.value="0.50";
-  }
-
- }
+const response =
+await fetch(
+url.replace(/\/$/,"") + "/account",
+{
+method:"GET",
+headers:{
+"Authorization":"Bearer " + token
+}
+}
 );
 
-$("scannerSpeed").addEventListener(
- "change",
- function(){
+if(!response.ok){
 
-  if(running)
-   scheduleScanner();
-
- }
+throw new Error(
+"HTTP " + response.status
 );
 
-/* =========================
-   START
-========================= */
+}
 
-renderHistory();
-connectDeriv();
+const data =
+await response.json();
 
+realConnected = true;
+
+$("realEngineState").textContent =
+"REAL ACCOUNT CONNECTED";
+
+if(data.balance !== undefined){
+
+$("realBalance").textContent =
+"€" +
+Number(data.balance).toFixed(2);
+
+}
+
+$("accountModeText").textContent =
+"REAL";
+
+$("demoTab").classList.remove("active");
+$("realTab").classList.add("active");
+
+toast("Real account connected");
+
+}catch(error){
+
+realConnected = false;
+
+$("realEngineState").textContent =
+"Connection failed: " + error.message;
+
+toast("Real account connection failed");
+
+}
+
+}
+
+
+function disconnectReal(){
+
+realConnected = false;
+
+$("realEngineState").textContent =
+"Real account disconnected";
+
+$("realBalance").textContent =
+"€0.00";
+
+setMode("demo");
+
+toast("Real account disconnected");
+
+}
+
+
+/* =========================================
+   RULES
+   ========================================= */
+
+function syncRules(){
+
+const stake =
+Math.max(
+0.50,
+Number($("stake").value) || 0.50
+);
+
+$("stake").value =
+stake.toFixed(2);
+
+}
+
+
+/* =========================================
+   SCANNER
+   ========================================= */
+
+function scannerConfidence(){
+
+return Math.floor(
+50 + Math.random() * 48
+);
+
+}
+
+
+function randomScanner(){
+
+const crypto =
+cryptoPairs[
+Math.floor(
+Math.random() * cryptoPairs.length
+)
+];
+
+const forex =
+forexPairs[
+Math.floor(
+Math.random() * forexPairs.length
+)
+];
+
+$("cryptoName").textContent = crypto;
+$("forexName").textContent = forex;
+
+$("scanCrypto").textContent = crypto;
+$("scanForex").textContent = forex;
+
+}
+
+
+function startScanTimer(){
+
+stopScanTimer();
+
+const speed =
+Number($("scannerSpeed").value) || 1;
+
+/*
+Speed 1 is fastest.
+*/
+
+const delay =
+Math.max(
+250,
+speed * 650
+);
+
+scanTimer =
 setInterval(
- function(){
-  if(running)
-   runScan();
- },
- 500
+function(){
+
+scanNumber++;
+
+if(scanNumber > 10){
+scanNumber = 1;
+}
+
+$("scanNumber").textContent =
+"SCAN " + scanNumber + "–10";
+
+if(scanNumber === 1){
+
+randomScanner();
+
+}
+
+},
+delay
 );
+
+}
+
+
+function stopScanTimer(){
+
+if(scanTimer){
+
+clearInterval(scanTimer);
+scanTimer = null;
+
+}
+
+}
+
+
+/* =========================================
+   PUBLIC MARKET DATA
+   ========================================= */
+
+function categorizeSymbol(item){
+
+const symbol =
+item.underlying_symbol ||
+item.symbol ||
+"";
+
+const type =
+String(
+item.underlying_symbol_type ||
+item.symbol_type ||
+""
+).toLowerCase();
+
+const name =
+String(
+item.underlying_symbol_name ||
+item.display_name ||
+""
+).toLowerCase();
+
+if(
+/xau/i.test(symbol) ||
+/gold/.test(name)
+){
+
+return "gold";
+
+}
+
+if(
+/crypto|cryptocurrency|digital/.test(type) ||
+/btc|eth|ltc|bch|ada|doge|sol|xrp/i.test(symbol)
+){
+
+return "crypto";
+
+}
+
+if(
+/forex|fx/.test(type) ||
+/eur|gbp|usd|jpy|aud|cad|chf|nzd/i.test(symbol)
+){
+
+return "forex";
+
+}
+
+return null;
+
+}
+
+
+function startPublicMarketData(){
+
+if(publicWS){
+
+try{
+publicWS.close();
+}catch(e){}
+
+}
+
+const endpoint =
+publicEndpoints[
+publicEndpointIndex
+];
+
+$("publicConnection").textContent =
+"● CONNECTING TO PUBLIC MARKET DATA...";
+
+try{
+
+publicWS =
+new WebSocket(endpoint);
+
+publicWS.onopen =
+function(){
+
+$("publicConnection").textContent =
+"● PUBLIC MARKET DATA LIVE";
+
+publicEndpointIndex = 0;
+
+publicWS.send(
+JSON.stringify({
+active_symbols:"brief",
+req_id:1
+})
+);
+
+};
+
+publicWS.onmessage =
+function(event){
+
+let message;
+
+try{
+
+message =
+JSON.parse(event.data);
+
+}catch(e){
+
+return;
+
+}
+
+
+/* Active symbols */
+
+if(message.msg_type === "active_symbols"){
+
+publicSymbols.crypto = [];
+publicSymbols.forex = [];
+publicSymbols.gold = [];
+
+const symbols =
+message.active_symbols || [];
+
+symbols.forEach(
+function(item){
+
+const category =
+categorizeSymbol(item);
+
+const symbol =
+item.underlying_symbol ||
+item.symbol;
+
+if(!symbol || !category){
+return;
+}
+
+if(
+!publicSymbols[category]
+.includes(symbol)
+){
+
+publicSymbols[category]
+.push(symbol);
+
+}
+
+}
+);
+
+
+/* Keep Gold fixed */
+
+publicSymbols.gold =
+publicSymbols.gold
+.filter(
+s => /XAU/i.test(s)
+);
+
+
+/* Subscribe */
+
+const combined = [
+...publicSymbols.crypto.slice(0,4),
+...publicSymbols.forex.slice(0,6),
+...publicSymbols.gold.slice(0,1)
+];
+
+combined.forEach(
+function(symbol,index){
+
+setTimeout(
+function(){
+
+requestTicks(
+symbol
+);
+
+},
+index * 100
+);
+
+});
+
+}
+
+
+/* Tick */
+
+if(message.msg_type === "tick"){
+
+const tick =
+message.tick || {};
+
+const symbol =
+tick.symbol ||
+"";
+
+const quote =
+Number(tick.quote);
+
+if(
+!Number.isFinite(quote)
+){
+return;
+}
+
+tickSeries[symbol] =
+tickSeries[symbol] || [];
+
+tickSeries[symbol].push({
+price:quote,
+epoch:tick.epoch ||
+Date.now()/1000
+});
+
+if(tickSeries[symbol].length > 100){
+
+tickSeries[symbol].shift();
+
+}
+
+updateVisibleMarket(
+symbol,
+quote
+);
+
+}
+
+
+/* Error */
+
+if(message.error){
+
+$("publicConnection").textContent =
+"● MARKET DATA ERROR: " +
+(message.error.message || "Unknown error");
+
+}
+
+};
+
+
+publicWS.onerror =
+function(){
+
+$("publicConnection").textContent =
+"● MARKET DATA CONNECTION RETRY...";
+
+};
+
+
+publicWS.onclose =
+function(){
+
+$("publicConnection").textContent =
+"● MARKET DATA RECONNECTING...";
+
+publicEndpointIndex =
+(publicEndpointIndex + 1) %
+publicEndpoints.length;
+
+setTimeout(
+startPublicMarketData,
+3000
+);
+
+};
+
+}catch(error){
+
+$("publicConnection").textContent =
+"● MARKET DATA RETRYING...";
+
+publicEndpointIndex =
+(publicEndpointIndex + 1) %
+publicEndpoints.length;
+
+setTimeout(
+startPublicMarketData,
+3000
+);
+
+}
+
+}
+
+
+function requestTicks(symbol){
+
+if(!publicWS ||
+publicWS.readyState !== WebSocket.OPEN
+){
+
+return;
+
+}
+
+try{
+
+publicWS.send(
+JSON.stringify({
+ticks_history:symbol,
+end:"latest",
+count:20,
+subscribe:1
+})
+);
+
+}catch(e){}
+
+}
+
+
+/* =========================================
+   MARKET DISPLAY
+   ========================================= */
+
+function updateVisibleMarket(
+symbol,
+price
+){
+
+if(
+/BTC|ETH|LTC|BCH|ADA|DOGE|SOL|XRP/i
+.test(symbol)
+){
+
+$("cryptoPrice").textContent =
+price.toFixed(2);
+
+$("scanCryptoPrice").textContent =
+price.toFixed(2);
+
+$("cryptoSignal").textContent =
+"LIVE";
+
+$("scanCryptoSignal").textContent =
+"● LIVE";
+
+$("cryptoSignal").className =
+"live";
+
+$("scanCryptoSignal").className =
+"market-signal live";
+
+}
+
+
+else if(
+/XAU/i.test(symbol)
+){
+
+$("goldPrice").textContent =
+price.toFixed(2);
+
+$("scanGoldPrice").textContent =
+price.toFixed(2);
+
+$("goldSignal").textContent =
+"LIVE";
+
+$("scanGoldSignal").textContent =
+"● LIVE";
+
+$("goldSignal").className =
+"live";
+
+$("scanGoldSignal").className =
+"market-signal live";
+
+}
+
+
+else if(
+/EUR|GBP|JPY|AUD|CAD|CHF|NZD/i
+.test(symbol)
+){
+
+$("forexPrice").textContent =
+price.toFixed(5);
+
+$("scanForexPrice").textContent =
+price.toFixed(5);
+
+$("forexSignal").textContent =
+"LIVE";
+
+$("scanForexSignal").textContent =
+"● LIVE";
+
+$("forexSignal").className =
+"live";
+
+$("scanForexSignal").className =
+"market-signal live";
+
+}
+
+}
+
+
+/* =========================================
+   REFRESH
+   ========================================= */
+
+function refreshAll(){
+
+if(running){
+
+stopBot();
+
+}
+
+publicSymbols.crypto = [];
+publicSymbols.forex = [];
+publicSymbols.gold = [];
+
+Object.keys(tickSeries)
+.forEach(
+key => delete tickSeries[key]
+);
+
+randomScanner();
+
+updateClock();
+
+if(publicWS){
+
+try{
+publicWS.close();
+}catch(e){}
+
+}
+
+publicEndpointIndex = 0;
+
+startPublicMarketData();
+
+toast(
+"Dashboard refreshed — reconnecting live market data"
+);
+
+}
+
+
+/* =========================================
+   START BOT
+   ========================================= */
+
+function startBot(){
+
+syncRules();
+
+if(
+!publicWS ||
+publicWS.readyState !== WebSocket.OPEN
+){
+
+startPublicMarketData();
+
+}
+
+running = true;
+
+$("botStatus").textContent =
+"RUNNING";
+
+$("statusBoxText").textContent =
+"BOT RUNNING";
+
+$("scanLive").textContent =
+"● SCANNING";
+
+$("statusBoxText").style.color =
+"#00ff54";
+
+$("statusBoxText").parentElement
+.querySelector(".stopbox")
+.style.background =
+"#00ff54";
+
+startScanTimer();
+
+if(interval){
+
+clearInterval(interval);
+
+}
+
+interval =
+setInterval(
+maybeTrade,
+2500
+);
+
+toast(
+$("accountModeText").textContent === "REAL"
+? "VIP REAL engine started"
+: "VIP demo bot started"
+);
+
+}
+
+
+/* =========================================
+   STOP BOT
+   ========================================= */
+
+function stopBot(){
+
+running = false;
+
+$("botStatus").textContent =
+"STOPPED";
+
+$("statusBoxText").textContent =
+"BOT STOPPED";
+
+$("scanLive").textContent =
+"● READY";
+
+$("statusBoxText").style.color =
+"#ff1748";
+
+$("statusBoxText").parentElement
+.querySelector(".stopbox")
+.style.background =
+"#ff1b48";
+
+if(interval){
+
+clearInterval(interval);
+interval = null;
+
+}
+
+stopScanTimer();
+
+toast("Bot stopped");
+
+}
+
+
+/* =========================================
+   DEMO TRADE CYCLE
+   ========================================= */
+
+function maybeTrade(){
+
+if(!running){
+return;
+}
+
+const normal =
+Number($("normalEntry").value) || 55;
+
+const recoveryEntry =
+Number($("recoveryEntry").value) || 65;
+
+const scanner =
+Number($("scannerThreshold").value) || 55;
+
+const market =
+$("market").value;
+
+const keys =
+market === "All Markets"
+?
+["crypto","forex","gold"]
+:
+[
+market === "Crypto"
+? "crypto"
+:
+market === "Forex"
+? "forex"
+:
+"gold"
+];
+
+const candidates =
+keys
+.map(
+k => ({
+k,
+p:scannerConfidence()
+})
+)
+.filter(
+x => x.p >= scanner
+);
+
+if(!candidates.length){
+return;
+}
+
+const best =
+candidates.sort(
+(a,b) => b.p-a.p
+)[0];
+
+const confidence =
+best.p;
+
+const required =
+recoveryNext
+?
+recoveryEntry
+:
+normal;
+
+if(confidence < required){
+return;
+}
+
+const names = {
+crypto:"BTC/USD",
+forex:"EUR/USD",
+gold:"XAU/USD"
+};
+
+const m =
+names[best.k];
+
+const baseStake =
+Math.max(
+0.50,
+Number($("stake").value) || 0.50
+);
+
+const stake =
+recoveryNext
+?
+baseStake * 2
+:
+baseStake;
+
+const lossLimit =
+Math.max(
+0,
+Math.min(
+100,
+Number($("lossLimit").value) || 30
+)
+);
+
+const profitLimit =
+Math.max(
+0,
+Math.min(
+100,
+Number($("profitLimit").value) || 50
+)
+);
+
+const lossCap =
+stake *
+(lossLimit / 100);
+
+const profitCap =
+stake *
+(1 + profitLimit / 100);
+
+const win =
+Math.random() > 0.48;
+
+const requestedTP =
+Number($("takeProfit").value) ||
+profitCap;
+
+const pnl =
+win
+?
+Math.min(
+requestedTP,
+profitCap
+)
+:
+-Math.min(
+stake,
+lossCap
+);
+
+trades++;
+
+if(win){
+
+wins++;
+recoveryNext = false;
+
+}else{
+
+losses++;
+recoveryNext = true;
+
+}
+
+profit += pnl;
+balance += pnl;
+
+updateStats();
+
+addHistory(
+m,
+win,
+pnl
+);
+
+const sessionLoss =
+Math.abs(
+Math.min(
+0,
+profit
+)
+);
+
+const stopLoss =
+Number($("stopLoss").value) || 0;
+
+if(
+stopLoss > 0 &&
+sessionLoss >= stopLoss
+){
+
+stopBot();
+
+}
+
+const sessionTP =
+Number($("takeProfit").value) || 0;
+
+if(
+sessionTP > 0 &&
+profit >= sessionTP
+){
+
+showCongratulations(
+sessionTP
+);
+
+stopBot();
+
+}
+
+}
+
+
+/* =========================================
+   STATS
+   ========================================= */
+
+function updateStats(){
+
+$("balance").textContent =
+"€" + balance.toFixed(2);
+
+$("profit").textContent =
+"€" + profit.toFixed(2);
+
+$("trades").textContent =
+trades;
+
+$("wins").textContent =
+wins;
+
+$("losses").textContent =
+losses;
+
+$("winrate").textContent =
+(
+trades
+?
+wins / trades * 100
+:
+0
+).toFixed(0) + "%";
+
+}
+
+
+/* =========================================
+   HISTORY
+   ========================================= */
+
+function addHistory(
+market,
+win,
+pnl
+){
+
+history.unshift({
+
+time:nowTime(),
+
+m:market,
+
+type:
+Math.random() > .5
+?
+"BUY"
+:
+"SELL",
+
+win:win,
+
+pnl:pnl
+
+});
+
+history =
+history.slice(
+0,
+10
+);
+
+$("historyRows").innerHTML =
+history.map(
+x => `
+
+<div class="history-row">
+
+<div>${x.time}</div>
+
+<div>${x.m}</div>
+
+<div>
+<span class="badge ${x.type === "BUY" ? "buy" : "sell"}">
+${x.type}
+</span>
+</div>
+
+<div>
+<span class="badge waiting-badge">
+${x.win ? "WIN" : "LOSS"}
+</span>
+</div>
+
+<div class="${x.pnl >= 0 ? "pplus" : "pminus"}">
+${x.pnl >= 0 ? "+" : ""}
+€${x.pnl.toFixed(2)}
+</div>
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =========================================
+   CONGRATULATIONS
+   ========================================= */
+
+function showCongratulations(
+amount
+){
+
+$("congratsProfit").textContent =
+"+€" +
+Number(amount).toFixed(2);
+
+$("congrats").style.display =
+"flex";
+
+setTimeout(
+function(){
+
+$("congrats").style.display =
+"none";
+
+},
+10000
+);
+
+playSound(
+"win"
+);
+
+}
+
+
+/* =========================================
+   SOUND
+   ========================================= */
+
+function playSound(type){
+
+if(
+$("sound").value !== "ON"
+){
+return;
+}
+
+try{
+
+const AudioContext =
+window.AudioContext ||
+window.webkitAudioContext;
+
+if(!AudioContext){
+return;
+}
+
+const ctx =
+new AudioContext();
+
+const oscillator =
+ctx.createOscillator();
+
+const gain =
+ctx.createGain();
+
+oscillator.connect(gain);
+gain.connect(ctx.destination);
+
+oscillator.frequency.value =
+type === "win"
+?
+880
+:
+520;
+
+gain.gain.value =
+0.08;
+
+oscillator.start();
+
+setTimeout(
+function(){
+
+oscillator.stop();
+
+ctx.close();
+
+},
+250
+);
+
+}catch(e){}
+
+}
+
+
+/* =========================================
+   INITIALIZE
+   ========================================= */
+
+updateClock();
+
+syncRules();
+
+randomScanner();
+
+startPublicMarketData();
 
 </script>
+
+</body>
+</html>
