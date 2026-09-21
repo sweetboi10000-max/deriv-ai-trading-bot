@@ -1,3457 +1,574 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050914">
-<title>Jazzy Bot AI</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JAZZY BOT AI — VIP Deriv Trading</title>
 
 <style>
 :root{
-  --bg:#050914;
-  --panel:#0a1020;
-  --panel2:#0d1528;
-  --line:#1b2a46;
-  --blue:#1683ff;
-  --blue2:#00b7ff;
-  --yellow:#ffd43b;
-  --green:#19d58a;
-  --red:#ff5364;
-  --text:#f4f7ff;
-  --muted:#8190aa;
-  --shadow:0 12px 35px rgba(0,0,0,.35);
+  --bg:#05050c;
+  --panel:#0d0d19;
+  --line:#292943;
+  --pink:#ff20d0;
+  --cyan:#00eaff;
+  --green:#28ff86;
+  --yellow:#ffe44d;
+  --red:#ff4d70;
+  --purple:#9d35ff;
 }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html,body{
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-}
+*{box-sizing:border-box}
 
 body{
-  padding:14px;
+  margin:0;
+  background:
+    radial-gradient(circle at 50% 0,#24104d 0,#080810 42%,#030308 100%);
+  color:#fff;
+  font-family:Inter,system-ui,Arial,sans-serif;
 }
 
-button,
-input,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.app{
-  width:100%;
-  max-width:1250px;
+.wrap{
+  max-width:1100px;
   margin:auto;
+  padding:18px;
 }
 
-.topbar{
+.top{
   display:flex;
-  align-items:center;
+  gap:10px;
   justify-content:space-between;
-  gap:12px;
-  padding:14px;
-  margin-bottom:14px;
-  background:linear-gradient(135deg,#0b1325,#070d1a);
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:var(--shadow);
+  align-items:center;
+  flex-wrap:wrap;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo{
-  width:44px;
-  height:44px;
-  border-radius:13px;
-  display:grid;
-  place-items:center;
-  font-size:22px;
+  font-size:28px;
   font-weight:900;
-  color:#fff;
-  background:linear-gradient(135deg,#086dff,#00b7ff);
-  box-shadow:0 0 25px rgba(0,145,255,.35);
+  letter-spacing:.8px;
+  text-shadow:0 0 16px var(--pink);
 }
 
-.brand h1{
-  font-size:20px;
+.vip{
+  color:#111;
+  background:linear-gradient(90deg,#ffe600,#ff7a00);
+  padding:4px 10px;
+  border-radius:8px;
+  font-weight:900;
 }
 
-.brand p{
-  margin-top:3px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.top-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-select,
-input{
-  width:100%;
-  color:#fff;
-  background:#080f1d;
-  border:1px solid #263653;
-  border-radius:10px;
-  padding:10px 11px;
-  outline:none;
-}
-
-select:focus,
-input:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 2px rgba(22,131,255,.12);
-}
-
-.top-actions select{
-  width:auto;
-  min-width:105px;
-}
-
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:10px 14px;
-  font-weight:800;
-  color:#fff;
-  background:#16233c;
-}
-
-.btn:hover{
-  filter:brightness(1.12);
-}
-
-.btn.primary{
-  background:linear-gradient(135deg,#0877ff,#00a7ff);
-}
-
-.btn.stop{
-  background:linear-gradient(135deg,#c92742,#ff5364);
-}
-
-.btn.yellow{
-  color:#101010;
-  background:linear-gradient(135deg,#ffd43b,#ffb700);
-}
-
-.connection{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:9px 12px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#718096;
-}
-
-.dot.on{
-  background:var(--green);
-  box-shadow:0 0 12px rgba(25,213,138,.8);
-}
-
-.dot.bad{
-  background:var(--red);
-  box-shadow:0 0 12px rgba(255,83,100,.7);
-}
-
-.hero{
-  padding:20px;
-  margin-bottom:14px;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:
-    radial-gradient(circle at 90% 10%,rgba(0,183,255,.16),transparent 32%),
-    radial-gradient(circle at 10% 100%,rgba(22,131,255,.12),transparent 32%),
-    #08101f;
-  box-shadow:var(--shadow);
-}
-
-.hero h2{
-  font-size:27px;
-  margin-bottom:7px;
-}
-
-.hero p{
-  color:var(--muted);
-  line-height:1.5;
+.clock{
+  color:#b7b7d7;
   font-size:13px;
 }
 
-.status-row{
+.banner,.card{
+  background:linear-gradient(180deg,#121225,#090914);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 0 25px #0008;
+  margin-top:14px;
+  padding:16px;
+}
+
+.banner{
+  border-color:#542e70;
+}
+
+.sub{
+  color:#bdbbd4;
+  font-size:13px;
+  line-height:1.55;
+  margin-top:5px;
+}
+
+.tabs{
   display:flex;
-  flex-wrap:wrap;
   gap:8px;
-  margin-top:15px;
 }
 
-.status-pill{
-  padding:8px 11px;
-  border-radius:999px;
-  background:#0d182c;
-  border:1px solid #20324f;
-  font-size:11px;
-  color:#b9c7dc;
+.tab,.btn{
+  border:1px solid #343451;
+  background:#111123;
+  color:#fff;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:800;
+  cursor:pointer;
 }
 
-.status-pill.live{
-  color:#8ff1c5;
-  border-color:rgba(25,213,138,.35);
+.tab.active,
+.btn.primary{
+  border-color:var(--cyan);
+  box-shadow:0 0 14px #00eaff44;
 }
 
-.status-pill.recovery{
-  color:#ffe38a;
-  border-color:rgba(255,212,59,.35);
+.btn.danger{
+  border-color:var(--red);
+}
+
+.btn.green{
+  border-color:var(--green);
 }
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:14px;
-}
-
-.card{
-  background:linear-gradient(145deg,#0b1324,#080f1c);
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:15px;
-  box-shadow:var(--shadow);
-}
-
-.card-label{
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.7px;
-}
-
-.card-value{
-  font-size:23px;
-  font-weight:900;
-  margin-top:7px;
-}
-
-.card-sub{
-  margin-top:4px;
-  font-size:11px;
-  color:var(--muted);
-}
-
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
-
-.yellow{
-  color:var(--yellow);
-}
-
-.blue{
-  color:#4eb5ff;
-}
-
-.section{
-  margin-bottom:14px;
-  background:linear-gradient(145deg,#0a1222,#080e1a);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:16px;
-  box-shadow:var(--shadow);
-}
-
-.section-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:13px;
-}
-
-.section-title h3{
-  font-size:15px;
-}
-
-.section-title span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.controls{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:11px;
-}
-
-.field label{
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:6px;
-}
-
-.field small{
-  display:block;
-  color:#64738d;
-  margin-top:5px;
-  font-size:10px;
-}
-
-.market-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:12px;
 }
 
+.metric{
+  background:#090914;
+  border:1px solid #202038;
+  border-radius:12px;
+  padding:12px;
+}
+
+.metric b{
+  font-size:23px;
+}
+
+.label{
+  color:#8e8ea9;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:5px;
+}
+
+.markets{
+  display:grid;
+  gap:9px;
+}
+
 .market{
-  position:relative;
-  overflow:hidden;
-  padding:16px;
-  border-radius:16px;
-  border:1px solid #1e304d;
-  background:#091322;
-}
-
-.market:after{
-  content:"";
-  position:absolute;
-  right:-35px;
-  top:-35px;
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  background:rgba(0,183,255,.08);
-}
-
-.market-head{
   display:flex;
   justify-content:space-between;
-  gap:8px;
+  align-items:center;
+  background:#0a0a14;
+  border:1px solid #202038;
+  border-radius:12px;
+  padding:11px;
 }
 
-.market-name{
+.market.live{
+  border-color:#00eaff66;
+  box-shadow:0 0 12px #00eaff18;
+}
+
+.symbol{
   font-weight:900;
 }
 
-.market-symbol{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:3px;
+.price{
+  color:var(--cyan);
+  font-variant-numeric:tabular-nums;
 }
 
-.market-price{
-  font-size:25px;
-  font-weight:900;
-  margin-top:15px;
+.state{
+  font-size:11px;
+  color:#8e8ea9;
 }
 
-.market-change{
-  font-size:11px;
-  margin-top:5px;
+.scannerWrap{
+  position:relative;
+  width:280px;
+  height:280px;
+  margin:20px auto;
 }
 
 .scanner{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    conic-gradient(
+      from 0deg,
+      var(--cyan),
+      var(--pink),
+      var(--purple),
+      var(--yellow),
+      var(--cyan)
+    );
+  padding:10px;
+  animation:spin .8s linear infinite;
+  box-shadow:
+    0 0 25px #00eaff55,
+    0 0 45px #ff20d033;
+}
+
+.scanner:before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border-radius:50%;
+  background:#07070f;
+  border:1px solid #343451;
+}
+
+.scannerInner{
+  position:absolute;
+  inset:0;
   display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:14px;
+  place-items:center;
+  text-align:center;
+  z-index:3;
 }
 
-.scanner-main{
-  padding:17px;
-  border-radius:16px;
-  background:#07101e;
-  border:1px solid #1d2e49;
+.scanNo{
+  font-size:34px;
+  font-weight:1000;
+  text-shadow:0 0 15px var(--cyan);
 }
 
-.scanner-main h4{
-  font-size:13px;
-  margin-bottom:12px;
-}
-
-.confidence{
-  font-size:48px;
-  font-weight:900;
-  line-height:1;
-}
-
-.confidence-label{
-  color:var(--muted);
+.scanText{
   font-size:11px;
-  margin-top:5px;
+  color:#aaa;
+  margin-top:3px;
 }
 
-.progress{
-  height:10px;
-  margin-top:15px;
-  background:#111d31;
-  border-radius:999px;
-  overflow:hidden;
+@keyframes spin{
+  to{transform:rotate(360deg)}
 }
 
-.progress span{
-  display:block;
-  width:0%;
-  height:100%;
-  background:linear-gradient(90deg,#1683ff,#00d4ff,#ffd43b);
-  border-radius:999px;
-  transition:width .3s ease;
-}
-
-.scanner-side{
+.formgrid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(2,1fr);
   gap:10px;
 }
 
-.mini{
-  padding:13px;
-  border-radius:14px;
-  background:#091424;
-  border:1px solid #1b2c47;
-}
-
-.mini strong{
-  display:block;
-  font-size:16px;
-  margin-top:5px;
-}
-
-.mini span{
-  color:var(--muted);
-  font-size:10px;
-}
-
-.action-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-  margin-top:14px;
-}
-
-.account-note{
-  margin-top:10px;
-  color:#7787a2;
-  font-size:11px;
-  line-height:1.5;
-}
-
-.table-wrap{
-  overflow:auto;
-  border:1px solid #1a2a43;
-  border-radius:13px;
-}
-
-table{
+input,select{
   width:100%;
-  border-collapse:collapse;
-  min-width:680px;
-}
-
-th,
-td{
+  background:#07070e;
+  color:#fff;
+  border:1px solid #30304a;
+  border-radius:9px;
   padding:11px;
-  border-bottom:1px solid #14233a;
-  text-align:left;
-  font-size:11px;
+  margin-top:6px;
 }
 
-th{
-  color:#8494af;
-  background:#081120;
+input:focus,select:focus{
+  outline:none;
+  border-color:var(--cyan);
+  box-shadow:0 0 10px #00eaff22;
 }
 
-td{
-  color:#dce5f4;
-}
-
-tbody tr:last-child td{
-  border-bottom:0;
-}
-
-.feed{
-  max-height:250px;
-  overflow:auto;
+.actions{
   display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.feed-item{
-  padding:10px;
-  border-radius:10px;
-  background:#091423;
-  border:1px solid #172941;
-  font-size:11px;
-}
-
-.feed-time{
-  color:#61728e;
-  margin-right:7px;
-}
-
-.feed-type{
-  font-weight:900;
-  margin-right:7px;
-}
-
-.feed-ok{
-  color:var(--green);
-}
-
-.feed-warn{
-  color:var(--yellow);
-}
-
-.feed-error{
-  color:var(--red);
-}
-
-.feed-info{
-  color:#56b8ff;
-}
-
-.checkbox{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:#b5c3d8;
-  font-size:11px;
-}
-
-.checkbox input{
-  width:auto;
-}
-
-.footer{
-  text-align:center;
-  padding:14px 5px 25px;
-  color:#5f6f89;
-  font-size:10px;
-}
-
-.notice{
-  padding:11px;
-  border-radius:11px;
-  border:1px solid rgba(255,212,59,.25);
-  background:rgba(255,212,59,.06);
-  color:#d7c57b;
-  font-size:11px;
-  line-height:1.5;
+  gap:10px;
+  flex-wrap:wrap;
   margin-top:12px;
 }
 
-@media(max-width:900px){
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .controls{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .market-grid{
-    grid-template-columns:1fr;
-  }
+.status{
+  padding:10px;
+  border-radius:10px;
+  background:#07070e;
+  color:#aaa;
+  font-size:12px;
+  border:1px solid #202038;
 }
 
-@media(max-width:600px){
-  body{
-    padding:8px;
+.ok{color:var(--green)}
+.warn{color:var(--yellow)}
+.bad{color:var(--red)}
+
+.categoryTitle{
+  margin-top:14px;
+  margin-bottom:7px;
+  color:#aaa;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translateX(-50%);
+  background:#111123;
+  border:1px solid var(--cyan);
+  box-shadow:0 0 25px #00eaff44;
+  padding:12px 18px;
+  border-radius:12px;
+  display:none;
+  z-index:100;
+}
+
+@media(max-width:700px){
+  .grid,.formgrid{
+    grid-template-columns:1fr;
   }
 
-  .topbar{
-    align-items:flex-start;
-    flex-direction:column;
+  .scannerWrap{
+    width:230px;
+    height:230px;
   }
 
-  .top-actions{
-    width:100%;
-    flex-wrap:wrap;
-  }
-
-  .top-actions select{
-    flex:1;
-  }
-
-  .connection{
-    width:100%;
-  }
-
-  .hero h2{
+  .brand{
     font-size:22px;
-  }
-
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .controls{
-    grid-template-columns:1fr;
-  }
-
-  .scanner{
-    grid-template-columns:1fr;
-  }
-
-  .scanner-side{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .card-value{
-    font-size:19px;
   }
 }
 </style>
 </head>
+
 <body>
 
-<div class="app">
+<div class="wrap">
 
-  <header class="topbar">
+  <!-- HEADER -->
+  <div class="top">
 
-    <div class="brand">
-      <div class="logo">J</div>
-      <div>
-        <h1>Jazzy Bot AI</h1>
-        <p>AI Market Scanner & Trading Engine</p>
-      </div>
+    <div>
+      <span class="brand">JAZZY BOT AI</span>
+      <span class="vip">VIP</span>
     </div>
 
-    <div class="top-actions">
-
-      <select id="accountTop">
-        <option value="demo">Demo Account</option>
-        <option value="real">Real Account</option>
-      </select>
-
-      <button class="btn primary" id="connectAccount">
-        Connect Account
-      </button>
-
+    <div class="clock" id="clock">
+      Loading local time…
     </div>
 
-  </header>
-
-
-  <section class="hero">
-
-    <h2>Live Market Intelligence</h2>
-
-    <p>
-      Real-time Deriv market data with configurable normal and recovery
-      entry thresholds.
-    </p>
-
-    <div class="status-row">
-
-      <div class="status-pill" id="dataStatus">
-        Market data connecting...
-      </div>
-
-      <div class="status-pill">
-        Normal Entry: <strong id="normalStatus">50%</strong>+
-      </div>
-
-      <div class="status-pill recovery">
-        Recovery Entry: <strong id="recoveryStatus">63%</strong>+
-      </div>
-
-      <div class="status-pill" id="botStatus">
-        Bot Stopped
-      </div>
-
-      <div class="status-pill" id="recoveryPill">
-        Normal Mode
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- STATISTICS -->
-
-  <section class="grid">
-
-    <div class="card">
-      <div class="card-label">Current Balance</div>
-      <div class="card-value" id="balance">$0.00</div>
-      <div class="card-sub" id="balanceMode">Demo engine</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Total Profit</div>
-      <div class="card-value green" id="totalProfit">$0.00</div>
-      <div class="card-sub">Session P&amp;L</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Total Trades</div>
-      <div class="card-value" id="totalTrades">0</div>
-      <div class="card-sub">Completed trades</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Win Rate</div>
-      <div class="card-value yellow" id="winRate">0%</div>
-      <div class="card-sub">Wins / completed trades</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Winning</div>
-      <div class="card-value green" id="wins">0</div>
-      <div class="card-sub">Successful trades</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Loss</div>
-      <div class="card-value red" id="losses">0</div>
-      <div class="card-sub">Losing trades</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Stake</div>
-      <div class="card-value blue" id="stakeDisplay">$0.50</div>
-      <div class="card-sub">Current stake</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">Last Result</div>
-      <div class="card-value" id="lastResult">Waiting</div>
-      <div class="card-sub" id="lastResultAmount">$0.00</div>
-    </div>
-
-  </section>
-
-
-  <!-- SETTINGS -->
-
-  <section class="section">
-
-    <div class="section-title">
-      <h3>Trading Settings</h3>
-      <span>Editable anytime</span>
-    </div>
-
-    <div class="controls">
-
-      <div class="field">
-        <label for="market">Market</label>
-
-        <select id="market">
-          <option value="crypto">BTC / USD</option>
-          <option value="forex">EUR / USD</option>
-          <option value="gold">XAU / USD</option>
-        </select>
-
-        <small>Market used by the scanner</small>
-      </div>
-
-
-      <div class="field">
-        <label for="stakeInput">Stake Amount ($)</label>
-
-        <input
-          id="stakeInput"
-          type="number"
-          min="0.50"
-          step="0.10"
-          value="0.50"
-        >
-
-        <small>Minimum stake: $0.50</small>
-      </div>
-
-
-      <div class="field">
-        <label for="entryThreshold">Normal Entry (%)</label>
-
-        <input
-          id="entryThreshold"
-          type="number"
-          min="1"
-          max="99"
-          step="1"
-          value="50"
-        >
-
-        <small>Entry allowed at this level or higher</small>
-      </div>
-
-
-      <div class="field">
-        <label for="recoveryThreshold">Recovery Entry (%)</label>
-
-        <input
-          id="recoveryThreshold"
-          type="number"
-          min="1"
-          max="99"
-          step="1"
-          value="63"
-        >
-
-        <small>Recovery allowed at this level or higher</small>
-      </div>
-
-
-      <div class="field">
-        <label for="profitTarget">Profit Amount ($)</label>
-
-        <input
-          id="profitTarget"
-          type="number"
-          min="0"
-          step="0.10"
-          value="4"
-        >
-
-        <small>Target shown by the demo engine</small>
-      </div>
-
-
-      <div class="field">
-        <label for="stopLoss">Loss Amount ($)</label>
-
-        <input
-          id="stopLoss"
-          type="number"
-          min="0"
-          step="0.10"
-          value="2"
-        >
-
-        <small>Risk amount used by the demo engine</small>
-      </div>
-
-
-      <div class="field">
-        <label for="currentPrice">Current Price</label>
-
-        <input
-          id="currentPrice"
-          type="number"
-          step="any"
-          placeholder="Waiting for tick..."
-        >
-
-        <small>Live Deriv price</small>
-      </div>
-
-
-      <div class="field">
-        <label>Manual Price</label>
-
-        <label class="checkbox">
-          <input type="checkbox" id="manualPrice">
-          Allow manual price
-        </label>
-
-        <small>Use this only when testing manually</small>
-      </div>
-
-    </div>
-
-
-    <div class="action-row">
-
-      <button class="btn primary" id="start">
-        ▶ Start Bot
-      </button>
-
-      <button class="btn stop" id="stop">
-        ■ Stop Bot
-      </button>
-
-      <button class="btn yellow" id="refresh">
-        ↻ Refresh
-      </button>
-
-      <button class="btn" id="sound">
-        🔔 Alarm: OFF
-      </button>
-
-      <button class="btn" id="testAlarm">
-        Test Alarm
-      </button>
-
-    </div>
-
-
-    <div class="notice">
-      Normal entries use the editable Normal Entry threshold.
-      Recovery entries use the editable Recovery Entry threshold.
-      The default values are 50% and 63%.
-    </div>
-
-  </section>
-
-
-  <!-- MARKETS -->
-
-  <section class="section">
-
-    <div class="section-title">
-      <h3>Live Markets</h3>
-      <span id="marketTime">Waiting for data...</span>
-    </div>
-
-    <div class="market-grid">
-
-      <div class="market">
-
-        <div class="market-head">
-          <div>
-            <div class="market-name">Crypto BTC/USD</div>
-            <div class="market-symbol">cryBTCUSD</div>
-          </div>
-
-          <div class="status-pill" id="cryptoState">
-            Waiting
-          </div>
-        </div>
-
-        <div class="market-price" id="cryptoPrice">
-          —
-        </div>
-
-        <div class="market-change" id="cryptoChange">
-          Waiting for tick data
-        </div>
-
-      </div>
-
-
-      <div class="market">
-
-        <div class="market-head">
-          <div>
-            <div class="market-name">Forex EUR/USD</div>
-            <div class="market-symbol">frxEURUSD</div>
-          </div>
-
-          <div class="status-pill" id="forexState">
-            Waiting
-          </div>
-        </div>
-
-        <div class="market-price" id="forexPrice">
-          —
-        </div>
-
-        <div class="market-change" id="forexChange">
-          Waiting for tick data
-        </div>
-
-      </div>
-
-
-      <div class="market">
-
-        <div class="market-head">
-          <div>
-            <div class="market-name">Gold XAU/USD</div>
-            <div class="market-symbol">frxXAUUSD</div>
-          </div>
-
-          <div class="status-pill" id="goldState">
-            Waiting
-          </div>
-        </div>
-
-        <div class="market-price" id="goldPrice">
-          —
-        </div>
-
-        <div class="market-change" id="goldChange">
-          Waiting for tick data
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- SCANNER -->
-
-  <section class="section">
-
-    <div class="section-title">
-      <h3>Market Scanner</h3>
-      <span id="scannerState">Waiting</span>
-    </div>
-
-    <div class="scanner">
-
-      <div class="scanner-main">
-
-        <h4 id="scannerMarket">
-          BTC / USD
-        </h4>
-
-        <div class="confidence" id="confidence">
-          0%
-        </div>
-
-        <div class="confidence-label">
-          Scanner confidence
-        </div>
-
-        <div class="progress">
-          <span id="confidenceBar"></span>
-        </div>
-
-        <div class="action-row">
-
-          <button class="btn primary" id="scanNow">
-            Scan Now
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div class="scanner-side">
-
-        <div class="mini">
-          <span>Current Price</span>
-          <strong id="scannerPrice">—</strong>
-        </div>
-
-        <div class="mini">
-          <span>Normal Entry</span>
-          <strong id="scannerNormal">50%+</strong>
-        </div>
-
-        <div class="mini">
-          <span>Recovery Entry</span>
-          <strong id="scannerRecovery">63%+</strong>
-        </div>
-
-        <div class="mini">
-          <span>Signal</span>
-          <strong id="signal">WAIT</strong>
-        </div>
-
-        <div class="mini">
-          <span>Bot State</span>
-          <strong id="scannerBotState">STOPPED</strong>
-        </div>
-
-        <div class="mini">
-          <span>Recovery</span>
-          <strong id="scannerRecoveryState">NO</strong>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- TRADING HISTORY -->
-
-  <section class="section">
-
-    <div class="section-title">
-      <h3>Trading History</h3>
-      <span id="historyCount">0 trades</span>
-    </div>
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Time</th>
-            <th>Market</th>
-            <th>Price</th>
-            <th>Confidence</th>
-            <th>Mode</th>
-            <th>Result</th>
-            <th>P&amp;L</th>
-          </tr>
-        </thead>
-
-        <tbody id="historyBody">
-
-          <tr>
-            <td colspan="7">
-              No trades yet.
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </section>
-
-
-  <!-- FEED -->
-
-  <section class="section">
-
-    <div class="section-title">
-      <h3>Bot Feed</h3>
-      <span>Live activity</span>
-    </div>
-
-    <div class="feed" id="feed">
-
-      <div class="feed-item">
-        <span class="feed-type feed-info">INFO</span>
-        Waiting for market data connection...
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <div class="footer">
-    Jazzy Bot AI • Market data connection • No guaranteed profit
   </div>
 
-</div>
+  <!-- BANNER -->
+  <div class="banner">
 
+    <b>VIP BOT TRADING ENGINE</b>
 
-<script>
- 'use strict';
+    <div class="sub">
+      The bot trades in a low risk strategy focused on prioritizing capital
+      preservation and long term consistency over high risk speculation.
+    </div>
 
-/*
-  JAZZY BOT AI
-  ----------------------------------------------------
-  Public Deriv market-data connection:
-  wss://api.derivws.com/trading/v1/options/ws/public
+  </div>
 
-  This version reads public market ticks.
+  <!-- ACCOUNT -->
+  <div class="card">
 
-  It does NOT claim to be authenticated for Demo/Real
-  trading. Actual account trading requires an
-  authenticated Deriv WebSocket connection.
-*/
+    <div class="top">
 
+      <div>
+        <b id="modeTitle">DEMO ACCOUNT</b>
 
-const $ = id => document.getElementById(id);
+        <div class="sub" id="connection">
+          Demo simulation — no real-money orders
+        </div>
+      </div>
 
+      <div class="tabs">
 
-/* ====================================================
-   CONFIGURATION
-==================================================== */
+        <button
+          id="demoBtn"
+          class="tab active"
+          onclick="setMode('demo')">
+          Demo
+        </button>
 
-const DERIV_PUBLIC_WS =
-  'wss://api.derivws.com/trading/v1/options/ws/public';
+        <button
+          id="realBtn"
+          class="tab"
+          onclick="setMode('real')">
+          Real
+        </button>
 
+      </div>
 
-const S = {
+    </div>
 
-  ws: null,
+    <div class="grid" style="margin-top:12px">
 
-  wsConnected: false,
+      <div class="metric">
+        <div class="label">Balance</div>
+        <b id="balance">—</b>
+      </div>
 
-  reconnectTimer: null,
+      <div class="metric">
+        <div class="label">Mode</div>
+        <b id="mode">DEMO</b>
+      </div>
 
-  reconnecting: false,
+      <div class="metric">
+        <div class="label">Engine</div>
+        <b id="engine">WAIT</b>
+      </div>
 
-  botRunning: false,
+    </div>
 
-  sound: false,
+  </div>
 
-  market: 'crypto',
+  <!-- RISK -->
+  <div class="card">
 
-  recovery: false,
+    <b>Risk Management</b>
 
-  tradeOpen: false,
+    <div class="grid" style="margin-top:12px">
 
-  tradeTimer: null,
+      <div>
+        <div class="label">Stake minimum</div>
+        <input
+          id="stake"
+          type="number"
+          min=".50"
+          step=".01"
+          value=".50">
+      </div>
 
-  scanTimer: null,
+      <div>
+        <div class="label">Loss control</div>
+        <input value="30%" readonly>
+      </div>
 
-  balance: 200,
+      <div>
+        <div class="label">Profit limit</div>
+        <input value="50%" readonly>
+      </div>
 
-  totalProfit: 0,
+      <div>
+        <div class="label">Recovery</div>
+        <input value="X2" readonly>
+      </div>
 
-  trades: 0,
+      <div>
+        <div class="label">Normal threshold</div>
+        <input value="55%" readonly>
+      </div>
 
-  wins: 0,
+      <div>
+        <div class="label">Recovery threshold</div>
+        <input value="65%" readonly>
+      </div>
 
-  losses: 0,
+    </div>
 
-  stake: 0.50,
+  </div>
 
-  profitTarget: 4,
+  <!-- MARKET SCANNER -->
+  <div class="card">
 
-  stopLoss: 2,
+    <div class="top">
 
-  entryThreshold: 50,
+      <b>Market Scanner</b>
 
-  recoveryThreshold: 63,
+      <span
+        class="state"
+        id="marketStatus">
+        Checking Deriv public market data…
+      </span>
 
-  symbols: {
-    crypto: 'cryBTCUSD',
-    forex: 'frxEURUSD',
-    gold: 'frxXAUUSD'
-  },
+    </div>
 
-  display: {
-    crypto: 'BTC/USD',
-    forex: 'EUR/USD',
-    gold: 'XAU/USD'
-  },
+    <div class="scannerWrap">
 
-  prices: {
-    crypto: null,
-    forex: null,
-    gold: null
-  },
+      <div class="scanner"></div>
 
-  previousPrices: {
-    crypto: null,
-    forex: null,
-    gold: null
-  },
+      <div class="scannerInner">
 
-  history: [],
+        <div>
 
-  ticks: {
-    crypto: [],
-    forex: [],
-    gold: []
-  }
+          <div
+            class="scanNo"
+            id="scanNo">
+            SCAN 1
+          </div>
 
-};
+          <div class="scanText">
+            LIVE SCANNER
+          </div>
 
+        </div>
 
-/* ====================================================
-   FORMATTERS
-==================================================== */
+      </div>
 
-function money(value){
+    </div>
 
-  const n = Number(value) || 0;
+    <!-- CRYPTO -->
+    <div class="categoryTitle">
+      Crypto
+    </div>
 
-  return '$' + n.toFixed(2);
+    <div
+      class="markets"
+      id="cryptoMarkets">
+    </div>
 
-}
+    <!-- FOREX -->
+    <div class="categoryTitle">
+      Forex
+    </div>
 
+    <div
+      class="markets"
+      id="forexMarkets">
+    </div>
 
-function price(value, market){
+    <!-- GOLD -->
+    <div class="categoryTitle">
+      Gold
+    </div>
 
-  if(value === null || value === undefined || !Number.isFinite(Number(value))){
-    return '—';
-  }
+    <div
+      class="markets"
+      id="goldMarkets">
+    </div>
 
-  const n = Number(value);
+    <div class="actions">
 
-  if(market === 'forex'){
-    return n.toFixed(5);
-  }
+      <button
+        class="btn primary"
+        onclick="startScan()">
+        Start Scanner
+      </button>
 
-  if(market === 'gold'){
-    return n.toFixed(2);
-  }
+      <button
+        class="btn danger"
+        onclick="stopScan()">
+        Stop Scanner
+      </button>
 
-  return n.toFixed(2);
+      <button
+        class="btn"
+        onclick="refreshDashboard()">
+        Refresh
+      </button>
 
-}
+    </div>
 
+  </div>
 
-function now(){
+  <!-- DERIV CONNECTION -->
+  <div class="card">
 
-  return new Date().toLocaleTimeString([],{
-    hour:'2-digit',
-    minute:'2-digit',
-    second:'2-digit'
-  });
+    <b>Deriv Account Connection</b>
 
-}
+    <div class="sub">
+      Real mode uses Deriv OAuth. Your password and OAuth credentials
+      are handled through the server-side API routes.
+    </div>
 
+    <div class="actions">
 
-/* ====================================================
-   FEED
-==================================================== */
+      <button
+        class="btn primary"
+        onclick="loginDeriv()">
+        Connect Deriv
+      </button>
 
-function feed(message,type='INFO',tone='info'){
+      <button
+        class="btn"
+        onclick="disconnect()">
+        Disconnect
+      </button>
 
-  const box = $('feed');
+    </div>
 
-  if(!box) return;
+    <div
+      id="authStatus"
+      class="status"
+      style="margin-top:10px">
+      Not connected.
+    </div>
 
-  const item = document.createElement('div');
+  </div>
 
-  item.className = 'feed-item';
-
-  const safeType =
-    String(type).toUpperCase();
-
-  const toneClass =
-    tone === 'error'
-      ? 'feed-error'
-      : tone === 'warn'
-        ? 'feed-warn'
-        : tone === 'ok'
-          ? 'feed-ok'
-          : 'feed-info';
-
-  item.innerHTML =
-    '<span class="feed-time">' +
-    now() +
-    '</span>' +
-    '<span class="feed-type ' +
-    toneClass +
-    '">' +
-    safeType +
-    '</span>' +
-    String(message);
-
-  box.prepend(item);
-
-  while(box.children.length > 80){
-    box.removeChild(box.lastChild);
-  }
-
-}
-
-
-/* ====================================================
-   STATUS
-==================================================== */
-
-function setConnectionStatus(text,state){
-
-  const status = $('dataStatus');
-
-  if(status){
-    status.textContent = text;
-    status.classList.remove('live');
-    status.classList.remove('recovery');
-
-    if(state === 'live'){
-      status.classList.add('live');
-    }
-  }
-
-}
-
-
-function setMarketState(market,text,live=false){
-
-  const id = market + 'State';
-
-  const el = $(id);
-
-  if(!el) return;
-
-  el.textContent = text;
-
-  el.classList.remove('live');
-  el.classList.remove('recovery');
-
-  if(live){
-    el.classList.add('live');
-  }
-
-}
-
-
-/* ====================================================
-   INPUTS
-==================================================== */
-
-function readInputs(){
-
-  let stake =
-    Number($('stakeInput').value);
-
-  let normal =
-    Number($('entryThreshold').value);
-
-  let recovery =
-    Number($('recoveryThreshold').value);
-
-  let profit =
-    Number($('profitTarget').value);
-
-  let loss =
-    Number($('stopLoss').value);
-
-
-  if(!Number.isFinite(stake) || stake < 0.50){
-    stake = 0.50;
-  }
-
-  if(!Number.isFinite(normal)){
-    normal = 50;
-  }
-
-  if(!Number.isFinite(recovery)){
-    recovery = 63;
-  }
-
-  if(!Number.isFinite(profit) || profit < 0){
-    profit = 4;
-  }
-
-  if(!Number.isFinite(loss) || loss < 0){
-    loss = 2;
-  }
-
-
-  normal =
-    Math.max(1,Math.min(99,normal));
-
-  recovery =
-    Math.max(1,Math.min(99,recovery));
-
-
-  $('stakeInput').value = stake.toFixed(2);
-  $('entryThreshold').value = normal;
-  $('recoveryThreshold').value = recovery;
-  $('profitTarget').value = profit;
-  $('stopLoss').value = loss;
-
-
-  S.stake = stake;
-  S.entryThreshold = normal;
-  S.recoveryThreshold = recovery;
-  S.profitTarget = profit;
-  S.stopLoss = loss;
-
-
-  $('normalStatus').textContent = normal + '%';
-  $('recoveryStatus').textContent = recovery + '%';
-
-$('scannerNormal').textContent =
-  normal + '%+';
-
-$('scannerRecovery').textContent =
-  recovery + '%+';
-
-  $('stakeDisplay').textContent =
-    money(stake);
-
-}
-
-
-/* ====================================================
-   UI STATS
-==================================================== */
-
-function updateStats(){
-
-  $('balance').textContent =
-    money(S.balance);
-
-  $('totalProfit').textContent =
-    money(S.totalProfit);
-
-  $('totalTrades').textContent =
-    S.trades;
-
-  $('wins').textContent =
-    S.wins;
-
-  $('losses').textContent =
-    S.losses;
-
-  const rate =
-    S.trades > 0
-      ? (S.wins / S.trades) * 100
-      : 0;
-
-  $('winRate').textContent =
-    rate.toFixed(1) + '%';
-
-  $('stakeDisplay').textContent =
-    money(S.stake);
-
-  $('historyCount').textContent =
-    S.trades +
-    (S.trades === 1 ? ' trade' : ' trades');
-
-
-  if(S.trades > 0){
-
-    const last =
-      S.history[0];
-
-    if(last){
-
-      $('lastResult').textContent =
-        last.result;
-
-      $('lastResultAmount').textContent =
-        money(last.pnl);
-
-      $('lastResult').classList.remove('green');
-      $('lastResult').classList.remove('red');
-
-      if(last.pnl >= 0){
-        $('lastResult').classList.add('green');
-      }else{
-        $('lastResult').classList.add('red');
-      }
-
-    }
-
-  }
-
-
-  $('balanceMode').textContent =
-    $('accountTop').value === 'real'
-      ? 'Real account selected'
-      : 'Demo engine';
-
-}
-
-
-/* ====================================================
-   MARKET PRICE UI
-==================================================== */
-
-function updateMarketCard(market){
-
-  const p =
-    S.prices[market];
-
-  if(p === null) return;
-
-
-  const priceEl =
-    $(market + 'Price');
-
-  const changeEl =
-    $(market + 'Change');
-
-
-  if(priceEl){
-    priceEl.textContent =
-      price(p,market);
-  }
-
-
-  const old =
-    S.previousPrices[market];
-
-
-  if(changeEl){
-
-    if(old === null){
-
-      changeEl.textContent =
-        'Live price received';
-
-      changeEl.className =
-        'market-change green';
-
-    }else{
-
-      const difference =
-        p - old;
-
-      if(difference > 0){
-
-        changeEl.textContent =
-          '▲ ' + difference.toFixed(
-            market === 'forex' ? 5 : 2
-          );
-
-        changeEl.className =
-          'market-change green';
-
-      }else if(difference < 0){
-
-        changeEl.textContent =
-          '▼ ' + Math.abs(difference).toFixed(
-            market === 'forex' ? 5 : 2
-          );
-
-        changeEl.className =
-          'market-change red';
-
-      }else{
-
-        changeEl.textContent =
-          'No change';
-
-        changeEl.className =
-          'market-change';
-
-      }
-
-    }
-
-  }
-
-}
-
-
-/* ====================================================
-   MANUAL / LIVE CURRENT PRICE
-==================================================== */
-
-function setCurrentPriceUI(){
-
-  const p =
-    S.prices[S.market];
-
-  if(p === null) return;
-
-
-  const manual =
-    $('manualPrice').checked;
-
-
-  if(!manual){
-
-    $('currentPrice').value =
-      String(p);
-
-  }
-
-
-  $('scannerPrice').textContent =
-    price(p,S.market);
-
-  $('scannerMarket').textContent =
-    S.display[S.market];
-
-}
-
-
-/* ====================================================
-   TICK HANDLING
-==================================================== */
-
-function updateMarketFromTick(symbol,quote){
-
-  const market =
-    Object.keys(S.symbols)
-      .find(key => S.symbols[key] === symbol);
-
-
-  if(!market) return;
-
-
-  const value =
-    Number(quote);
-
-
-  if(!Number.isFinite(value)) return;
-
-
-  S.previousPrices[market] =
-    S.prices[market];
-
-
-  S.prices[market] =
-    value;
-
-
-  S.ticks[market].push(value);
-
-
-  if(S.ticks[market].length > 120){
-    S.ticks[market].shift();
-  }
-
-
-  updateMarketCard(market);
-
-
-  if(market === S.market){
-
-    setCurrentPriceUI();
-
-    runScanner();
-
-  }
-
-
-  $('marketTime').textContent =
-    'Last tick: ' + now();
-
-}
-
-
-/* ====================================================
-   DERIV PUBLIC CONNECTION
-==================================================== */
-
-function connect(){
-
-  if(
-    S.ws &&
-    (
-      S.ws.readyState === WebSocket.OPEN ||
-      S.ws.readyState === WebSocket.CONNECTING
-    )
-  ){
-    return;
-  }
-
-
-  setConnectionStatus(
-    'Connecting to Deriv public market data...',
-    'wait'
-  );
-
-
-  feed(
-    'Opening Deriv public market-data connection',
-    'DATA',
-    'info'
-  );
-
-
-  let ws;
-
-
-  try{
-
-    ws =
-      new WebSocket(DERIV_PUBLIC_WS);
-
-  }catch(error){
-
-    setConnectionStatus(
-      'WebSocket unavailable',
-      'bad'
-    );
-
-    feed(
-      'Could not create WebSocket connection',
-      'ERROR',
-      'error'
-    );
-
-    scheduleReconnect();
-
-    return;
-
-  }
-
-
-  S.ws = ws;
-
-
-  ws.onopen = function(){
-
-    S.wsConnected = true;
-    S.reconnecting = false;
-
-
-    setConnectionStatus(
-      'Deriv public market data connected',
-      'live'
-    );
-
-
-    feed(
-      'Deriv market-data connection established',
-      'CONNECTED',
-      'ok'
-    );
-
-
-    /*
-      Ask Deriv for currently active symbols.
-      This is public market data and needs no login.
-    */
-
-    try{
-
-      ws.send(JSON.stringify({
-        active_symbols:'brief',
-        product_type:'basic',
-        req_id:1
-      }));
-
-
-      /*
-        Subscribe to our three requested markets.
-      */
-
-      Object.values(S.symbols).forEach(
-        function(symbol,index){
-
-          ws.send(JSON.stringify({
-            ticks:symbol,
-            subscribe:1,
-            req_id:10 + index
-          }));
-
-        }
-      );
-
-
-      feed(
-        'Subscribed to BTC/USD, EUR/USD and XAU/USD',
-        'DATA',
-        'ok'
-      );
-
-    }catch(error){
-
-      feed(
-        'Subscription request failed',
-        'ERROR',
-        'error'
-      );
-
-    }
-
-  };
-
-
-  ws.onmessage = function(event){
-
-    let data;
-
-    try{
-
-      data =
-        JSON.parse(event.data);
-
-    }catch(error){
-
-      return;
-
-    }
-
-
-    /*
-      Current Deriv tick response.
-    */
-
-    if(data.msg_type === 'tick' && data.tick){
-
-      updateMarketFromTick(
-        data.tick.symbol,
-        data.tick.quote
-      );
-
-      return;
-
-    }
-
-
-    /*
-      Active-symbol response.
-    */
-
-    if(data.msg_type === 'active_symbols'){
-
-      feed(
-        'Deriv returned active market symbols',
-        'SYMBOLS',
-        'ok'
-      );
-
-      return;
-
-    }
-
-
-    /*
-      API error response.
-    */
-
-    if(data.error){
-
-      const message =
-        data.error.message ||
-        'Deriv returned an API error';
-
-      feed(
-        message,
-        'DERIV ERROR',
-        'error'
-      );
-
-      return;
-
-    }
-
-  };
-
-
-  ws.onerror = function(){
-
-    S.wsConnected = false;
-
-
-    setConnectionStatus(
-      'Deriv market-data connection error',
-      'bad'
-    );
-
-
-    feed(
-      'Market-data WebSocket error',
-      'ERROR',
-      'error'
-    );
-
-  };
-
-
-  ws.onclose = function(){
-
-    S.wsConnected = false;
-
-
-    setConnectionStatus(
-      'Market data disconnected — reconnecting...',
-      'bad'
-    );
-
-
-    feed(
-      'Deriv market-data connection closed',
-      'DATA',
-      'warn'
-    );
-
-
-    scheduleReconnect();
-
-  };
-
-}
-
-
-/* ====================================================
-   RECONNECT
-==================================================== */
-
-function scheduleReconnect(){
-
-  if(S.reconnectTimer){
-    return;
-  }
-
-
-  S.reconnectTimer =
-    setTimeout(function(){
-
-      S.reconnectTimer = null;
-
-      connect();
-
-    },5000);
-
-}
-
-
-/* ====================================================
-   CONFIDENCE CALCULATION
-==================================================== */
-
-function calculateConfidence(market){
-
-  const values =
-    S.ticks[market];
-
-
-  /*
-    Do not manufacture a signal before we have
-    actual market ticks.
-  */
-
-  if(!values || values.length < 5){
-
-    return null;
-
-  }
-
-
-  const recent =
-    values.slice(-20);
-
-
-  const first =
-    recent[0];
-
-  const last =
-    recent[recent.length - 1];
-
-
-  if(
-    !Number.isFinite(first) ||
-    !Number.isFinite(last) ||
-    first <= 0
-  ){
-
-    return null;
-
-  }
-
-
-  /*
-    Direction.
-  */
-
-  const direction =
-    last >= first ? 1 : -1;
-
-
-  /*
-    Momentum.
-  */
-
-  const move =
-    Math.abs(last - first) / first;
-
-
-  const momentum =
-    Math.min(1,move * 5000);
-
-
-  /*
-    Short-term trend.
-  */
-
-  let up = 0;
-  let down = 0;
-
-
-  for(let i=1;i<recent.length;i++){
-
-    if(recent[i] > recent[i-1]){
-      up++;
-    }else if(recent[i] < recent[i-1]){
-      down++;
-    }
-
-  }
-
-
-  const total =
-    Math.max(1,up + down);
-
-
-  const trend =
-    direction > 0
-      ? up / total
-      : down / total;
-
-
-  /*
-    Confidence starts at 50 and adjusts using
-    actual observed tick direction/momentum.
-  */
-
-  let confidence =
-    50 +
-    (trend - 0.5) * 40 +
-    momentum * 12;
-
-
-  confidence =
-    Math.max(0,Math.min(95,confidence));
-
-
-  return Math.round(confidence);
-
-}
-
-
-/* ====================================================
-   SCANNER
-==================================================== */
-
-function runScanner(){
-
-  const market =
-    S.market;
-
-
-  const confidence =
-    calculateConfidence(market);
-
-
-  if(confidence === null){
-
-    $('confidence').textContent =
-      '0%';
-
-    $('confidenceBar').style.width =
-      '0%';
-
-    $('signal').textContent =
-      'WAIT';
-
-    $('scannerState').textContent =
-      'Waiting for enough live ticks';
-
-    return;
-
-  }
-
-
-  $('confidence').textContent =
-    confidence + '%';
-
-
-  $('confidenceBar').style.width =
-    confidence + '%';
-
-
-  $('scannerState').textContent =
-    'Live scanner';
-
-
-  const threshold =
-    S.recovery
-      ? S.recoveryThreshold
-      : S.entryThreshold;
-
-
-  if(confidence >= threshold){
-
-    $('signal').textContent =
-      S.recovery
-        ? 'RECOVERY ENTRY'
-        : 'ENTRY';
-
-    $('signal').className =
-      'green';
-
-  }else{
-
-    $('signal').textContent =
-      'WAIT';
-
-    $('signal').className =
-      '';
-
-  }
-
-
-  $('scannerBotState').textContent =
-    S.botRunning
-      ? 'RUNNING'
-      : 'STOPPED';
-
-
-  $('scannerRecoveryState').textContent =
-    S.recovery
-      ? 'YES'
-      : 'NO';
-
-}
-
-
-/* ====================================================
-   SCAN BUTTON
-==================================================== */
-
-function manualScan(){
-
-  readInputs();
-
-  runScanner();
-
-  const confidence =
-    calculateConfidence(S.market);
-
-
-  if(confidence === null){
-
-    feed(
-      'Scanner is waiting for more live Deriv ticks',
-      'SCAN',
-      'warn'
-    );
-
-    return;
-
-  }
-
-
-  const threshold =
-    S.recovery
-      ? S.recoveryThreshold
-      : S.entryThreshold;
-
-
-  if(confidence >= threshold){
-
-    feed(
-      (
-        S.recovery
-          ? 'Recovery signal'
-          : 'Normal entry signal'
-      ) +
-      ' detected at ' +
-      confidence +
-      '%',
-      'SIGNAL',
-      'ok'
-    );
-
-  }else{
-
-    feed(
-      'No entry: ' +
-      confidence +
-      '% is below ' +
-      threshold +
-      '%',
-      'SCAN',
-      'warn'
-    );
-
-  }
-
-}
-
-
-/* ====================================================
-   START BOT
-==================================================== */
-
-function start(){
-
-  readInputs();
-
-
-  if(S.botRunning){
-    return;
-  }
-
-
-  /*
-    Require an actual market-data connection and price.
-  */
-
-  const p =
-    S.prices[S.market];
-
-
-  if(!S.wsConnected || p === null){
-
-    feed(
-      'Bot cannot start yet. Waiting for live Deriv market data.',
-      'BOT',
-      'warn'
-    );
-
-
-    $('botStatus').textContent =
-      'Waiting for Market Data';
-
-
-    return;
-
-  }
-
-
-  S.botRunning = true;
-
-
-  $('botStatus').textContent =
-    'Bot Running';
-
-
-  $('botStatus').classList.add('live');
-
-
-  $('scannerBotState').textContent =
-    'RUNNING';
-
-
-  feed(
-    'Bot started on ' +
-    S.display[S.market] +
-    ' • Normal entry ' +
-    S.entryThreshold +
-    '%+ • Recovery ' +
-    S.recoveryThreshold +
-    '%+',
-    'BOT',
-    'ok'
-  );
-
-
-  clearInterval(S.scanTimer);
-
-
-  S.scanTimer =
-    setInterval(function(){
-
-      botCycle();
-
-    },3000);
-
-
-  botCycle();
-
-}
-
-
-/* ====================================================
-   STOP BOT
-==================================================== */
-
-function stop(){
-
-  S.botRunning = false;
-
-
-  clearInterval(S.scanTimer);
-
-  S.scanTimer = null;
-
-
-  if(S.tradeTimer){
-
-    clearTimeout(S.tradeTimer);
-
-    S.tradeTimer = null;
-
-  }
-
-
-  $('botStatus').textContent =
-    'Bot Stopped';
-
-
-  $('botStatus').classList.remove('live');
-
-
-  $('scannerBotState').textContent =
-    'STOPPED';
-
-
-  feed(
-    'Bot stopped',
-    'BOT',
-    'warn'
-  );
-
-}
-
-
-/* ====================================================
-   BOT CYCLE
-==================================================== */
-
-function botCycle(){
-
-  if(!S.botRunning){
-    return;
-  }
-
-
-  if(S.tradeOpen){
-    return;
-  }
-
-
-  const confidence =
-    calculateConfidence(S.market);
-
-
-  if(confidence === null){
-    return;
-  }
-
-
-  const threshold =
-    S.recovery
-      ? S.recoveryThreshold
-      : S.entryThreshold;
-
-
-  $('confidence').textContent =
-    confidence + '%';
-
-
-  $('confidenceBar').style.width =
-    confidence + '%';
-
-
-  if(confidence < threshold){
-
-    $('signal').textContent =
-      'WAIT';
-
-
-    $('scannerState').textContent =
-      S.recovery
-        ? 'Waiting for recovery entry'
-        : 'Waiting for normal entry';
-
-
-    return;
-
-  }
-
-
-  openDemoTrade(confidence);
-
-}
-
-
-/* ====================================================
-   DEMO ENGINE TRADE
-==================================================== */
-
-function openDemoTrade(confidence){
-
-  if(S.tradeOpen){
-    return;
-  }
-
-
-  const market =
-    S.market;
-
-
-  const current =
-    S.prices[market];
-
-
-  if(current === null){
-    return;
-  }
-
-
-  S.tradeOpen = true;
-
-
-  const recoveryTrade =
-    S.recovery;
-
-
-  $('signal').textContent =
-    recoveryTrade
-      ? 'RECOVERY ACTIVE'
-      : 'ENTRY ACTIVE';
-
-
-  $('scannerState').textContent =
-    recoveryTrade
-      ? 'Recovery trade running'
-      : 'Trade running';
-
-
-  feed(
-    (
-      recoveryTrade
-        ? 'Recovery trade opened'
-        : 'Demo trade opened'
-    ) +
-    ' • ' +
-    S.display[market] +
-    ' • ' +
-    confidence +
-    '% confidence • ' +
-    money(S.stake),
-    'TRADE',
-    'ok'
-  );
-
-
-  /*
-    This is a dashboard/demo settlement model.
-    It does not place a Deriv account trade.
-  */
-
-  const strongSignal =
-    confidence >= thresholdForCurrentMode();
-
-
-  const probability =
-    strongSignal
-      ? 0.72
-      : 0.50;
-
-
-  const win =
-    Math.random() < probability;
-
-
-  S.tradeTimer =
-    setTimeout(function(){
-
-      settleDemoTrade({
-        market,
-        price:current,
-        confidence,
-        recovery:recoveryTrade,
-        win
-      });
-
-    },5000);
-
-}
-
-
-/* ====================================================
-   CURRENT THRESHOLD
-==================================================== */
-
-function thresholdForCurrentMode(){
-
-  return S.recovery
-    ? S.recoveryThreshold
-    : S.entryThreshold;
-
-}
-
-
-/* ====================================================
-   SETTLE DEMO TRADE
-==================================================== */
-
-function settleDemoTrade(trade){
-
-  S.tradeOpen = false;
-
-  S.tradeTimer = null;
-
-
-  let pnl;
-
-
-  if(trade.win){
-
-    /*
-      Profit amount can be edited from the dashboard.
-    */
-
-    pnl =
-      Math.max(
-        0,
-        Math.min(
-          S.profitTarget,
-          25
-        )
-      );
-
-
-    S.wins++;
-
-
-    $('lastResult').textContent =
-      'WIN';
-
-
-    $('lastResult').className =
-      'card-value green';
-
-
-    $('lastResultAmount').textContent =
-      '+' + money(pnl);
-
-
-    feed(
-      'WIN • +' +
-      money(pnl),
-      'RESULT',
-      'ok'
-    );
-
-
-    /*
-      Recovery finished after a win.
-    */
-
-    if(S.recovery){
-
-      S.recovery = false;
-
-      updateRecoveryUI();
-
-
-      feed(
-        'Recovery completed • returning to Normal Mode',
-        'RECOVERY',
-        'ok'
-      );
-
-    }
-
-  }else{
-
-    pnl =
-      -Math.max(
-        0,
-        Math.min(
-          S.stopLoss,
-          4
-        )
-      );
-
-
-    S.losses++;
-
-
-    $('lastResult').textContent =
-      'LOSS';
-
-
-    $('lastResult').className =
-      'card-value red';
-
-
-    $('lastResultAmount').textContent =
-      money(pnl);
-
-
-    feed(
-      'LOSS • ' +
-      money(pnl),
-      'RESULT',
-      'error'
-    );
-
-
-    /*
-      X2 recovery state becomes active after a loss.
-    */
-
-    if(!S.recovery){
-
-      S.recovery = true;
-
-
-      updateRecoveryUI();
-
-
-      feed(
-        'Recovery mode activated • waiting for ' +
-        S.recoveryThreshold +
-        '%+ confidence',
-        'RECOVERY',
-        'warn'
-      );
-
-    }else{
-
-      /*
-        After a recovery loss, remain in recovery
-        rather than silently pretending recovery succeeded.
-      */
-
-      feed(
-        'Recovery trade lost • recovery remains active',
-        'RECOVERY',
-        'warn'
-      );
-
-    }
-
-  }
-
-
-  S.trades++;
-
-
-  S.totalProfit += pnl;
-
-  S.balance += pnl;
-
-
-  S.history.unshift({
-
-    time:now(),
-
-    market:S.display[trade.market],
-
-    price:trade.price,
-
-    confidence:trade.confidence,
-
-    mode:trade.recovery
-      ? 'Recovery'
-      : 'Normal',
-
-    result:trade.win
-      ? 'WIN'
-      : 'LOSS',
-
-    pnl:pnl
-
-  });
-
-
-  while(S.history.length > 50){
-    S.history.pop();
-  }
-
-
-  renderHistory();
-
-  updateStats();
-
-  runScanner();
-
-
-  if(S.botRunning){
-
-    $('scannerState').textContent =
-      S.recovery
-        ? 'Recovery mode'
-        : 'Normal mode';
-
-  }
-
-}
-
-
-/* ====================================================
-   RECOVERY UI
-==================================================== */
-
-function updateRecoveryUI(){
-
-  const pill =
-    $('recoveryPill');
-
-
-  if(S.recovery){
-
-    pill.textContent =
-      'Recovery X2 Mode';
-
-    pill.classList.add('recovery');
-
-
-    $('scannerRecoveryState').textContent =
-      'YES';
-
-
-  }else{
-
-    pill.textContent =
-      'Normal Mode';
-
-    pill.classList.remove('recovery');
-
-
-    $('scannerRecoveryState').textContent =
-      'NO';
-
-  }
-
-
-  runScanner();
-
-}
-
-
-/* ====================================================
-   HISTORY
-==================================================== */
-
-function renderHistory(){
-
-  const body =
-    $('historyBody');
-
-
-  if(!body) return;
-
-
-  body.innerHTML = '';
-
-
-  if(S.history.length === 0){
-
-    const row =
-      document.createElement('tr');
-
-    row.innerHTML =
-      '<td colspan="7">No trades yet.</td>';
-
-    body.appendChild(row);
-
-    return;
-
-  }
-
-
-  S.history.forEach(function(item){
-
-    const row =
-      document.createElement('tr');
-
-
-    const resultClass =
-      item.result === 'WIN'
-        ? 'green'
-        : 'red';
-
-
-    row.innerHTML =
-      '<td>' + item.time + '</td>' +
-      '<td>' + item.market + '</td>' +
-      '<td>' + price(item.price,S.market) + '</td>' +
-      '<td>' + item.confidence + '%</td>' +
-      '<td>' + item.mode + '</td>' +
-      '<td class="' + resultClass + '">' +
-        item.result +
-      '</td>' +
-      '<td class="' + resultClass + '">' +
-        (item.pnl >= 0 ? '+' : '') +
-        money(item.pnl) +
-      '</td>';
-
-
-    body.appendChild(row);
-
-  });
-
-}
-
-
-/* ====================================================
-   ALARM
-==================================================== */
-
-let audioCtx = null;
-
-
-function alarm(){
-
-  if(!S.sound){
-    return;
-  }
-
-
-  try{
-
-    audioCtx =
-      audioCtx ||
-      new(
-        window.AudioContext ||
-        window.webkitAudioContext
-      )();
-
-
-    const oscillator =
-      audioCtx.createOscillator();
-
-    const gain =
-      audioCtx.createGain();
-
-
-    oscillator.type =
-      'sine';
-
-
-    oscillator.frequency.setValueAtTime(
-      880,
-      audioCtx.currentTime
-    );
-
-
-    oscillator.frequency.exponentialRampToValueAtTime(
-      520,
-      audioCtx.currentTime + 0.35
-    );
-
-
-    gain.gain.setValueAtTime(
-      0.0001,
-      audioCtx.currentTime
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.18,
-      audioCtx.currentTime + 0.02
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.0001,
-      audioCtx.currentTime + 0.45
-    );
-
-
-    oscillator.connect(gain);
-
-    gain.connect(audioCtx.destination);
-
-
-    oscillator.start();
-
-    oscillator.stop(
-      audioCtx.currentTime + 0.46
-    );
-
-  }catch(error){}
-
-}
-
-
-/* ====================================================
-   EVENT LISTENERS
-==================================================== */
-
-
-/*
-  Settings.
-*/
-
-[
-  'stakeInput',
-  'profitTarget',
-  'stopLoss',
-  'entryThreshold',
-  'recoveryThreshold'
-].forEach(function(id){
-
-  $(id).addEventListener(
-    'change',
-    function(){
-
-      readInputs();
-
-      feed(
-        'Trading settings updated',
-        'SETTINGS',
-        'info'
-      );
-
-      runScanner();
-
-    }
-  );
-
-});
-
-
-/*
-  Market selection.
-*/
-
-$('market').addEventListener(
-  'change',
-  function(event){
-
-    S.market =
-      event.target.value;
-
-
-    setCurrentPriceUI();
-
-    runScanner();
-
-
-    feed(
-      'Market selected • ' +
-      S.display[S.market],
-      'MARKET',
-      'info'
-    );
-
-  }
-);
-
-
-/*
-  Manual price.
-*/
-
-$('manualPrice').addEventListener(
-  'change',
-  function(){
-
-    if(this.checked){
-
-      feed(
-        'Manual price mode enabled',
-        'PRICE',
-        'warn'
-      );
-
-    }else{
-
-      feed(
-        'Live price mode enabled',
-        'PRICE',
-        'ok'
-      );
-
-      setCurrentPriceUI();
-
-    }
-
-  }
-);
-
-
-/*
-  Manual current-price change.
-*/
-
-$('currentPrice').addEventListener(
-  'change',
-  function(){
-
-    if(!$('manualPrice').checked){
-
-      setCurrentPriceUI();
-
-      return;
-
-    }
-
-
-    const value =
-      Number(this.value);
-
-
-    if(!Number.isFinite(value) || value <= 0){
-
-      feed(
-        'Invalid manual price',
-        'PRICE',
-        'error'
-      );
-
-      setCurrentPriceUI();
-
-      return;
-
-    }
-
-
-    S.prices[S.market] =
-      value;
-
-
-    $('scannerPrice').textContent =
-      price(value,S.market);
-
-
-    feed(
-      'Manual price applied • ' +
-      price(value,S.market),
-      'PRICE',
-      'warn'
-    );
-
-
-    runScanner();
-
-  }
-);
-
-
-/*
-  Start / stop.
-*/
-
-$('start').addEventListener(
-  'click',
-  start
-);
-
-
-$('stop').addEventListener(
-  'click',
-  stop
-);
-
-
-/*
-  Scan.
-*/
-
-$('scanNow').addEventListener(
-  'click',
-  manualScan
-);
-
-
-/*
-  Refresh.
-*/
-
-$('refresh').addEventListener(
-  'click',
-  function(){
-
-    location.reload();
-
-  }
-);
-
-
-/*
-  Sound.
-*/
-
-$('sound').addEventListener(
-  'click',
-  function(){
-
-    S.sound =
-      !S.sound;
-
-
-    this.textContent =
-      S.sound
-        ? '🔔 Alarm: ON'
-        : '🔔 Alarm: OFF';
-
-
-    if(S.sound){
-  Test alarm.
-*/
-
-$('testAlarm').addEventListener(
-  'click',
-  function(){
-
-    S.sound = true;
-
-
-    $('sound').textContent =
-      '🔔 Alarm: ON';
-
-
-    audioCtx =
-      audioCtx ||
-      new(
-        window.AudioContext ||
-        window.webkitAudioContext
-      )();
-
-
-    if(audioCtx.state === 'suspended'){
-      audioCtx.resume();
-    }
-
-
-    alarm();
-
-  }
-);
-
-
-/*
-  Account selector.
-*/
-
-$('accountTop').addEventListener(
-  'change',
-  function(){
-
-    const mode =
-      this.value;
-
-
-    $('balanceMode').textContent =
-      mode === 'real'
-        ? 'Real account selected'
-        : 'Demo engine';
-
-
-    feed(
-      (
-        mode === 'real'
-          ? 'Real account selected'
-          : 'Demo account selected'
-      ),
-      'ACCOUNT',
-      'info'
-    );
-
-  }
-);
-
-
-/*
-  Account connection button.
-
-  This does NOT fake authentication.
-  It simply tells the user that authenticated
-  Deriv account connection is a separate step.
-*/
-
-$('connectAccount').addEventListener(
-  'click',
-  function(){
-    createDerivLogin();
-  }
-); 
-
-    const mode =
-      $('accountTop').value;
-
-
-    feed(
-      (
-        mode === 'real'
-          ? 'Real account authentication requested'
-          : 'Demo account authentication requested'
-      ) +
-      ' • OAuth/API authentication is required',
-      'AUTH',
-      'warn'
-    );
-
-
-    alert(
-      'Market data is connected separately. ' +
-      'Demo/Real account trading requires authenticated ' +
-      'Deriv OAuth/API access.'
-    );
-
-  }
-);
-
-
-/* ====================================================
-   INITIALIZE
-==================================================== */
-
-function initialize(){
-
-  readInputs();
-
-  updateStats();
-
-  renderHistory();
-
-  updateRecoveryUI();
-
-
-  $('scannerMarket').textContent =
-    S.display[S.market];
-
-
-  $('scannerNormal').textContent =
-    S.entryThreshold + '%+';
-
-
-  $('scannerRecovery').textContent =
-    S.recoveryThreshold + '%+';
-
-
-  $('scannerBotState').textContent =
-    'STOPPED';
-
-
-  $('signal').textContent =
-    'WAIT';
-
-
-  feed(
-    'Jazzy Bot AI initialized',
-    'SYSTEM',
-    'ok'
-  );
-
-
-  feed(
-    'Normal entry threshold: ' +
-    S.entryThreshold + '%+',
-    'SETTINGS',
-    'info'
-  );
-
-
-  feed(
-    'Recovery threshold: ' +
-    S.recoveryThreshold + '%+',
-    'SETTINGS',
-    'info'
-  );
-
-
-  /*
-    IMPORTANT:
-    Start the Deriv public market-data connection.
-  */
-
-  connect();
-
-}
-
-
-initialize();
-
-</script>
-
-</body>
-</html>
-<script>
-const DERIV_CLIENT_ID = "34pQfqSMis7fcGcwCulwr";
-const DERIV_REDIRECT_URI =
-  "https://sweetboi10000-max.github.io/deriv-ai-trading-bot/";
-
-const SUPABASE_FUNCTION =
-  "https://cefzymqfzjkbcurnabng.supabase.co/functions/v1/smooth-handler";
-
-function randomString(length = 64) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
-  const bytes = crypto.getRandomValues(new Uint8Array(length));
-  return Array.from(bytes, b => chars[b % chars.length]).join("");
-}
-
-async function createDerivLogin() {
-  const verifier = randomString(64);
-
-  const hash = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(verifier)
-  );
-
-  const challenge = btoa(
-    String.fromCharCode(...new Uint8Array(hash))
-  )
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-
-  const state = crypto.randomUUID();
-
-  sessionStorage.setItem("deriv_code_verifier", verifier);
-  sessionStorage.setItem("deriv_oauth_state", state);
-
-  const url = new URL("https://auth.deriv.com/oauth2/auth");
-
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("client_id", DERIV_CLIENT_ID);
-  url.searchParams.set("redirect_uri", DERIV_REDIRECT_URI);
-  url.searchParams.set("scope", "trade account_manage");
-  url.searchParams.set("state", state);
-  url.searchParams.set("code_challenge", challenge);
-  url.searchParams.set("code_challenge_method", "S256");
-
-  window.location.href = url.toString();
-}
-
-async function loadDerivAccounts(accessToken) {
-  const response = await fetch(SUPABASE_FUNCTION, {
-    headers: {
-      Authorization: "Bearer " + accessToken
-    }
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(JSON.stringify(data));
-  }
-
-  console.log("Deriv accounts:", data);
-
-  return data;
-}
-
-async function handleDerivCallback() {
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get("code");
-  const returnedState = params.get("state");
-
-  if (!code) return;
-
-  const savedState = sessionStorage.getItem("deriv_oauth_state");
-  const verifier = sessionStorage.getItem("deriv_code_verifier");
-
-  if (!savedState || returnedState !== savedState || !verifier) {
-    throw new Error("Deriv OAuth security check failed.");
-  }
-
-  const tokenResponse = await fetch(
-    "https://auth.deriv.com/oauth2/token",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        client_id: DERIV_CLIENT_ID,
-        code: code,
-        code_verifier: verifier,
-        redirect_uri: DERIV_REDIRECT_URI
-      })
-    }
-  );
-
-  const tokenData = await tokenResponse.json();
-
-  if (!tokenResponse.ok) {
-    throw new Error(JSON.stringify(tokenData));
-  }
-
-  sessionStorage.setItem(
-    "deriv_access_token",
-    tokenData.access_token
-  );
-
-  sessionStorage.removeItem("deriv_code_verifier");
-  sessionStorage.removeItem("deriv_oauth_state");
-
-  window.history.replaceState(
-    {},
-    document.title,
-    DERIV_REDIRECT_URI
-  );
-
-  const accounts = await loadDerivAccounts(
-    tokenData.access_token
-  );
-
-  console.log("CONNECTED DERIV ACCOUNTS:", accounts);
-
-  window.DERIV_ACCOUNTS = accounts;
-
-  document.dispatchEvent(
-    new CustomEvent("derivAccountsLoaded", {
-      detail: accounts
-    })
-  );
-}
-
-handleDerivCallback().catch(error => {
-  console.error("Deriv connection error:", error);
-});
-  </script> 
+  <!-- BOT -->
